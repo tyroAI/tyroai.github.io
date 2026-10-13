@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════
- *  KEŞFET › DOKÜMANLAR — içerik kataloğu (DEMO: Vega Global, kurgusal)
+ *  KEŞFET › DOKÜMANLAR — içerik kataloğu (DEMO: Midea, kurgusal)
  * ═══════════════════════════════════════════════════════════════════════
  *
  * ⚠️ **NEDEN `strings.*.js` DEĞİL.** Orası ARAYÜZ metnidir; bu bir İÇERİK
@@ -9,7 +9,7 @@
  *
  * ⚠️ **DEMO.** Görseller uygulamanın kendi kökeninde (`public/demo/brand/`)
  * duruyor, hiçbir CDN'e gidilmez. Politika klasörleri kurgusal
- * `vegaglobal.sharepoint.example` adresinde; Graph uçları demo katmanında
+ * `midea.sharepoint.example` adresinde; Graph uçları demo katmanında
  * (`src/demo/handlers/graph-files.js`) cevaplanıyor.
  */
 
@@ -46,10 +46,10 @@ export const DOC_FOLDERS = [
     id: "teams-arka-planlar",
     name: "Teams Arka Planları",
     files: [
-      "Vega_Teams_Arkaplan_Gradyan.svg",
-      "Vega_Teams_Arkaplan_Ofis.svg",
-      "Vega_Teams_Arkaplan_10_Yil.svg",
-      "Vega_Teams_Arkaplan_Minimal.svg",
+      "Midea_Teams_Arkaplan_Gradyan.svg",
+      "Midea_Teams_Arkaplan_Ofis.svg",
+      "Midea_Teams_Arkaplan_10_Yil.svg",
+      "Midea_Teams_Arkaplan_Minimal.svg",
     ].map(asset),
   },
   {
@@ -62,7 +62,7 @@ export const DOC_FOLDERS = [
 /** ORGANİZASYON ŞEMASI — aynı kökende statik sayfa. */
 export const ORG_CHART_URL = `${ORIGIN}${BASE.endsWith("/") ? BASE : `${BASE}/`}demo/org-chart.html`
 
-const POLICY_SITE = "https://vegaglobal.sharepoint.example/sites/ik-politikalar"
+const POLICY_SITE = "https://midea.sharepoint.example/sites/ik-politikalar"
 const policyUrl = (company) =>
   `${POLICY_SITE}/Shared%20Documents/Forms/AllItems.aspx?id=${encodeURIComponent(
     `/sites/ik-politikalar/Shared Documents/Politika-Prosedurler/${company}`,
@@ -74,8 +74,8 @@ const policyUrl = (company) =>
  * hem de okuma düşerse gösterilen yedek bağlantı.
  */
 export const POLICY_FOLDERS = [
-  { id: "genel", name: "Vega Global (Genel)", url: policyUrl("Vega Global (Genel)") },
-  { id: "perakende", name: "Vega Perakende Çözümleri", url: policyUrl("Vega Perakende Çözümleri") },
-  { id: "lojistik", name: "Vega Lojistik", url: policyUrl("Vega Lojistik") },
-  { id: "dijital", name: "Vega Dijital", url: policyUrl("Vega Dijital") },
+  { id: "genel", name: "Midea (Genel)", url: policyUrl("Midea (Genel)") },
+  { id: "perakende", name: "Midea Perakende Çözümleri", url: policyUrl("Midea Perakende Çözümleri") },
+  { id: "lojistik", name: "Midea Lojistik", url: policyUrl("Midea Lojistik") },
+  { id: "dijital", name: "Midea Dijital", url: policyUrl("Midea Dijital") },
 ]

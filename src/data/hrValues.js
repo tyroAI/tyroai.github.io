@@ -89,18 +89,18 @@ export const EXPENSE_CATEGORY_PAIRS = [
 /** Kategori başlıkları — sohbet şablonunun seçicisi. */
 export const EXPENSE_CATEGORIES = EXPENSE_CATEGORY_PAIRS.map(([title]) => title)
 
-/** Yansıtma şirketleri — kod → ERP unvanı (DEMO: Vega Global grubunun kurgusal şirketleri). */
+/** Yansıtma şirketleri — kod → ERP unvanı (DEMO: Midea grubunun kurgusal şirketleri). */
 export const COMPANIES = {
-  VGTR: "VEGA GLOBAL TİCARET A.Ş.",
-  VGLJ: "VEGA LOJİSTİK HİZMETLERİ A.Ş.",
-  VGTK: "VEGA TEKNOLOJİ VE DANIŞMANLIK A.Ş.",
-  VGPZ: "VEGA PERAKENDE PAZARLAMA A.Ş.",
-  VGEN: "VEGA ENERJİ ÇÖZÜMLERİ A.Ş.",
-  VGAE: "VEGA GLOBAL TRADING FZE",
-  VGDE: "Vega Global GmbH",
-  VGNL: "Vega Global B.V.",
-  VGUK: "Vega Global Ltd.",
-  VGUS: "Vega Global Inc.",
+  VGTR: "MIDEA TİCARET A.Ş.",
+  VGLJ: "MIDEA LOJİSTİK HİZMETLERİ A.Ş.",
+  VGTK: "MIDEA TEKNOLOJİ VE DANIŞMANLIK A.Ş.",
+  VGPZ: "MIDEA PERAKENDE PAZARLAMA A.Ş.",
+  VGEN: "MIDEA ENERJİ ÇÖZÜMLERİ A.Ş.",
+  VGAE: "MIDEA TRADING FZE",
+  VGDE: "Midea GmbH",
+  VGNL: "Midea B.V.",
+  VGUK: "Midea Ltd.",
+  VGUS: "Midea Inc.",
 }
 
 export const COMPANY_CODES = Object.keys(COMPANIES)

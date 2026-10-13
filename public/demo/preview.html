@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>Önizleme — Vega Global</title>
+    <title>Önizleme — Midea</title>
     <style>
       :root {
         --app: #4338ca;
@@ -275,12 +275,12 @@
         }
         function slideHtml(s, i, total) {
           if (s.layout === "title")
-            return '<div class="slide title"><div class="brand">VEGA GLOBAL</div><h2>' + esc(s.title) + '</h2><div class="bar"></div><p>' + esc(s.sub || "") + "</p></div>"
+            return '<div class="slide title"><div class="brand">MIDEA</div><h2>' + esc(s.title) + '</h2><div class="bar"></div><p>' + esc(s.sub || "") + "</p></div>"
           var body = ""
           if (s.layout === "kpi") body = '<div class="kpis">' + s.kpis.map(function (k) { return '<div class="kpi"><div class="l">' + esc(k[0]) + '</div><div class="v">' + esc(k[1]) + '</div><div class="d">' + esc(k[2]) + "</div></div>" }).join("") + "</div>"
           else if (s.layout === "chart") body = chartSvg(s.chart)
           else body = "<ul>" + (s.bullets || []).map(function (b) { return "<li>" + esc(b) + "</li>" }).join("") + "</ul>"
-          return '<div class="slide"><h3>' + esc(s.title) + "</h3>" + body + '<div class="foot"><span>Vega Global · Gizli</span><span>' + (i + 1) + " / " + total + "</span></div></div>"
+          return '<div class="slide"><h3>' + esc(s.title) + "</h3>" + body + '<div class="foot"><span>Midea · Gizli</span><span>' + (i + 1) + " / " + total + "</span></div></div>"
         }
         function renderSlides(c) {
           var wrap = document.createElement("div")
@@ -315,16 +315,16 @@
           main.innerHTML = '<div class="missing">Önizleme verisi bulunamadı.</div>'
           return
         }
-        document.title = d.name + " — Vega Global"
+        document.title = d.name + " — Midea"
         $("name").textContent = d.name
         if (d.kind === "missing") {
-          $("app").textContent = "Vega Global SharePoint"
+          $("app").textContent = "Midea SharePoint"
           $("name").textContent = "Bulunamadı"
           main.innerHTML = '<div class="missing">Bu demo adresinin karşılığı yok.<br><small>' + esc(d.name) + "</small></div>"
           return
         }
         if (d.kind === "folder") {
-          $("app").textContent = "Vega Global SharePoint"
+          $("app").textContent = "Midea SharePoint"
           $("sub").textContent = d.location || ""
           main.innerHTML = renderFolder(d)
           return

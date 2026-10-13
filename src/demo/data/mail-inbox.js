@@ -13,7 +13,7 @@ const [altay, nordis, ekinoks, pera, toros, orion] = CUSTOMERS.map((c) => ({
   company: c.account,
 }))
 
-const CRM = { displayName: "Vega CRM", mail: "crm-noreply@vegaglobal.example" }
+const CRM = { displayName: "Midea CRM", mail: "crm-noreply@midea.com" }
 
 /** İmza: şirket içi kişide telefon dizinden. */
 const sig = (p, lang = "tr") => ({
@@ -59,9 +59,9 @@ export function inboxSpecs(now) {
             meta: ["Kapsam: 180 mağaza · 3 bölge deposu", "Talep eden: Satın Alma Direktörlüğü"],
             table: [
               ["Kalem", "Adet", "Hedef birim (₺)"],
-              ["Vega Sense enerji sensörü", "1.440", "2.150"],
+              ["Midea Sense enerji sensörü", "1.440", "2.150"],
               ["Ağ geçidi (mağaza başına)", "180", "6.900"],
-              ["Vega Cloud abonelik (yıllık)", "180", "4.200"],
+              ["Midea Cloud abonelik (yıllık)", "180", "4.200"],
               ["Kurulum ve eğitim", "1", "Paket"],
             ],
             paragraphs: [
@@ -73,7 +73,7 @@ export function inboxSpecs(now) {
         },
       ],
       html: mailHtml({
-        greeting: "Merhaba Deniz Bey,",
+        greeting: "Merhaba Doğukan Bey,",
         parts: [
           "Geçen haftaki toplantımız için tekrar teşekkürler. Yönetim kurulumuz projeyi 180 mağaza ile başlatma kararı aldı; revize talebimizi ekte bulabilirsiniz.",
           "Özetle beklentilerimiz:",
@@ -98,7 +98,7 @@ export function inboxSpecs(now) {
       isRead: false,
       flag: "flagged",
       html: mailHtml({
-        greeting: "Deniz,",
+        greeting: "Doğukan,",
         parts: [
           "Toros Tekstil için talep ettiğin %18 iskontoyu onaylıyorum, ancak iki şartla:",
           [
@@ -123,7 +123,7 @@ export function inboxSpecs(now) {
       isRead: false,
       importance: "high",
       html: mailHtml({
-        greeting: "Merhaba Deniz,",
+        greeting: "Merhaba Doğukan,",
         parts: [
           `Q4 forecast dosyasının bölge kırılımlı güncellemesini <b>${dayName(forecastDue)} 12:00</b>'ye kadar CRM'de tamamlamanı rica ediyorum. Konsolide rakamlar aynı gün yönetime gidiyor.`,
           "Ekibindeki açık kalemler:",
@@ -151,20 +151,20 @@ export function inboxSpecs(now) {
       when: [0, "07:30", 70],
       isRead: true,
       html: mailHtml({
-        greeting: "Günaydın Deniz Arslan,",
+        greeting: "Günaydın Doğukan Arslan,",
         parts: [
           "Son 24 saatte ekibinizin fırsatlarında gerçekleşen değişiklikler:",
           {
             table: [
               ["Fırsat", "Değişiklik", "Sahibi"],
               ["Toros Tekstil — Üretim IoT", "Teklif → Pazarlık", "Mert Kaya"],
-              ["Nordis Lojistik — Filo Pilot", "Pazarlık → Kazanıldı", "Deniz Arslan"],
+              ["Nordis Lojistik — Filo Pilot", "Pazarlık → Kazanıldı", "Doğukan Arslan"],
               ["Ekinoks Enerji — Saha İzleme", "Keşif → Teklif", "Ece Yıldız"],
             ],
           },
           "Kapanış tarihi geçmiş 2 fırsatınız var. CRM'de güncellemek için panonuzu açın.",
         ],
-        closing: "Vega CRM · Bu ileti otomatik gönderilmiştir.",
+        closing: "Midea CRM · Bu ileti otomatik gönderilmiştir.",
       }),
     },
     // ── Dün ─────────────────────────────────────────────────────────────
@@ -178,9 +178,9 @@ export function inboxSpecs(now) {
       when: [1, "17:40"],
       isRead: true,
       html: mailHtml({
-        greeting: "Hi Deniz,",
+        greeting: "Hi Doğukan,",
         parts: [
-          "Thanks for the great collaboration over the pilot. Our board signed off on the 3-year agreement this morning — congratulations to the whole Vega team.",
+          "Thanks for the great collaboration over the pilot. Our board signed off on the 3-year agreement this morning — congratulations to the whole Midea team.",
           "Next steps from our side:",
           [
             "Rollout to 420 vehicles starting with the Gebze hub",
@@ -203,7 +203,7 @@ export function inboxSpecs(now) {
       isRead: true,
       flag: "flagged",
       html: mailHtml({
-        greeting: "Selam Deniz,",
+        greeting: "Selam Doğukan,",
         parts: [
           "Pera Otelcilik'in iki faturası vadesini geçti, toplam açık bakiye <b>186.400 ₺</b>:",
           {
@@ -237,13 +237,13 @@ export function inboxSpecs(now) {
             ["Marmara Gıda Dağıtım", "Ozan Er", "Lojistik Müdürü", "Bursa", "82"],
             ["Kuzey Yapı Malzemeleri", "Gizem Tan", "Operasyon Direktörü", "İstanbul", "77"],
             ["Atlas Soğuk Hava", "Hakan Kılıç", "Genel Müdür", "Kocaeli", "74"],
-            ["Deniz Kargo", "Melis Yaman", "Filo Yöneticisi", "İzmir", "69"],
+            ["Doğukan Kargo", "Melis Yaman", "Filo Yöneticisi", "İzmir", "69"],
             ["Anka Turizm", "Burcu Şen", "Satın Alma Uzmanı", "Antalya", "61"],
           ],
         },
       ],
       html: mailHtml({
-        greeting: "Merhaba Deniz,",
+        greeting: "Merhaba Doğukan,",
         parts: [
           "Akıllı Filo webinarına 186 kişi katıldı, bunlardan <b>42'si</b> satış görüşmesi talep etti. Skoru 60 üzerindeki leadleri bölgelere göre ekte paylaşıyorum.",
           "İlk temasın 48 saat içinde yapılmasını öneriyoruz; dönüşüm oranı bu sürede iki katına çıkıyor. Zeynep'le bölge dağılımını konuşmuştuk, onun listesi Ege ağırlıklı.",
@@ -262,7 +262,7 @@ export function inboxSpecs(now) {
       when: [2, "14:30"],
       isRead: true,
       html: mailHtml({
-        greeting: "Merhaba Deniz,",
+        greeting: "Merhaba Doğukan,",
         parts: [
           `Yıllık Bilgi Güvenliği eğitiminin son tamamlama tarihi <b>${shortDate(securityDue)}</b>. Ekibinizde henüz tamamlamamış iki kişi görünüyor: <b>Selin Aksoy</b> ve <b>Zeynep Çelik</b>.`,
           "Eğitim yaklaşık 35 dakika sürüyor ve öğrenme portalından mobil cihazdan da tamamlanabiliyor. Hatırlatmayı ekibine iletirsen sevinirim.",
@@ -281,7 +281,7 @@ export function inboxSpecs(now) {
       when: [2, "11:48"],
       isRead: true,
       html: mailHtml({
-        greeting: "Deniz merhaba,",
+        greeting: "Doğukan merhaba,",
         parts: [
           "Ekinoks demosu çok iyi geçti, Tolga Bey özellikle saha ekipmanı alarm panosundan etkilendi. Notlarım:",
           [
@@ -306,7 +306,7 @@ export function inboxSpecs(now) {
       isRead: true,
       flag: "flagged",
       html: mailHtml({
-        greeting: "Merhaba Deniz Bey, Ece Hanım,",
+        greeting: "Merhaba Doğukan Bey, Ece Hanım,",
         parts: [
           "Demo için tekrar teşekkürler. Bilgi güvenliği ekibimizin birkaç sorusu var:",
           [
@@ -352,7 +352,7 @@ export function inboxSpecs(now) {
         },
       ],
       html: mailHtml({
-        greeting: "Deniz Bey,",
+        greeting: "Doğukan Bey,",
         parts: [
           "Orion ihale dosyasının son hâli ekte. Fiyat tablosunu Burak'la kontrol ettik; imza sirküleri Barış Bey'den bekleniyor.",
           "Bir göz atıp onay verirsen dosyayı yarın kargoya veriyorum.",
@@ -370,7 +370,7 @@ export function inboxSpecs(now) {
       when: [3, "10:05"],
       isRead: true,
       html: mailHtml({
-        greeting: "Deniz Bey merhaba,",
+        greeting: "Doğukan Bey merhaba,",
         parts: [
           "Sezon kapanışı nedeniyle nakit akışımızda kısa süreli bir sıkışma yaşıyoruz. Açık faturalarımız için iki taksitli bir ödeme planı mümkün olur mu?",
           "Ek bina projesi için görüşmelerimize de devam etmek isteriz; mimari çizimler gelecek hafta elimizde olacak.",
@@ -412,7 +412,7 @@ export function inboxSpecs(now) {
         },
       ],
       html: mailHtml({
-        greeting: "Deniz,",
+        greeting: "Doğukan,",
         parts: [
           "Q4 hedef dağılımı ve prim tablosu ekte. Bölgenin toplam hedefi <b>16,3 milyon ₺</b>; geçen çeyreğe göre %9 artış.",
           `Ekibinle paylaşmadan önce ${dayName(regionMeeting)} günkü bölge toplantısında birlikte üzerinden geçelim.`,
@@ -430,7 +430,7 @@ export function inboxSpecs(now) {
       when: [4, "13:40"],
       isRead: true,
       html: mailHtml({
-        greeting: "Merhaba Deniz,",
+        greeting: "Merhaba Doğukan,",
         parts: [
           "Altay Perakende'nin çeyreklik memnuniyet anketi sonuçlandı: <b>NPS 71</b> (önceki çeyrek 64).",
           "Öne çıkan yorumlar: hızlı destek dönüşü ve mağaza müdürlerinin paneli kolay kullanması. Geliştirme alanı olarak raporların Excel'e aktarımı istendi — ürün ekibine ilettim.",
@@ -458,7 +458,7 @@ export function inboxSpecs(now) {
             title: "Çerçeve Hizmet Sözleşmesi — Nordis Lojistik (Redline v3)",
             color: "#334155",
             badge: "Hukuk — Taslak",
-            meta: ["Taraflar: Vega Global Ticaret A.Ş. · Nordis Lojistik A.Ş.", "Süre: 36 ay"],
+            meta: ["Taraflar: Midea Ticaret A.Ş. · Nordis Lojistik A.Ş.", "Süre: 36 ay"],
             paragraphs: [
               "Madde 7.2 — Hizmet seviyesi: Platform erişilebilirliği aylık %99,5 olarak taahhüt edilir. Taahhüdün altında kalınan her %0,5 için aylık abonelik bedelinden %5 indirim uygulanır.",
               "Madde 9.1 — Sorumluluğun sınırı: Tarafların toplam sorumluluğu son 12 ayda ödenen bedellerle sınırlıdır.",
@@ -468,7 +468,7 @@ export function inboxSpecs(now) {
         },
       ],
       html: mailHtml({
-        greeting: "Deniz merhaba,",
+        greeting: "Doğukan merhaba,",
         parts: [
           "Nordis hukuk ekibinin yorumlarını işledim, v3 ekte. Kabul ettiğimiz değişiklikler:",
           [
@@ -487,13 +487,13 @@ export function inboxSpecs(now) {
       folder: "inbox",
       from: elif,
       to: [ME, ece, mert],
-      subject: "Vega Track 4.2 — satış ekibi için önizleme",
+      subject: "Midea Track 4.2 — satış ekibi için önizleme",
       when: [5, "10:30"],
       isRead: true,
       html: mailHtml({
         greeting: "Merhaba,",
         parts: [
-          "Vega Track 4.2 ay sonunda yayında. Müşteri görüşmelerinde öne çıkarabileceğiniz yenilikler:",
+          "Midea Track 4.2 ay sonunda yayında. Müşteri görüşmelerinde öne çıkarabileceğiniz yenilikler:",
           [
             "Yakıt tüketimi anomali uyarıları (sürücü bazında)",
             "Rota sapması ve geç teslimat tahmini",
@@ -516,7 +516,7 @@ export function inboxSpecs(now) {
       when: [6, "15:12"],
       isRead: true,
       html: mailHtml({
-        greeting: "Deniz Bey,",
+        greeting: "Doğukan Bey,",
         parts: [
           "Yönetim kurulumuz üretim hattı IoT projesi için bütçeyi onayladı. Teklifinizde iki noktayı netleştirmemiz gerekiyor:",
           [
@@ -538,7 +538,7 @@ export function inboxSpecs(now) {
       when: [6, "12:20"],
       isRead: true,
       html: mailHtml({
-        greeting: "Deniz Bey merhaba,",
+        greeting: "Doğukan Bey merhaba,",
         parts: [
           "Pera Otelcilik'in ek binasını gezdik. Kısa notlar:",
           [
@@ -562,7 +562,7 @@ export function inboxSpecs(now) {
       when: [7, "16:45"],
       isRead: true,
       html: mailHtml({
-        greeting: "Merhaba Deniz,",
+        greeting: "Merhaba Doğukan,",
         parts: [
           "Ege bölgesinde filo büyüklüğü 50 aracın üzerindeki 18 şirketi listeledim. İlk 5 öncelikli hedef:",
           {
@@ -592,7 +592,7 @@ export function inboxSpecs(now) {
       isRead: true,
       importance: "high",
       html: mailHtml({
-        greeting: "Sayın Deniz Arslan,",
+        greeting: "Sayın Doğukan Arslan,",
         parts: [
           "Soğuk zincir izleme ihalemizin takvimi aşağıdaki şekilde güncellenmiştir:",
           [
@@ -615,7 +615,7 @@ export function inboxSpecs(now) {
       when: [7, "07:30"],
       isRead: true,
       html: mailHtml({
-        greeting: "Merhaba Deniz Arslan,",
+        greeting: "Merhaba Doğukan Arslan,",
         parts: [
           "Bölgenizin haftalık pipeline özeti:",
           {
@@ -629,7 +629,7 @@ export function inboxSpecs(now) {
           },
           "Q4 hedefinin %35'i gerçekleşti; ağırlıklı pipeline hedefin 1,4 katı.",
         ],
-        closing: "Vega CRM · Bu ileti otomatik gönderilmiştir.",
+        closing: "Midea CRM · Bu ileti otomatik gönderilmiştir.",
       }),
     },
     // ── 8–10 gün önce ────────────────────────────────────────────────────
@@ -642,7 +642,7 @@ export function inboxSpecs(now) {
       when: [8, "09:35"],
       isRead: true,
       html: mailHtml({
-        greeting: "Selam Deniz,",
+        greeting: "Selam Doğukan,",
         parts: [
           "Ekibinde 30 gündür aktivite girilmemiş 6 fırsat var. Forecast kalitesi için kapanış tarihlerini ve aşamaları güncelleyebilir misiniz?",
           [
@@ -688,7 +688,7 @@ export function inboxSpecs(now) {
       when: [9, "18:02"],
       isRead: true,
       html: mailHtml({
-        greeting: "Deniz Bey merhaba,",
+        greeting: "Doğukan Bey merhaba,",
         parts: [
           "Bugünkü sunum için siz ve Ece Hanım'a teşekkür ederim. Mağaza bazlı enerji karşılaştırma ekranı yönetim kurulumuzun da ilgisini çekti.",
           "Revize talebimizi önümüzdeki hafta ileteceğim.",
@@ -728,7 +728,7 @@ export function inboxSpecs(now) {
       when: [10, "09:00"],
       isRead: true,
       html: mailHtml({
-        greeting: "Merhaba Deniz,",
+        greeting: "Merhaba Doğukan,",
         parts: [
           "Yıl sonu performans değerlendirme dönemi gelecek ay başlıyor. Yönetici olarak ekibinin hedef gerçekleşmelerini ve gelişim notlarını portal üzerinden gireceksin.",
           "Yöneticilere özel 45 dakikalık bilgilendirme oturumuna takviminden katılabilirsin.",
@@ -753,7 +753,7 @@ export function inboxSpecs(now) {
           "Altay Perakende 180 mağaza ile başlamaya karar verdi ve %12 iskonto istiyor. 36 ay vadeyle marj etkisini Can'la hesapladık; brüt marj %41'den %36'ya iniyor.",
           "Kurulumu iki dalgaya bölerek nakit akışını dengeleyebiliriz. Onaylarsan teklifi cuma günü gönderiyorum.",
         ],
-        closing: "Deniz",
+        closing: "Doğukan",
         sign: sig(ME),
       }),
     },
@@ -790,7 +790,7 @@ export function inboxSpecs(now) {
         parts: [
           "Tolga Bey'in sorularını Elif'le yarın 30 dakikada toparlayalım; sızma testi özetini Barış'tan isteyeceğim. Cevabı perşembeye kadar iletelim.",
         ],
-        closing: "Deniz",
+        closing: "Doğukan",
       }),
     },
     {
@@ -806,7 +806,7 @@ export function inboxSpecs(now) {
         parts: [
           "Sevgi Hanım iki taksit önerdi: ilk taksit ay sonu, ikincisi bir sonraki ayın 15'i. Uygun görürsen ödeme planı yazısını hazırlayabilir misin?",
         ],
-        closing: "Teşekkürler,<br>Deniz",
+        closing: "Teşekkürler,<br>Doğukan",
       }),
     },
     {
@@ -847,7 +847,7 @@ export function inboxSpecs(now) {
           ],
           "CRM'deki fırsatları her cuma güncel tutalım; Burak haftalık raporu buradan alıyor.",
         ],
-        closing: "Kolay gelsin,<br>Deniz",
+        closing: "Kolay gelsin,<br>Doğukan",
       }),
     },
     {
@@ -861,7 +861,7 @@ export function inboxSpecs(now) {
       html: mailHtml({
         greeting: "Barış Bey,",
         parts: ["Ticari şartlarda değişiklik yok, v3 ile imzaya geçebiliriz. Emeğiniz için teşekkürler."],
-        closing: "Deniz",
+        closing: "Doğukan",
       }),
     },
     {

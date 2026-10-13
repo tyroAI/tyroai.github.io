@@ -1,7 +1,7 @@
 export const currentUser = {
-  name: "Deniz",
-  fullName: "Deniz Arslan",
+  name: "Doğukan",
+  fullName: "Doğukan Arslan",
   initials: "DA",
-  email: "deniz.arslan@vegaglobal.example",
+  email: "dogukan.arslan@midea.com",
   title: { tr: "Sales Manager", en: "Sales Manager" },
 }

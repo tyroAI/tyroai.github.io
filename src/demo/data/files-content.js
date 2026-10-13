@@ -140,12 +140,12 @@ const HERO = {
         ],
         fmt: ["text", "text", "text", "money", "money", "pct", "text"],
         rows: [
-          ["VF-100", "Vega Flow Standart", "Kullanıcı / yıl", 4800, 4080, 0.15, "31.12.2026"],
-          ["VF-200", "Vega Flow Kurumsal", "Kullanıcı / yıl", 7900, 6715, 0.2, "31.12.2026"],
-          ["VT-110", "Vega Track Filo", "Araç / yıl", 2150, 1828, 0.12, "31.12.2026"],
-          ["VT-210", "Vega Track Saha", "Cihaz / yıl", 1680, 1428, 0.12, "31.12.2026"],
-          ["VI-300", "Vega Insight Analitik", "Şube / yıl", 12400, 10540, 0.18, "31.12.2026"],
-          ["VI-310", "Vega Insight Premium Pano", "Şube / yıl", 3600, 3060, 0.1, "31.12.2026"],
+          ["VF-100", "Midea Flow Standart", "Kullanıcı / yıl", 4800, 4080, 0.15, "31.12.2026"],
+          ["VF-200", "Midea Flow Kurumsal", "Kullanıcı / yıl", 7900, 6715, 0.2, "31.12.2026"],
+          ["VT-110", "Midea Track Filo", "Araç / yıl", 2150, 1828, 0.12, "31.12.2026"],
+          ["VT-210", "Midea Track Saha", "Cihaz / yıl", 1680, 1428, 0.12, "31.12.2026"],
+          ["VI-300", "Midea Insight Analitik", "Şube / yıl", 12400, 10540, 0.18, "31.12.2026"],
+          ["VI-310", "Midea Insight Premium Pano", "Şube / yıl", 3600, 3060, 0.1, "31.12.2026"],
           ["VS-010", "Kurulum ve Entegrasyon", "Proje", 185000, 166500, 0.1, "31.12.2026"],
           ["VS-020", "Eğitim Paketi", "Gün", 18500, 16650, 0.05, "31.12.2026"],
           ["VS-030", "Premium Destek", "Yıllık", 96000, 86400, 0.1, "31.12.2026"],
@@ -290,7 +290,7 @@ const HERO = {
     sheets: [
       {
         name: "Karşılaştırma",
-        cols: ["Özellik", "Vega Insight", "Rakip A", "Rakip B", "Not"],
+        cols: ["Özellik", "Midea Insight", "Rakip A", "Rakip B", "Not"],
         fmt: ["text", "text", "text", "text", "text"],
         rows: [
           ["Gerçek zamanlı şube panosu", "Var", "Var", "Kısmi", "Bizde 5 sn tazeleme"],
@@ -321,13 +321,13 @@ const HERO = {
       ["h2", "1. Özet"],
       [
         "p",
-        "Vega Global olarak Altay Perakende'nin 120 mağazasında şube bazlı satış, stok ve ziyaretçi verilerini tek panoda birleştiren Vega Insight Analitik çözümünü öneriyoruz. Önerilen kapsam, pilot bölgede 6 hafta içinde canlıya alınacak ve kalan mağazalara iki dalgada yaygınlaştırılacaktır.",
+        "Midea olarak Altay Perakende'nin 120 mağazasında şube bazlı satış, stok ve ziyaretçi verilerini tek panoda birleştiren Midea Insight Analitik çözümünü öneriyoruz. Önerilen kapsam, pilot bölgede 6 hafta içinde canlıya alınacak ve kalan mağazalara iki dalgada yaygınlaştırılacaktır.",
       ],
       ["h2", "2. Kapsam"],
       [
         "ul",
         [
-          "120 mağaza için Vega Insight Analitik lisansı (şube / yıl)",
+          "120 mağaza için Midea Insight Analitik lisansı (şube / yıl)",
           "ERP ve kasa sistemleriyle entegrasyon (günlük ve anlık veri akışı)",
           "Bölge müdürleri için mobil pano ve haftalık otomatik rapor",
           "Kurulum, veri doğrulama ve 3 günlük kullanıcı eğitimi",
@@ -339,7 +339,7 @@ const HERO = {
         "table",
         ["Kalem", "Miktar", "Birim Fiyat (₺)", "İndirim", "Tutar (₺)"],
         [
-          ["Vega Insight Analitik", "120 şube", "12.400", "%15", "1.264.800"],
+          ["Midea Insight Analitik", "120 şube", "12.400", "%15", "1.264.800"],
           ["Premium Pano", "120 şube", "3.600", "%10", "388.800"],
           ["Kurulum ve Entegrasyon", "1 proje", "185.000", "—", "185.000"],
           ["Eğitim Paketi", "3 gün", "18.500", "—", "55.500"],
@@ -360,7 +360,7 @@ const HERO = {
           "Hafta 7–12: İki dalgada tüm mağazalara yaygınlaştırma",
         ],
       ],
-      ["sign", [ME.displayName, "Sales Manager, Vega Global"]],
+      ["sign", [ME.displayName, "Sales Manager, Midea"]],
     ],
   },
 
@@ -372,8 +372,8 @@ const HERO = {
       [
         "meta",
         [
-          ["Taraflar", "Vega Global Ticaret A.Ş. ve Nordis Lojistik A.Ş."],
-          ["Konu", "Vega Track Filo hizmetleri"],
+          ["Taraflar", "Midea Ticaret A.Ş. ve Nordis Lojistik A.Ş."],
+          ["Konu", "Midea Track Filo hizmetleri"],
           ["Süre", "36 ay"],
           ["Son düzenleyen", "Barış Yalçın (Hukuk)"],
         ],
@@ -381,12 +381,12 @@ const HERO = {
       ["h2", "Madde 1 — Taraflar"],
       [
         "p",
-        'İşbu sözleşme, merkezi İstanbul\'da bulunan Vega Global Ticaret A.Ş. ("Vega") ile merkezi Kocaeli\'de bulunan Nordis Lojistik A.Ş. ("Müşteri") arasında aşağıdaki şartlarla akdedilmiştir.',
+        'İşbu sözleşme, merkezi İstanbul\'da bulunan Midea Ticaret A.Ş. ("Midea") ile merkezi Kocaeli\'de bulunan Nordis Lojistik A.Ş. ("Müşteri") arasında aşağıdaki şartlarla akdedilmiştir.',
       ],
       ["h2", "Madde 2 — Konu ve Kapsam"],
       [
         "p",
-        "Sözleşmenin konusu, Müşteri'nin 640 araçlık filosu için Vega Track Filo yazılımının lisanslanması, araç içi cihazların devreye alınması ve rota optimizasyonu modülünün işletilmesidir.",
+        "Sözleşmenin konusu, Müşteri'nin 640 araçlık filosu için Midea Track Filo yazılımının lisanslanması, araç içi cihazların devreye alınması ve rota optimizasyonu modülünün işletilmesidir.",
       ],
       ["h2", "Madde 3 — Hizmet Seviyesi"],
       [
@@ -411,7 +411,7 @@ const HERO = {
         "p",
         "Taraflar, sözleşme kapsamında edindikleri ticari sırları ve kişisel verileri 6698 sayılı Kanun'a uygun olarak korumayı taahhüt eder.",
       ],
-      ["sign", ["Vega Global Ticaret A.Ş.", "Nordis Lojistik A.Ş."]],
+      ["sign", ["Midea Ticaret A.Ş.", "Nordis Lojistik A.Ş."]],
     ],
   },
 
@@ -419,7 +419,7 @@ const HERO = {
     type: "doc",
     pdf: true,
     blocks: [
-      ["kicker", "VEGA GLOBAL · SATIŞ KICK-OFF 2027"],
+      ["kicker", "MIDEA · SATIŞ KICK-OFF 2027"],
       ["h1", "Satış Kick-off Ajandası"],
       [
         "meta",
@@ -436,7 +436,7 @@ const HERO = {
           ["09:00", "Açılış ve 2026 değerlendirmesi", MANAGER.displayName],
           ["09:45", "2027 hedefleri ve bölge dağılımı", ME.displayName],
           ["10:30", "Kahve arası", ""],
-          ["10:45", "Ürün yol haritası: Vega Flow ve Insight", "Elif Güneş"],
+          ["10:45", "Ürün yol haritası: Midea Flow ve Insight", "Elif Güneş"],
           ["11:30", "Müşteri başarı hikâyeleri", "Onur Tekin"],
           ["12:30", "Öğle yemeği", ""],
           ["13:30", "Atölye: Büyük müşteri hesap planlama", ece.displayName],
@@ -495,11 +495,11 @@ const HERO = {
     type: "doc",
     pdf: true,
     blocks: [
-      ["kicker", "VEGA GLOBAL · POLİTİKA · PL-001 · Sürüm 4.0"],
+      ["kicker", "MIDEA · POLİTİKA · PL-001 · Sürüm 4.0"],
       ["h1", "Etik ve Davranış Kuralları"],
       [
         "p",
-        "Bu politika, Vega Global ve iştiraklerinde çalışan herkesin iş ilişkilerinde dürüstlük, şeffaflık ve saygı ilkeleriyle hareket etmesini güvence altına alır.",
+        "Bu politika, Midea ve iştiraklerinde çalışan herkesin iş ilişkilerinde dürüstlük, şeffaflık ve saygı ilkeleriyle hareket etmesini güvence altına alır.",
       ],
       ["h2", "1. Çıkar Çatışması"],
       [
@@ -518,7 +518,7 @@ const HERO = {
       ["h2", "3. Bildirim Kanalı"],
       [
         "p",
-        "Etik ihlaller etik.hat@vegaglobal.example adresine ya da anonim bildirim formuna iletilebilir. Bildirimde bulunan çalışana misilleme yapılamaz.",
+        "Etik ihlaller etik.hat@midea.com adresine ya da anonim bildirim formuna iletilebilir. Bildirimde bulunan çalışana misilleme yapılamaz.",
       ],
     ],
   },
@@ -527,7 +527,7 @@ const HERO = {
     type: "doc",
     pdf: true,
     blocks: [
-      ["kicker", "VEGA GLOBAL · POLİTİKA · PL-007 · Sürüm 2.3"],
+      ["kicker", "MIDEA · POLİTİKA · PL-007 · Sürüm 2.3"],
       ["h1", "Seyahat ve Harcama Politikası"],
       ["h2", "Kapsam"],
       ["p", "Yurt içi ve yurt dışı iş seyahatleri ile müşteri ağırlama harcamalarını kapsar."],
@@ -558,7 +558,7 @@ const HERO = {
       {
         layout: "title",
         title: "Bölge Performans Sunumu",
-        sub: "Ekim 2026 · Marmara Bölgesi · Deniz Arslan",
+        sub: "Ekim 2026 · Marmara Bölgesi · Doğukan Arslan",
       },
       {
         layout: "kpi",
@@ -630,11 +630,11 @@ function genericDoc(name, pdf) {
       type: "doc",
       pdf,
       blocks: [
-        ["kicker", "VEGA GLOBAL · KURUMSAL BELGE"],
+        ["kicker", "MIDEA · KURUMSAL BELGE"],
         ["h1", title],
         [
           "p",
-          "Bu belge Vega Global ve iştiraklerinde geçerli kuralları, sorumlulukları ve uygulama adımlarını tanımlar. Sorularınız için İK & Politikalar sitesindeki iletişim kanallarını kullanabilirsiniz.",
+          "Bu belge Midea ve iştiraklerinde geçerli kuralları, sorumlulukları ve uygulama adımlarını tanımlar. Sorularınız için İK & Politikalar sitesindeki iletişim kanallarını kullanabilirsiniz.",
         ],
         ["h2", "1. Amaç ve Kapsam"],
         [
@@ -660,7 +660,7 @@ function genericDoc(name, pdf) {
       type: "doc",
       pdf,
       blocks: [
-        ["kicker", "TİCARİ TEKLİF · Vega Global"],
+        ["kicker", "TİCARİ TEKLİF · Midea"],
         ["h1", title],
         [
           "meta",
@@ -673,7 +673,7 @@ function genericDoc(name, pdf) {
         ["h2", "Önerilen Çözüm"],
         [
           "p",
-          `${cust ? cust.account : "Müşterinin"} ihtiyaç analizinde öne çıkan başlıklar doğrultusunda Vega ürün ailesinden uyarlanmış bir çözüm öneriyoruz.`,
+          `${cust ? cust.account : "Müşterinin"} ihtiyaç analizinde öne çıkan başlıklar doğrultusunda Midea ürün ailesinden uyarlanmış bir çözüm öneriyoruz.`,
         ],
         [
           "table",
@@ -706,7 +706,7 @@ function genericDoc(name, pdf) {
         ["h1", title],
         [
           "p",
-          "İşbu sözleşme Vega Global Ticaret A.Ş. ile karşı taraf arasında, aşağıda belirtilen hüküm ve şartlarla imzalanmıştır.",
+          "İşbu sözleşme Midea Ticaret A.Ş. ile karşı taraf arasında, aşağıda belirtilen hüküm ve şartlarla imzalanmıştır.",
         ],
         ["h2", "Madde 1 — Konu"],
         ["p", "Sözleşmenin konusu tarafların karşılıklı hak ve yükümlülüklerinin belirlenmesidir."],
@@ -715,7 +715,7 @@ function genericDoc(name, pdf) {
           "p",
           "Taraflar, sözleşme süresince ve sonrasında edindikleri ticari bilgileri gizli tutar.",
         ],
-        ["sign", ["Vega Global Ticaret A.Ş.", cust ? `${cust.account} A.Ş.` : "Karşı Taraf"]],
+        ["sign", ["Midea Ticaret A.Ş.", cust ? `${cust.account} A.Ş.` : "Karşı Taraf"]],
       ],
     }
   }
@@ -741,7 +741,7 @@ function genericDoc(name, pdf) {
         [
           "ul",
           [
-            "Altay teklifi için yönetici özeti hazırlanacak — Deniz",
+            "Altay teklifi için yönetici özeti hazırlanacak — Doğukan",
             "Ekinoks pilot kapsamı netleşecek — Mert",
             "CRM kayıtları cuma gününe kadar güncellenecek — Ekip",
           ],
@@ -753,11 +753,11 @@ function genericDoc(name, pdf) {
     type: "doc",
     pdf,
     blocks: [
-      ["kicker", "VEGA GLOBAL"],
+      ["kicker", "MIDEA"],
       ["h1", title],
       [
         "p",
-        `${title} belgesi Vega Global satış ve iş birimlerinin ortak kullanımı için hazırlanmıştır.`,
+        `${title} belgesi Midea satış ve iş birimlerinin ortak kullanımı için hazırlanmıştır.`,
       ],
       ["h2", "Özet"],
       [
@@ -886,7 +886,7 @@ function genericSlides(name) {
       {
         layout: "title",
         title,
-        sub: cust ? `${cust.account} · Vega Global` : "Vega Global · 2026",
+        sub: cust ? `${cust.account} · Midea` : "Midea · 2026",
       },
       {
         layout: "bullets",

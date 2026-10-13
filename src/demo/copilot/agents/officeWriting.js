@@ -166,8 +166,8 @@ function celebration({ L, f, text }) {
   return {
     text: pick(
       L,
-      `Kısa ve samimi bir teşekkür:\n\n> “Güzel dilekleriniz için hepinize çok teşekkür ederim! ${anniversary ? "Bu yolculukta sizinle çalışmak büyük keyif — nice yıllara, birlikte." : "Günümü güzelleştirdiniz."} 🙏”\n\nDaha resmi bir alternatif:\n\n> “Nazik tebrikleriniz için teşekkür ederim. ${anniversary ? "Vega Global'deki bu yolculukta katkılarınız için minnettarım." : "İyi dilekleriniz için minnettarım."}”`,
-      `A short, warm thank-you:\n\n> “Thank you all so much for the kind wishes! ${anniversary ? "Working with you on this journey is a real pleasure — here's to many more years together." : "You made my day."} 🙏”\n\nA more formal option:\n\n> “Thank you for your kind congratulations. ${anniversary ? "I'm grateful for your support throughout my time at Vega Global." : "I truly appreciate your good wishes."}”`,
+      `Kısa ve samimi bir teşekkür:\n\n> “Güzel dilekleriniz için hepinize çok teşekkür ederim! ${anniversary ? "Bu yolculukta sizinle çalışmak büyük keyif — nice yıllara, birlikte." : "Günümü güzelleştirdiniz."} 🙏”\n\nDaha resmi bir alternatif:\n\n> “Nazik tebrikleriniz için teşekkür ederim. ${anniversary ? "Midea'daki bu yolculukta katkılarınız için minnettarım." : "İyi dilekleriniz için minnettarım."}”`,
+      `A short, warm thank-you:\n\n> “Thank you all so much for the kind wishes! ${anniversary ? "Working with you on this journey is a real pleasure — here's to many more years together." : "You made my day."} 🙏”\n\nA more formal option:\n\n> “Thank you for your kind congratulations. ${anniversary ? "I'm grateful for your support throughout my time at Midea." : "I truly appreciate your good wishes."}”`,
     ),
   }
 }

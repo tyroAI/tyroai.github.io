@@ -463,7 +463,7 @@ function NewAuthorizationDialog({ ctx }) {
           autoComplete="off"
           spellCheck={false}
           aria-invalid={duplicate || malformed ? true : undefined}
-          placeholder="ad.soyad@vegaglobal.example"
+          placeholder="ad.soyad@midea.com"
           className={cn(
             "no-ios-zoom h-9 w-full rounded-lg border bg-background px-2.5 text-[0.8125rem] tracking-[0.015em] tabular-nums [font-variant-ligatures:none] outline-none transition",
             duplicate

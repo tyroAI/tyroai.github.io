@@ -194,7 +194,7 @@ function groupJson(g) {
     displayName: g.displayName,
     description: g.description,
     groupTypes: ["Unified"],
-    mail: `${g.mailNickname}@vegaglobal.example`,
+    mail: `${g.mailNickname}@midea.com`,
     mailNickname: g.mailNickname,
     mailEnabled: true,
     securityEnabled: false,
@@ -239,7 +239,7 @@ function paged(ctx, values, toJson) {
   return out
 }
 
-/** Deniz'in son dokunduğu dosyalar: kendi değiştirdikleri/oluşturdukları + açtıkları. */
+/** Doğukan'ın son dokunduğu dosyalar: kendi değiştirdikleri/oluşturdukları + açtıkları. */
 function recentNodes() {
   const at = (n) =>
     Math.min(
@@ -365,7 +365,7 @@ graph("*", ITEM_ROUTE, async (ctx) => {
     if (node.kind !== "file") return notFound("Item is a folder")
     const blob = await blobFor(node)
     if (blob) return blob
-    return new Blob([`${node.name}\n\nVega Global — demo içerik.\n`], {
+    return new Blob([`${node.name}\n\nMidea — demo içerik.\n`], {
       type: MIME[node.ext] ?? "text/plain",
     })
   }

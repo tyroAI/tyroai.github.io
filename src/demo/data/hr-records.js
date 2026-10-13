@@ -48,7 +48,7 @@ function businessDaysBack(now, n) {
 // Kişi kimliğiyle (dizin `id`) anahtarlı.
 // [başlangıç (bugüne göre gün; "bN" = N iş günü önce), gün, tür, açıklama, { saat, planlı }]
 const LEAVE_PLAN = {
-  "u-deniz": [
+  "u-dogukan": [
     [-560, 8, "TR01", "Yıllık izin — aile ziyareti"],
     [-470, 2, "TR06", "Müzakere teknikleri eğitimi"],
     [-400, 5, "TR01", "Yıllık izin"],

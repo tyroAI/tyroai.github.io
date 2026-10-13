@@ -3,7 +3,7 @@
  * hesaplar), `cc` ülke kodu (ülke adı `Intl.DisplayNames` ile her dilde).
  * Ad dile göre: `names[locale] ?? names.en`.
  *
- * VARSAYILAN = Vega Global'in (KURGUSAL demo şirketi) satış ofisleri +
+ * VARSAYILAN = Midea'nın (KURGUSAL demo şirketi) satış ofisleri +
  * İstanbul (ana şehir, genel merkez). Aramada katalogdaki öteki şehirler ve
  * tarayıcının IANA listesi de bulunur.
  */

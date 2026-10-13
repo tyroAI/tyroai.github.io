@@ -2,7 +2,7 @@
 // davet yanıtları, odak bloğu oluşturma ve Teams toplantı özetleri (Copilot
 // "Meeting AI Insights"). Veri `data/calendar-*`ta; burası Graph'ın biçimi.
 //
-// Katılma linkleri `https://meet.vegaglobal.example/j/…` — `.example` hiçbir
+// Katılma linkleri `https://meet.midea.com/j/…` — `.example` hiçbir
 // zaman çözümlenmez. Teams adresi (`teams.microsoft.com/l/meetup-join/…`)
 // BİLİNÇLİ olarak kullanılmadı: uygulama o adresi `msteams:` şemasıyla Teams
 // masaüstünü açmaya çalışıyor ve sohbet bağlantısını gerçek Teams'e kuruyor.

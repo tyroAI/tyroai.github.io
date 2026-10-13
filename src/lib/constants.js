@@ -28,9 +28,9 @@ export const ADMIN_GROUP_ID =
  */
 const IT_DIRECTOR = {
   label: "Tarık Aydın",
-  // Kurgusal BT direktörü (Vega Global).
+  // Kurgusal BT direktörü (Midea).
   id: "u-tarik",
-  upn: "tarik.aydin@vegaglobal.example",
+  upn: "tarik.aydin@midea.com",
 }
 
 /**

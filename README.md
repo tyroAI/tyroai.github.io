@@ -6,7 +6,7 @@ TYRO kurumsal AI çalışma alanının **tanıtım (demo) sürümü**. Arayüz g
 ürünle aynıdır; ancak hiçbir gerçek sisteme bağlanmaz ve **tüm kişi, şirket ve
 veriler kurgusaldır**.
 
-- Oturum açan kişi: **Deniz Arslan — Sales Manager**, kurgusal şirket **Vega Global**
+- Oturum açan kişi: **Doğukan Arslan — Sales Manager**, kurgusal şirket **Midea**
 - Asistanlar: **TYRO Office**, **TYRO Sales**, **TYRO HR** (cevaplar demo senaryolarıdır)
 - İş uygulamaları: SAP, Salesforce, Jira, ServiceNow, Power BI… (yalnız bağlantı)
 - Giriş ekranındaki **Bağlan** düğmesi doğrudan demo oturumunu açar; Microsoft

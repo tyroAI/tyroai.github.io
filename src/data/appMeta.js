@@ -3,7 +3,7 @@ import pkg from "../../package.json"
 export const appMeta = {
   name: "tyroAI",
   brand: "tyroAI · TTECH Business Solutions",
-  parent: "Vega Global (demo)",
+  parent: "Midea (demo)",
   version: pkg.version || "0.0.0",
   releaseDate: "2026",
   stack: ["React 19", "Vite 8", "Tailwind v4", "shadcn/ui"],

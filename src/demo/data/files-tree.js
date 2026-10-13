@@ -1,5 +1,5 @@
 // Demo dosya evreni — OneDrive, SharePoint siteleri, kitaplıklar, ekipler.
-// TÜMÜ KURGUSAL: Vega Global'in satış müdürü Deniz Arslan'ın gördüğü dosyalar.
+// TÜMÜ KURGUSAL: Midea'nın satış müdürü Doğukan Arslan'ın gördüğü dosyalar.
 // Adresler `.example` alanında (RFC 2606); hiçbir gerçek kiracıya çözülmez.
 //
 // Ağaç bir kez kurulur, ama TARİHLER saklanmaz: her öğe "kaç gün önce"
@@ -8,8 +8,8 @@
 
 import { findPerson, ME } from "../persona"
 
-export const SP_HOST = "vegaglobal.sharepoint.example"
-export const MY_HOST = "vegaglobal-my.sharepoint.example"
+export const SP_HOST = "midea.sharepoint.example"
+export const MY_HOST = "midea-my.sharepoint.example"
 export const SP_ORIGIN = `https://${SP_HOST}`
 export const MY_ORIGIN = `https://${MY_HOST}`
 
@@ -42,7 +42,7 @@ export const SITES = [
     key: "root",
     id: siteId(1),
     name: "intranet",
-    displayName: "Vega Global İntranet",
+    displayName: "Midea İntranet",
     description: "Şirket duyuruları, şablonlar ve ofis rehberleri",
     path: "",
     root: true,
@@ -125,7 +125,7 @@ export const GROUPS = [
     key: "satis",
     id: "7b1f2a10-3c4d-4e5f-8a9b-0c1d2e3f4a51",
     displayName: "Satış Ekibi",
-    description: "Vega Global satış ekibi",
+    description: "Midea satış ekibi",
     mailNickname: "satis-ekibi",
     drive: "drv-sp-satis",
   },
@@ -156,7 +156,7 @@ export const GROUPS = [
   {
     key: "tum",
     id: "7b1f2a10-3c4d-4e5f-8a9b-0c1d2e3f4a55",
-    displayName: "Vega Global Tüm Çalışanlar",
+    displayName: "Midea Tüm Çalışanlar",
     description: "Şirket geneli duyuru grubu",
     mailNickname: "tum-calisanlar",
     drive: "drv-sp-root",
@@ -187,7 +187,7 @@ export const OTHER_MEMBERSHIPS = [
 
 /* ─────────────────────────── sürücüler ─────────────────────────── */
 
-const personal = (local) => `/personal/${local}_vegaglobal_example/Documents`
+const personal = (local) => `/personal/${local}_midea_example/Documents`
 
 /**
  * Sürücüler. `owner`: kişi kimliği (OneDrive) ya da site anahtarı (kitaplık).
@@ -200,7 +200,7 @@ export const DRIVES = [
     driveType: "business",
     origin: MY_ORIGIN,
     base: personal("deniz_arslan"),
-    person: "u-deniz",
+    person: "u-dogukan",
     quota: { total: 1099511627776, used: 41875931136 },
   },
   {
@@ -305,10 +305,10 @@ export const driveWebUrl = (d) => urlOf(d.origin, d.base)
 /**
  * Dosya: `F(ad, { d, by, c, cby, size, viewed, k })`
  *   d       son değişiklik — kaç gün önce (0.1 ≈ 2,4 saat)
- *   by      son değiştiren kişi kimliği (varsayılan: Deniz)
+ *   by      son değiştiren kişi kimliği (varsayılan: Doğukan)
  *   c/cby   oluşturulma / oluşturan (varsayılan: d+ birkaç gün, `by`)
  *   size    bayt (verilmezse türüne göre)
- *   viewed  Deniz'in en son açtığı an (gün) — "son kullanılanlar" için
+ *   viewed  Doğukan'ın en son açtığı an (gün) — "son kullanılanlar" için
  *   k       içerik anahtarı (`files-content.js`); yoksa addan üretilir
  * Klasör: `D(ad, [çocuklar], { by, c })`
  */
@@ -495,7 +495,7 @@ const TREES = {
     D(
       "Şablonlar",
       [
-        F("Vega Sunum Şablonu.pptx", { d: 52, by: "u-ayse", size: 2640112 }),
+        F("Midea Sunum Şablonu.pptx", { d: 52, by: "u-ayse", size: 2640112 }),
         F("Antetli Kağıt.docx", { d: 120, by: "u-ayse", size: 82011 }),
         F("Toplantı Tutanağı Şablonu.docx", { d: 95, by: "u-leyla", size: 30410 }),
       ],
@@ -636,7 +636,7 @@ const TREES = {
     D(
       "Marka",
       [
-        F("Vega Global Marka Kılavuzu.pdf", { d: 140, by: "u-ayse", size: 8840210 }),
+        F("Midea Marka Kılavuzu.pdf", { d: 140, by: "u-ayse", size: 8840210 }),
         F("Logo Paketi.zip", { d: 140, by: "u-ayse", size: 14220110 }),
       ],
       { by: "u-ayse" },
@@ -663,7 +663,7 @@ const TREES = {
   ],
 
   "drv-sp-urun": [
-    F("Vega Ürün Kataloğu 2026.pdf", { d: 33, by: "u-elif", size: 12440210 }),
+    F("Midea Ürün Kataloğu 2026.pdf", { d: 33, by: "u-elif", size: 12440210 }),
     F("Rakip Karşılaştırma Tablosu.xlsx", {
       d: 6.8,
       by: "u-elif",
@@ -674,9 +674,9 @@ const TREES = {
     D(
       "Ürün Bilgi Formları",
       [
-        F("Vega Flow - Teknik Özellikler.pdf", { d: 21, by: "u-elif", size: 940220 }),
-        F("Vega Track - Ürün Sayfası.docx", { d: 26, by: "u-elif", size: 120400 }),
-        F("Vega Insight Analitik - Özellik Listesi.xlsx", { d: 14, by: "u-elif", size: 35880 }),
+        F("Midea Flow - Teknik Özellikler.pdf", { d: 21, by: "u-elif", size: 940220 }),
+        F("Midea Track - Ürün Sayfası.docx", { d: 26, by: "u-elif", size: 120400 }),
+        F("Midea Insight Analitik - Özellik Listesi.xlsx", { d: 14, by: "u-elif", size: 35880 }),
       ],
       { by: "u-elif" },
     ),
@@ -690,7 +690,7 @@ const TREES = {
       "Politika-Prosedurler",
       [
         D(
-          "Vega Global (Genel)",
+          "Midea (Genel)",
           [
             F("Etik ve Davranış Kuralları.pdf", {
               d: 210,
@@ -710,7 +710,7 @@ const TREES = {
           { by: "u-leyla" },
         ),
         D(
-          "Vega Perakende Çözümleri",
+          "Midea Perakende Çözümleri",
           [
             F("Satış Komisyon Prosedürü.pdf", { d: 45, by: "u-leyla", size: 402210 }),
             F("Müşteri Hediye ve Ağırlama Prosedürü.pdf", { d: 150, by: "u-baris", size: 288410 }),
@@ -718,7 +718,7 @@ const TREES = {
           { by: "u-leyla" },
         ),
         D(
-          "Vega Lojistik",
+          "Midea Lojistik",
           [
             F("İş Sağlığı ve Güvenliği Prosedürü.pdf", { d: 180, by: "u-leyla", size: 910226 }),
             F("Araç Kullanım Politikası.pdf", { d: 110, by: "u-leyla", size: 352008 }),
@@ -726,7 +726,7 @@ const TREES = {
           { by: "u-leyla" },
         ),
         D(
-          "Vega Dijital",
+          "Midea Dijital",
           [
             F("Yazılım Lisans Politikası.pdf", { d: 160, by: "u-leyla", size: 302210 }),
             F("Açık Kaynak Kullanım Prosedürü.docx", { d: 72, by: "u-elif", size: 58420 }),

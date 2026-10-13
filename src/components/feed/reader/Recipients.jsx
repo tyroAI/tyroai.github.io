@@ -5,7 +5,7 @@ import { useLocale } from "@/hooks/useLocale"
 const SHOW_RECIPIENTS = 3
 
 /**
- * "Kime: Deniz Arslan; Ayşe Demir; +12 kişi" — Outlook'un satırı. Kalabalık
+ * "Kime: Doğukan Arslan; Ayşe Demir; +12 kişi" — Outlook'un satırı. Kalabalık
  * listede (bütün şirkete giden duyuru) ilk üç ad, gerisi tek dokunuşla açılır.
  * Gizli alıcıyla (BCC) gelen postada liste boş: satır HİÇ çizilmez.
  */

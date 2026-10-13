@@ -365,7 +365,7 @@ async function runQuery(token, filter, select) {
 /**
  * İki soru, iki sorgu kümesi — PARALEL.
  *
- * ⚠️ **MAİL SÜZGECİ İSTEMCİDE** (ölçüm yukarıda). Sorgu `@vegaglobal.example`
+ * ⚠️ **MAİL SÜZGECİ İSTEMCİDE** (ölçüm yukarıda). Sorgu `@midea.com`
  * dışındaki adresleri de getiriyor, türetmeden ÖNCE eleniyor.
  *
  * Dönen şekil `{ status, birthdays, anniversaries, joiners }`; ASLA fırlatmaz.
@@ -422,7 +422,7 @@ export async function fetchCelebrations(now = Date.now()) {
   for (const rows of results) {
     for (const row of rows) {
       const mail = String(row.mserp_mail ?? "").toLowerCase()
-      if (!mail.endsWith("@vegaglobal.example")) continue
+      if (!mail.endsWith("@midea.com")) continue
       merged.set(mail, { ...(merged.get(mail) ?? {}), ...row })
     }
   }

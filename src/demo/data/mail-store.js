@@ -25,7 +25,7 @@ export function findFolder(idOrName) {
 
 const addr = (p) => ({ emailAddress: { name: p.displayName ?? p.contact ?? p.mail, address: p.mail } })
 
-const OUTLOOK = "https://outlook.vegaglobal.example/owa/"
+const OUTLOOK = "https://outlook.midea.com/owa/"
 
 /** Kullanıcının değişiklikleri: kimlik → { isRead, flag, … } */
 const overlay = new Map()
@@ -48,7 +48,7 @@ function build(spec, now) {
     receivedDateTime: iso,
     sentDateTime: iso,
     hasAttachments: atts.some((a) => !a.inline),
-    internetMessageId: `<${spec.key}.${when.getTime().toString(36)}@vegaglobal.example>`,
+    internetMessageId: `<${spec.key}.${when.getTime().toString(36)}@midea.com>`,
     subject: spec.subject,
     bodyPreview: previewOf(spec.html),
     importance: spec.importance ?? "normal",
@@ -115,7 +115,7 @@ export function recordSent({ subject, html, to = [], cc = [] }) {
     receivedDateTime: iso,
     sentDateTime: iso,
     hasAttachments: false,
-    internetMessageId: `<local-${seq}.${now.getTime().toString(36)}@vegaglobal.example>`,
+    internetMessageId: `<local-${seq}.${now.getTime().toString(36)}@midea.com>`,
     subject: subject ?? "",
     bodyPreview: previewOf(html),
     importance: "normal",

@@ -12,7 +12,7 @@ import { STATUS, graphGet, graphPatch, graphPost, parseGraphDateTime } from "@/l
  * iş varsayılan "Görevler" listesine BUGÜNÜN tarihiyle düşer.
  *
  * ⚠️ **İZİN `Tasks.ReadWrite` (delegated) ve `loginRequest`te DEĞİL.** Kayıtta
- * verildi (2026-09-29) ama girişe eklenmesi ancak "Granted for Vega Global"
+ * verildi (2026-09-29) ama girişe eklenmesi ancak "Granted for Midea"
  * teyidinden sonra — onaysız bir kapsam girişin TAMAMINI "Approval required"
  * duvarına çevirir (msal.js). Belirteç sessizce alınıyor; alınamazsa
  * (`denied`) kart yerel listeye düşüp "To Do'ya bağlan" diyor.

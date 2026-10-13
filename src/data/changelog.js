@@ -25,8 +25,8 @@ export const CHANGELOG = [
     to: "/myspace",
     title: { tr: "TYRO demosuna hoş geldin", en: "Welcome to the TYRO demo" },
     body: {
-      tr: "Satış Müdürü Deniz Arslan'ın çalışma alanındasın. Tüm kişi, şirket ve veriler kurgusaldır; hiçbir gerçek sisteme bağlanılmaz.",
-      en: "You're in Sales Manager Deniz Arslan's workspace. All people, companies and data are fictional; nothing connects to a real system.",
+      tr: "Satış Müdürü Doğukan Arslan'ın çalışma alanındasın. Tüm kişi, şirket ve veriler kurgusaldır; hiçbir gerçek sisteme bağlanılmaz.",
+      en: "You're in Sales Manager Doğukan Arslan's workspace. All people, companies and data are fictional; nothing connects to a real system.",
     },
     points: [
       {

@@ -4,7 +4,7 @@ import { getNumberFormat, pluralKey } from "@/lib/intl-cache"
 /**
  * Selamlamanın METNİ (hava kartı ve Pano'nun Karşılama kartı ortak). ⚠️ İş yıl
  * dönümü "Nice yıllara" DEĞİL: Türkçede o bir doğum günü dileği. Yıl dönümü işe
- * özgü ve yılı söylüyor — "Birlikte 5 yıl, Deniz!"; çoğul dilin kuralıyla
+ * özgü ve yılı söylüyor — "Birlikte 5 yıl, Doğukan!"; çoğul dilin kuralıyla
  * (`myspace.cel.greet.years.<kategori>`, RU "5 лет", AR "٥ سنوات"). İkisi aynı
  * gündeyse doğum günü başlığı.
  */

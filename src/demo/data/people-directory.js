@@ -53,7 +53,7 @@ const EXTRA = [
   mk("u-kaan", "Kaan Yurt", "Chief Technology Officer", "Technology", {
     employeeHireDate: "2018-01-15T00:00:00Z",
   }),
-  // Kerem Öztürk'e bağlı diğer satış yöneticileri (Deniz'in ekip arkadaşları).
+  // Kerem Öztürk'e bağlı diğer satış yöneticileri (Doğukan'ın ekip arkadaşları).
   // Ad ve unvan İK kütüğüyle (hr-people.js · COMPANY_STAFF) aynı: kişi kartı ile tebrik
   // şeridi aynı kişiyi aynı unvanla anlatsın.
   mk("u-volkan", "Volkan Şimşek", "Bölge Satış Müdürü", "Sales", {
@@ -163,7 +163,7 @@ export function reportsOf(user) {
  * Graph `availability` + `activity` biçiminde.
  */
 const PRESENCE = {
-  "u-deniz": ["Available", "Available"],
+  "u-dogukan": ["Available", "Available"],
   "u-kerem": ["Busy", "InAMeeting"],
   "u-ece": ["Available", "Available"],
   "u-mert": ["Away", "Away"],
@@ -199,7 +199,7 @@ export function presenceOf(user) {
 /** Otomatik yanıtı açık olanlar (izin). */
 export const AUTO_REPLIES = {
   "u-zeynep":
-    "Merhaba, yıllık izindeyim ve pazartesi ofisteyim. Acil konular için Ece Yıldız'a (ece.yildiz@vegaglobal.example) yazabilirsiniz.",
+    "Merhaba, yıllık izindeyim ve pazartesi ofisteyim. Acil konular için Ece Yıldız'a (ece.yildiz@midea.com) yazabilirsiniz.",
 }
 
 /** Şirket dışı kişiler (müşteriler) — People API ve posta için. */

@@ -87,19 +87,19 @@ const EMAIL = {
     subject: { tr: "Yaygınlaştırma teklifi — revize ticari koşullar", en: "Rollout proposal — revised commercial terms" },
   },
   stale: {
-    tr: ["Vega WMS teklifimizle ilgili durumu sormak istedim", "Değerlendirme sürecinizde açık kalan bir soru varsa yanıtlamaktan memnuniyet duyarız; dilerseniz depolarınızdan birinde kısa bir canlı demo da ayarlayabiliriz.", "Önümüzdeki hafta 20 dakikalık bir değerlendirme görüşmesi için uygun olduğunuz bir saat var mı?"],
-    en: ["I wanted to check in on our Vega WMS proposal", "If there are open questions in your evaluation we'd be glad to answer them, and we can also arrange a short live demo at one of your warehouses.", "Would you have 20 minutes next week for a quick review call?"],
-    subject: { tr: "Vega WMS teklifi — kısa bir değerlendirme görüşmesi?", en: "Vega WMS proposal — a quick review call?" },
+    tr: ["Midea WMS teklifimizle ilgili durumu sormak istedim", "Değerlendirme sürecinizde açık kalan bir soru varsa yanıtlamaktan memnuniyet duyarız; dilerseniz depolarınızdan birinde kısa bir canlı demo da ayarlayabiliriz.", "Önümüzdeki hafta 20 dakikalık bir değerlendirme görüşmesi için uygun olduğunuz bir saat var mı?"],
+    en: ["I wanted to check in on our Midea WMS proposal", "If there are open questions in your evaluation we'd be glad to answer them, and we can also arrange a short live demo at one of your warehouses.", "Would you have 20 minutes next week for a quick review call?"],
+    subject: { tr: "Midea WMS teklifi — kısa bir değerlendirme görüşmesi?", en: "Midea WMS proposal — a quick review call?" },
   },
   terms: {
     tr: ["ödeme koşullarıyla ilgili talebinizi değerlendirdik", "120 gün yerine 90 gün vade ve 30 gün içinde ödemede %2 erken ödeme indirimi içeren bir alternatif sunabiliriz; nakit akışınıza yük getirmeden projeyi bu çeyrek başlatmamızı sağlar.", "Finans ekibimizle birlikte kısa bir görüşmede netleştirebiliriz."],
     en: ["we've reviewed your request on payment terms", "Instead of 120 days we can offer 90-day terms with a 2% discount for payment within 30 days; that lets us start the project this quarter without straining your cash flow.", "We can finalise it in a short call together with our finance team."],
-    subject: { tr: "Vega Planning — ödeme koşulları için alternatif", en: "Vega Planning — an alternative on payment terms" },
+    subject: { tr: "Midea Planning — ödeme koşulları için alternatif", en: "Midea Planning — an alternative on payment terms" },
   },
   budget: {
-    tr: ["Vega Guest projesi için bütçe planlamanızı göz önünde bulundurarak bir öneriyle yazıyorum", "Sözleşmenin bu ay imzalanması durumunda ilk üç ay premium desteği ücretsiz sunabiliriz; böylece sezon öncesi tüm otellerde canlıya geçmek mümkün olur.", "Uygun görürseniz imza takvimini bu hafta netleştirelim."],
-    en: ["I'm writing with an offer that takes your budget planning for Vega Guest into account", "If the agreement is signed this month we can include the first three months of premium support free of charge, so all hotels can go live before the season.", "If that works for you, let's confirm the signing timeline this week."],
-    subject: { tr: "Vega Guest — bu ay imzaya özel avantaj", en: "Vega Guest — an incentive for signing this month" },
+    tr: ["Midea Guest projesi için bütçe planlamanızı göz önünde bulundurarak bir öneriyle yazıyorum", "Sözleşmenin bu ay imzalanması durumunda ilk üç ay premium desteği ücretsiz sunabiliriz; böylece sezon öncesi tüm otellerde canlıya geçmek mümkün olur.", "Uygun görürseniz imza takvimini bu hafta netleştirelim."],
+    en: ["I'm writing with an offer that takes your budget planning for Midea Guest into account", "If the agreement is signed this month we can include the first three months of premium support free of charge, so all hotels can go live before the season.", "If that works for you, let's confirm the signing timeline this week."],
+    subject: { tr: "Midea Guest — bu ay imzaya özel avantaj", en: "Midea Guest — an incentive for signing this month" },
   },
   poc: {
     tr: ["pilot çalışmasının ilk sonuçlarını paylaşmak istedim", "İki santralde arıza tespiti ortalama %23 hızlandı ve planlı olmayan duruşlar azaldı. Başarı kriterlerini birlikte teyit edip kapanış toplantısını planlamak isteriz.", "Önümüzdeki hafta IT ekibinizle birlikte 45 dakika ayırabilir misiniz?"],
@@ -107,9 +107,9 @@ const EMAIL = {
     subject: { tr: "Pilot sonuçları ve kapanış toplantısı", en: "Pilot results and wrap-up meeting" },
   },
   intro: {
-    tr: ["geçen haftaki tanışma görüşmemiz için teşekkür ederim", "Konuştuğumuz izlenebilirlik gereksinimleri için Vega Track'in mevzuat uyumu ve entegrasyon yaklaşımını özetleyen kısa bir doküman hazırladık.", "Uygun olursanız ekibinizle bir keşif atölyesi planlayalım."],
-    en: ["thank you for our introductory meeting last week", "We've prepared a short document on how Vega Track handles regulatory traceability and integration for the requirements we discussed.", "If convenient, let's plan a discovery workshop with your team."],
-    subject: { tr: "Tanışma görüşmemizin ardından — Vega Track", en: "Following up on our intro — Vega Track" },
+    tr: ["geçen haftaki tanışma görüşmemiz için teşekkür ederim", "Konuştuğumuz izlenebilirlik gereksinimleri için Midea Track'in mevzuat uyumu ve entegrasyon yaklaşımını özetleyen kısa bir doküman hazırladık.", "Uygun olursanız ekibinizle bir keşif atölyesi planlayalım."],
+    en: ["thank you for our introductory meeting last week", "We've prepared a short document on how Midea Track handles regulatory traceability and integration for the requirements we discussed.", "If convenient, let's plan a discovery workshop with your team."],
+    subject: { tr: "Tanışma görüşmemizin ardından — Midea Track", en: "Following up on our intro — Midea Track" },
   },
 }
 
@@ -186,7 +186,7 @@ function qbr({ L, f, conv }) {
 function quoteLines(L, account) {
   if (account === "Altay Perakende")
     return [
-      { name: pick(L, "Vega Retail Suite lisansı (mağaza başına)", "Vega Retail Suite licence (per store)"), qty: 120, unit: 42_000 },
+      { name: pick(L, "Midea Retail Suite lisansı (mağaza başına)", "Midea Retail Suite licence (per store)"), qty: 120, unit: 42_000 },
       { name: pick(L, "Merkez analitik modülü", "Central analytics module"), qty: 1, unit: 640_000 },
       { name: pick(L, "Kurulum ve ERP entegrasyonu", "Implementation and ERP integration"), qty: 1, unit: 980_000 },
       { name: pick(L, "Bölge müdürü eğitimi", "Regional manager training"), qty: 12, unit: 25_000 },
@@ -195,7 +195,7 @@ function quoteLines(L, account) {
   const d = dealOf(account)
   const list = Math.round((d?.value ?? 2_000_000) / 0.9 / 1000) * 1000
   return [
-    { name: `${d?.product ?? "Vega"} ${pick(L, "lisansı", "licence")}`, qty: 1, unit: Math.round(list * 0.7) },
+    { name: `${d?.product ?? "Midea"} ${pick(L, "lisansı", "licence")}`, qty: 1, unit: Math.round(list * 0.7) },
     { name: pick(L, "Kurulum ve entegrasyon", "Implementation and integration"), qty: 1, unit: Math.round(list * 0.15) },
     { name: pick(L, "Eğitim", "Training"), qty: 1, unit: Math.round(list * 0.05) },
     { name: pick(L, "1. yıl destek", "Year-1 support"), qty: 1, unit: Math.round(list * 0.1) },

@@ -54,7 +54,7 @@ export const ETHICS_LINE = {
    * bir KİŞİYE değil bir GÖREVE gidiyor; kişi ayrılırsa ya da izne çıkarsa
    * kutu sahipsiz kalmamalı. Değişirse burası tek satır.
    */
-  to: "compliance@vegaglobal.example",
+  to: "compliance@midea.com",
   /** Konunun sabit başı; arkasına bildirimi yazanın adı gelir. */
   subjectPrefix: "Etik Bildirimi",
   /** Gövde tavanı. Metin kutusu da bu sayıyı `maxLength` olarak uygular. */

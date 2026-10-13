@@ -38,7 +38,7 @@ function GreetingText({ greeting, firstName }) {
  *
  * ⚠️ **KUTLAMA GÜNÜ TEBRİK BU KARTTA** (uzun afiş yerine). Kişinin kendi doğum
  * günü / iş yıl dönümü (`celebration`, `lib/myCelebration.js`) başlığı değiştirir
- * — "İyi ki doğdun, Deniz!" · "Birlikte 5 yıl, Deniz!" —, konum satırının başına
+ * — "İyi ki doğdun, Doğukan!" · "Birlikte 5 yıl, Doğukan!" —, konum satırının başına
  * rozeti koyar (pasta · altın "15. yıl") ve göğün iki yan bandına konfeti / altın
  * pırıltı serper (`CardParty`). HAVA DURUMU YERİNDE: eski afiş o gün göğü kaldırıp
  * MET'e hiç gitmiyordu; artık gidiyor, kart her gün aynı kart. Hava okunamazsa

@@ -11,7 +11,7 @@ import { AboutCompany } from "./AboutCompany"
 import { AboutGlance } from "./AboutGlance"
 
 /**
- * HAKKIMIZDA (`/about`) — demo: kurgusal şirket (Vega Global) ve TYRO ürünü.
+ * HAKKIMIZDA (`/about`) — demo: kurgusal şirket (Midea) ve TYRO ürünü.
  * Girişin sağ üstünde; oturum gerektirmez. Akış: başlık → bir bakışta yapı →
  * şirket → demo notu.
  */

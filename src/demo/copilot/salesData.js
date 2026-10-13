@@ -43,9 +43,9 @@ export const MONTHLY_WON = [7_200_000, 8_100_000, 11_900_000, 6_400_000, 7_800_0
 
 /** Bu çeyrek kazanılanlar. */
 export const WON_DEALS = [
-  { account: "Kuzey Gıda", name: "Vega Retail Suite yenileme", value: 3_600_000, owner: "u-ece" },
-  { account: "Lima Eczane Zinciri", name: "Vega Track — 40 şube", value: 3_300_000, owner: "u-mert" },
-  { account: "Atlas Yapı", name: "Vega Field Service", value: 2_950_000, owner: "u-zeynep" },
+  { account: "Kuzey Gıda", name: "Midea Retail Suite yenileme", value: 3_600_000, owner: "u-ece" },
+  { account: "Lima Eczane Zinciri", name: "Midea Track — 40 şube", value: 3_300_000, owner: "u-mert" },
+  { account: "Atlas Yapı", name: "Midea Field Service", value: 2_950_000, owner: "u-zeynep" },
 ]
 
 /** Öne çıkan açık fırsatlar. `closeIn`: bugünden kaç gün sonra kapanması bekleniyor. */
@@ -53,7 +53,7 @@ export const DEALS = [
   {
     id: "OPP-2418",
     account: "Altay Perakende",
-    product: "Vega Retail Suite",
+    product: "Midea Retail Suite",
     tr: "120 mağazaya yaygınlaştırma",
     en: "rollout to 120 stores",
     value: 6_800_000,
@@ -67,7 +67,7 @@ export const DEALS = [
   {
     id: "OPP-2391",
     account: "Nordis Lojistik",
-    product: "Vega WMS",
+    product: "Midea WMS",
     tr: "3 depoda depo yönetimi",
     en: "warehouse management for 3 sites",
     value: 4_900_000,
@@ -81,7 +81,7 @@ export const DEALS = [
   {
     id: "OPP-2433",
     account: "Toros Tekstil",
-    product: "Vega Planning",
+    product: "Midea Planning",
     tr: "üretim planlama + 3 yıl destek",
     en: "production planning + 3-year support",
     value: 4_200_000,
@@ -95,7 +95,7 @@ export const DEALS = [
   {
     id: "OPP-2402",
     account: "Ekinoks Enerji",
-    product: "Vega IoT Monitor",
+    product: "Midea IoT Monitor",
     tr: "4 santralde uzaktan izleme",
     en: "remote monitoring for 4 plants",
     value: 3_750_000,
@@ -109,7 +109,7 @@ export const DEALS = [
   {
     id: "OPP-2377",
     account: "Pera Otelcilik",
-    product: "Vega Guest",
+    product: "Midea Guest",
     tr: "9 otelde misafir deneyimi platformu",
     en: "guest experience platform for 9 hotels",
     value: 2_950_000,
@@ -123,7 +123,7 @@ export const DEALS = [
   {
     id: "OPP-2450",
     account: "Orion Medikal",
-    product: "Vega Track",
+    product: "Midea Track",
     tr: "tıbbi cihaz izlenebilirliği",
     en: "medical device traceability",
     value: 2_100_000,

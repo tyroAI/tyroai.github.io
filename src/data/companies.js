@@ -6,7 +6,7 @@
 export const COMPANIES = [
   {
     id: "vega",
-    name: "Vega Global",
+    name: "Midea",
     role: "demo",
     facts: [
       { id: "founded", value: "2004" },

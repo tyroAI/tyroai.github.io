@@ -46,7 +46,7 @@
  * Akışı besleyen posta kutuları.
  *
  * ⚠️ **ADRES EŞLEŞMESİ KÜÇÜK HARFE ÇEVRİLEREK YAPILIR.** Graph `from` alanını
- * gönderenin yazdığı gibi döndürüyor (`Vega.Haberler@…`), OData `eq` ise
+ * gönderenin yazdığı gibi döndürüyor (`Midea.Haberler@…`), OData `eq` ise
  * posta adreslerinde büyük/küçük harf duyarsız davranıyor — ama İSTEMCİDE
  * yaptığımız her karşılaştırma (etiket bulma, süzme) `toLowerCase()` üzerinden
  * gider. Bir adresi buraya farklı kasada yazmak, sunucuda bulunan ama
@@ -62,34 +62,34 @@
 export const FEED_SOURCES = [
   {
     tag: "haberler",
-    address: "haberler@vegaglobal.example",
+    address: "haberler@midea.com",
     accent: "from",
   },
   {
     tag: "duyuru",
-    address: "duyuru@vegaglobal.example",
+    address: "duyuru@midea.com",
     accent: "via",
   },
   {
     tag: "ik",
-    address: "insankaynaklari@vegaglobal.example",
+    address: "insankaynaklari@midea.com",
     accent: "to",
   },
   {
     tag: "egitim",
-    address: "egitim@vegaglobal.example",
+    address: "egitim@midea.com",
     accent: "deep",
   },
   {
     tag: "akademi",
-    address: "dijitalakademi@vegaglobal.example",
+    address: "dijitalakademi@midea.com",
     accent: "text",
   },
   {
     /* Altıncı kutu (istek, 2026-09-20). Paletin HAZIR durakları burada
        bitti — gerekçe `ACCENT_VAR`da. */
     tag: "kulup",
-    address: "kulup@vegaglobal.example",
+    address: "kulup@midea.com",
     accent: "shade",
   },
 ]

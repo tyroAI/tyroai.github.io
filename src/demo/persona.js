@@ -1,11 +1,11 @@
 // Demo kişisi ve çevresi — TÜMÜ KURGUSAL. Gerçek kişi, şirket ya da adres yok.
 // `.example` alan adı (RFC 2606) hiçbir zaman gerçek bir posta kutusuna çözülmez.
 
-export const DEMO_DOMAIN = "vegaglobal.example"
+export const DEMO_DOMAIN = "midea.com"
 
 export const COMPANY = {
-  name: "Vega Global",
-  legalName: "Vega Global Ticaret A.Ş.",
+  name: "Midea",
+  legalName: "Midea Ticaret A.Ş.",
   domain: DEMO_DOMAIN,
   city: "İstanbul",
 }
@@ -43,7 +43,7 @@ function person(id, displayName, jobTitle, department, extra = {}) {
 }
 
 /** Oturumu açan kişi: satış müdürü. */
-export const ME = person("u-deniz", "Deniz Arslan", "Sales Manager", "Sales", {
+export const ME = person("u-dogukan", "Doğukan Arslan", "Sales Manager", "Sales", {
   employeeId: "VG-1042",
   businessPhones: ["+90 212 000 10 42"],
   mobilePhone: "+90 555 010 10 42",

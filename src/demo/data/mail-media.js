@@ -429,7 +429,7 @@ export function renderPoster(spec) {
     ctx.textAlign = "left"
     ctx.fillStyle = white(0.92)
     ctx.font = `700 21px ${FONT}`
-    ctx.fillText("VEGA GLOBAL", 112, 82)
+    ctx.fillText("MIDEA", 112, 82)
     // Etiket.
     if (spec.eyebrow) {
       ctx.font = `700 19px ${FONT}`
@@ -469,7 +469,7 @@ function renderDocPage(doc) {
       ctx.fillRect(0, 0, w, 150)
       ctx.fillStyle = "#ffffff"
       ctx.font = `800 34px ${FONT}`
-      ctx.fillText("VEGA GLOBAL", 96, 92)
+      ctx.fillText("MIDEA", 96, 92)
       ctx.font = `500 22px ${FONT}`
       ctx.textAlign = "right"
       ctx.fillText(doc.badge ?? "Gizli — Şirket İçi", w - 96, 92)
@@ -531,7 +531,7 @@ function renderDocPage(doc) {
       }
       ctx.fillStyle = "#9aa5b1"
       ctx.font = `500 20px ${FONT}`
-      ctx.fillText(`${doc.footer ?? "Vega Global Ticaret A.Ş."} · Sayfa 1 / 1`, 96, 1690)
+      ctx.fillText(`${doc.footer ?? "Midea Ticaret A.Ş."} · Sayfa 1 / 1`, 96, 1690)
     },
     "image/jpeg",
     0.8,

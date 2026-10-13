@@ -7,22 +7,22 @@ import { DIRECTORY } from "./people-directory"
 import { bulletinHtml, shortDate, workdaysAhead } from "./mail-compose"
 
 const NAMES = {
-  haberler: "Vega Haberler",
-  duyuru: "Vega Duyuru",
-  ik: "Vega İnsan Kaynakları",
-  egitim: "Vega Eğitim",
-  akademi: "Vega Dijital Akademi",
-  kulup: "Vega Kulüp",
+  haberler: "Midea Haberler",
+  duyuru: "Midea Duyuru",
+  ik: "Midea İnsan Kaynakları",
+  egitim: "Midea Eğitim",
+  akademi: "Midea Dijital Akademi",
+  kulup: "Midea Kulüp",
 }
 
 /** Kanalın gönderen kutusu — adres TEK yerden (`feedPolicy.js`). */
 export function feedSender(tag) {
   const source = FEED_SOURCES.find((s) => s.tag === tag)
-  return { displayName: NAMES[tag] ?? "Vega Global", mail: source?.address ?? `${tag}@vegaglobal.example` }
+  return { displayName: NAMES[tag] ?? "Midea", mail: source?.address ?? `${tag}@midea.com` }
 }
 
-const ALL = { displayName: "Tüm Çalışanlar", mail: "tum.calisanlar@vegaglobal.example" }
-const SALES = { displayName: "Satış Ekibi", mail: "satis.ekibi@vegaglobal.example" }
+const ALL = { displayName: "Tüm Çalışanlar", mail: "tum.calisanlar@midea.com" }
+const SALES = { displayName: "Satış Ekibi", mail: "satis.ekibi@midea.com" }
 
 const ACCENT = {
   haberler: "#1d4ed8",
@@ -33,7 +33,7 @@ const ACCENT = {
   kulup: "#c2410c",
 }
 
-const PORTAL = "https://portal.vegaglobal.example"
+const PORTAL = "https://portal.midea.com"
 
 /** Önümüzdeki 7 günde doğum günü olanlar (dizindeki doğum günü alanından). */
 function birthdaysThisWeek(now) {
@@ -76,7 +76,7 @@ export function feedSpecs(now) {
         colors: ["#1e3a8a", "#0ea5e9"],
         eyebrow: "KAZANILAN FIRSAT",
         title: "Nordis Lojistik ile 3 yıllık anlaşma",
-        subtitle: "420 araçta Vega Track filo telematik",
+        subtitle: "420 araçta Midea Track filo telematik",
         motif: "handshake",
         data: { left: "VG", right: "NL", ink: "#1e3a8a" },
       },
@@ -85,7 +85,7 @@ export function feedSpecs(now) {
         "Pilot süreci boyunca yakıt tüketiminde %11 tasarruf ve teslimat sürelerinde %8 iyileşme ölçüldü — müşterinin karar gerekçesi tam olarak bu sonuçlar oldu.",
         "Emeği geçen herkese teşekkürler:",
         [
-          "<b>Deniz Arslan</b> ve <b>Ece Yıldız</b> — satış ve müşteri yönetimi",
+          "<b>Doğukan Arslan</b> ve <b>Ece Yıldız</b> — satış ve müşteri yönetimi",
           "<b>Elif Güneş</b> — pilot teknik kurgusu",
           "<b>Barış Yalçın</b> — sözleşme süreci",
           "<b>Onur Tekin</b> — devreye alma planı",
@@ -142,18 +142,18 @@ export function feedSpecs(now) {
       },
       attachments: [
         {
-          name: "Vega_2027_Fiyat_Listesi.pdf",
+          name: "Midea_2027_Fiyat_Listesi.pdf",
           kind: "pdf",
           doc: {
-            title: "Vega Global 2027 Fiyat Listesi (Özet)",
+            title: "Midea 2027 Fiyat Listesi (Özet)",
             color: "#0f766e",
             meta: ["Geçerlilik: 1 Kasım itibarıyla", "Para birimi: ₺ (KDV hariç)"],
             table: [
               ["Ürün", "2026 (₺)", "2027 (₺)"],
-              ["Vega Sense enerji sensörü", "2.290", "2.450"],
-              ["Vega Track araç ünitesi", "7.800", "8.250"],
+              ["Midea Sense enerji sensörü", "2.290", "2.450"],
+              ["Midea Track araç ünitesi", "7.800", "8.250"],
               ["Ağ geçidi", "7.400", "7.650"],
-              ["Vega Cloud — kullanıcı/yıl", "4.400", "4.700"],
+              ["Midea Cloud — kullanıcı/yıl", "4.400", "4.700"],
               ["Kurulum (gün)", "18.000", "19.500"],
             ],
             paragraphs: [
@@ -195,7 +195,7 @@ export function feedSpecs(now) {
           "<b>Derya Önal</b> — Inside Sales Representative, İhracat Satış",
         ],
         "Kendilerine başarılar diliyor, ilk haftalarında yardımcı olacak herkese teşekkür ediyoruz.",
-        "<i>We are so glad you've joined us — welcome to Vega Global!</i>",
+        "<i>We are so glad you've joined us — welcome to Midea!</i>",
       ],
     }),
     post({
@@ -225,19 +225,19 @@ export function feedSpecs(now) {
     post({
       key: "feed-06",
       tag: "duyuru",
-      subject: "Vega CRM 5.3 sürüm notları: fırsat skorlama ve TYRO entegrasyonu",
+      subject: "Midea CRM 5.3 sürüm notları: fırsat skorlama ve TYRO entegrasyonu",
       when: [4, "09:30"],
       isRead: true,
       poster: {
         colors: ["#312e81", "#6366f1"],
         eyebrow: "SÜRÜM NOTLARI",
-        title: "Vega CRM 5.3 yayında",
+        title: "Midea CRM 5.3 yayında",
         subtitle: "Fırsat skorlama · TYRO entegrasyonu · yeni pipeline panosu",
         motif: "window",
         data: { badge: "v5.3", ink: "#4f46e5" },
       },
       parts: [
-        "Vega CRM 5.3 bu sabah tüm kullanıcılara açıldı. Satış ekiplerini ilgilendiren yenilikler:",
+        "Midea CRM 5.3 bu sabah tüm kullanıcılara açıldı. Satış ekiplerini ilgilendiren yenilikler:",
         [
           "<b>Fırsat skorlama:</b> geçmiş kazanımlara göre 0–100 arası kapanış olasılığı",
           "<b>TYRO entegrasyonu:</b> fırsat kartından tek tıkla özet ve sonraki adım önerisi",
@@ -304,19 +304,19 @@ export function feedSpecs(now) {
     post({
       key: "feed-09",
       tag: "kulup",
-      subject: "Vega Koşu Takımı İstanbul Maratonu'na hazırlanıyor",
+      subject: "Midea Koşu Takımı İstanbul Maratonu'na hazırlanıyor",
       when: [6, "12:30"],
       isRead: true,
       poster: {
         colors: ["#9a3412", "#fdba74"],
-        eyebrow: "VEGA KULÜP",
+        eyebrow: "MIDEA KULÜP",
         title: "Koşu takımımız maratona hazırlanıyor",
         subtitle: "Cumartesi sabahları Belgrad Ormanı'nda ortak antrenman",
         motif: "route",
       },
       parts: [
-        "Vega Koşu Takımı bu yıl 27 kişiyle İstanbul Maratonu'nda! 15 km ve 42 km parkurlarında koşacak arkadaşlarımız için cumartesi sabahları ortak antrenman yapıyoruz.",
-        "Koşuya katılmasan da destek ekibine katılabilirsin — bitiş çizgisinde Vega standı kuruyoruz.",
+        "Midea Koşu Takımı bu yıl 27 kişiyle İstanbul Maratonu'nda! 15 km ve 42 km parkurlarında koşacak arkadaşlarımız için cumartesi sabahları ortak antrenman yapıyoruz.",
+        "Koşuya katılmasan da destek ekibine katılabilirsin — bitiş çizgisinde Midea standı kuruyoruz.",
       ],
       cta: { label: "Takıma katıl", href: `${PORTAL}/kulup/kosu` },
     }),
@@ -390,7 +390,7 @@ export function feedSpecs(now) {
     post({
       key: "feed-14",
       tag: "akademi",
-      subject: "Vega CRM'de pipeline panosunu verimli kullanmanın 5 yolu",
+      subject: "Midea CRM'de pipeline panosunu verimli kullanmanın 5 yolu",
       when: [13, "14:00"],
       isRead: true,
       poster: {
@@ -449,7 +449,7 @@ export function feedSpecs(now) {
       isRead: true,
       poster: {
         colors: ["#7c2d12", "#f97316"],
-        eyebrow: "VEGA KULÜP",
+        eyebrow: "MIDEA KULÜP",
         title: "Masa tenisi turnuvası",
         subtitle: "Ay sonu Kulüp Akşamı · Levent ofisi teras katı",
         motif: "trophy",
@@ -499,7 +499,7 @@ export function feedSpecs(now) {
   }
 
   return list.map(({ parts, cta, poster, ...rest }) => {
-    const cid = poster ? `${rest.key}-kapak@vegaglobal.example` : null
+    const cid = poster ? `${rest.key}-kapak@midea.com` : null
     const attachments = [...(rest.attachments ?? [])]
     if (poster) attachments.unshift({ name: `${rest.key}-kapak.jpg`, kind: "image", inline: true, cid, poster })
     return {

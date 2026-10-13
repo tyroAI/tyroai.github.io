@@ -33,7 +33,7 @@
  * Genişletmek: bu listeye bir UPN. Herkese açmak: ilgili politikada
  * `audience: "*"`.
  */
-export const PREVIEW_UPNS = Object.freeze(["deniz.arslan@vegaglobal.example"])
+export const PREVIEW_UPNS = Object.freeze(["dogukan.arslan@midea.com"])
 
 /** AKIŞIM'IN KİTLESİ — önizleme ekibi + Akışım'a özel eklenenler. */
 export const MYSPACE_UPNS = Object.freeze([...PREVIEW_UPNS])

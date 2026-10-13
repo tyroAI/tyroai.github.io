@@ -212,7 +212,7 @@ function showcase() {
     }),
     tpl("demo", `Ürün demosu — ${ORION.account}`, "15:30", "16:30", {
       attendees: [contactOf(ORION), ELIF, ZEYNEP],
-      body: `${ORION.account} satın alma ve BT ekibine sipariş yönetimi, stok takibi ve tedarikçi portalı demosu. Demo ortamı: demo.vegaglobal.example (test verisi).`,
+      body: `${ORION.account} satın alma ve BT ekibine sipariş yönetimi, stok takibi ve tedarikçi portalı demosu. Demo ortamı: demo.midea.com (test verisi).`,
       summary: "demo",
       ctx: { customer: ORION },
     }),
@@ -413,7 +413,7 @@ function allDayItems(day, today) {
     )
   if (a.fair[0] === k)
     out.push(
-      allDay("fair", "Retail Tech Summit 2026 — Vega Global standı", {
+      allDay("fair", "Retail Tech Summit 2026 — Midea standı", {
         days: 2,
         organizer: AYSE,
         attendees: [ME, ECE, ZEYNEP],

@@ -30,7 +30,7 @@ const SUFFIXES = [
 
 const WORD = /[\p{L}\p{N}]/u
 
-/** "Vega Global Ticaret San.ve Tic. A.ş." → "Vega Global Ticaret San. ve Tic. A.Ş." */
+/** "Midea Ticaret San.ve Tic. A.ş." → "Midea Ticaret San. ve Tic. A.Ş." */
 export function tidyCompanyName(value) {
   const s = String(value ?? "").trim()
   if (!s) return ""
