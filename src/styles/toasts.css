@@ -1,0 +1,29 @@
+/*
+ * Bildirim yığını (sonner). Uygulamanın kartları `unstyled` çiziliyor (`DataRefreshToast`);
+ * gerekçeler: docs/design-system.md › Bildirimler.
+ */
+
+/* Sağ alt yığın sağ paneli ve sohbet bestecisini örtmez. Değerleri `placeToastStack()`
+   (lib/toastAvoid.js) her bildirimden önce yazar. `:root` öneki şart: sonner kendi
+   kurallarını çalışma anında sayfanın sonuna ekliyor, eşit özgüllükte o kazanırdı.
+   Yalnız alt-sağ yığın: üstteki "asistan çalışıyor" kartı panelin üstünde kalmalı. */
+:root [data-sonner-toaster][data-y-position="bottom"][data-x-position="right"] {
+  right: calc(var(--offset-right) + var(--toast-avoid-right, 0px));
+  bottom: max(var(--offset-bottom), var(--toast-avoid-bottom, 0px));
+}
+
+/* Sonner'ın telefon kırılımı: yığın tam genişlik, sağa kaydırma anlamsız. */
+@media (max-width: 600px) {
+  :root [data-sonner-toaster][data-y-position="bottom"][data-x-position="right"] {
+    right: var(--mobile-offset-right);
+    bottom: max(var(--mobile-offset-bottom), var(--toast-avoid-bottom, 0px));
+  }
+}
+
+/* Daraltılmış yığında arka kart öndekinin boyunda kesilir. Sonner bunu yalnız kendi
+   çizdiği bildirimlerde yapıyor; uzun bir kart öndekinin altından taşıyor, arka rozetin
+   halesi öndekinin kenarından sızıyordu. */
+[data-sonner-toast][data-styled="false"][data-expanded="false"][data-front="false"] {
+  overflow: hidden;
+  border-radius: 1rem;
+}

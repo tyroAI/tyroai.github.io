@@ -1,0 +1,169 @@
+/* Anasayfa: kart yüzeyi, hazır istem kutucuğu (Motion+ silmesi — sohbetin öneri kartı da kullanır), iskelet — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ANASAYFA (Akışım) — kart yüzeyi ve kendi çentik oluğu
+
+   ⚠️ ZEMİN BEYAZ, KARTI BELLİ EDEN KENARLIK + KATMANLI GÖLGE (üçüncü tur,
+   istek: *"arka fon beyaz olsun ama kartlar yine belli olsun, modern
+   ayarla"*). İkinci turda referansın gri tuvali alınmıştı (paletin %3'ü) ve
+   kartları TON farkı ayırıyordu; beyaz zeminde o fark yok, yerine iki şey:
+   saç teli kalınlığında bir kenarlık (mürekkebin %8'i — `--border`ın sabit
+   grisi değil, yani koyu temada da kendi zıttından türüyor) ve iki katmanlı
+   gölge: 1-2px'lik yakın gölge kartı zemine OTURTUYOR, 24px'lik yumuşak
+   gölge KALDIRIYOR. Tek katmanlı sert bir gölge 2015'in kartı gibi dururdu.
+   Koyu temada gölge görünmüyor; orada kartı zeminden bir kademe açık
+   `--card` ve üst kenardaki ince ışık ayırıyor.
+
+   ⚠️ `@layer components` İÇİNDE, ve bu şart: katmansız yazılsaydı Tailwind'in
+   `focus-within:ring-2` / `border-brand/40` gibi durum sınıflarını (katmanlı
+   `utilities`) EZERDİ — soru kutusunun odak halkası hiç yanmazdı.
+
+   ⚠️ OLUK `.notch-gutter`dan AYRI ve üst sınırı YOK. O kural `max-w-6xl`
+   kutular için yazıldı (1600px'ten sonra ray kutunun sağındaki boşluğa
+   düşüyor). Akışım'ın kutusu `max-w-[96rem]` — geniş ekranda sağ kenar
+   görüntü alanına yaklaşıyor ve ray içeriğin üstüne binerdi. Bedeli: çok
+   geniş ekranda (≥1900px) içerik ortadan ~50px sola kayık; ray orada da
+   sağda durduğu için göze asimetri olarak değil denge olarak okunuyor. */
+@layer components {
+  /* HAZIR İSTEM KUTUCUĞU — motion.dev'in "Motion+" düğmesinin eğik silmesi
+     (`myspace/PromptTile.jsx`).
+     Kurallar referansın KENDİ CSS'inden okundu (`.fresh-primary-action`,
+     motion.dev/examples, headless Edge):
+       · üstteki kopya gizli: polygon(-1% 0%, -1% 0%, -100% 100%, -1% 100%)
+       · üstüne gelince:      polygon(0% 0%, 200% 0%, 100% 100%, 0% 100%)
+         — üst kenar önde (200%), alt kenar geride (100%): kenar EĞİK süpürür
+       · 0,4 sn, cubic-bezier(0.25, 0, 0, 1) — hızlı başlar, uzun yavaşlar;
+         çıkınca aynı eğriyle geri çekilir
+       · kenarlık o anda döner (geçişsiz), basınca 1px iner (0,14 sn)
+       · yalnız `(hover: hover)` cihazda; dokunmatikte iz bırakmaz
+     ⚠️ Kopya MÜREKKEP + paletin %10'u, düz marka dolgusu DEĞİL: beyaz yazı
+     beş paletin marka dolgusunda AA'nın altında (Etik Hattı'nın ölçüsü:
+     sky 2,77 …); mürekkep ile zemin iki temada da yer değiştiriyor, yani
+     koyu temada kopya AÇIK ve yazısı koyu — referansın ink/paper ikilisi.
+     ⚠️ KARIŞIM `oklab`, `oklch` DEĞİL: mürekkep renksiz ama ton açısı 0 ve
+     oklch o açıyı paletin açısıyla İNTERPOLE ediyor — turkuaz Ocean
+     Breeze'de koyu kutucuk pembeye çalıyordu (ölçüldü: 150° sapma);
+     oklab'da ton paleti izliyor (≤ 7°), kontrast aynı.
+     ⚠️ Klavye odağı da açar (`:focus-visible`): referans yalnız çerçeve
+     çiziyor, ama farenin gördüğü hâli klavyenin görmemesi için sebep yok.
+     ⚠️ Hareketi azalt tercihinde silme YOK, renk anında değişir. */
+  .prompt-tile {
+    /* Yedek (göreli renk sözdizimi olmayan tarayıcı): mürekkep + paletin %10'u. */
+    --tile-wipe-bg: color-mix(in oklab, var(--foreground) 90%, var(--brand-via));
+    --tile-wipe-fill: var(--tile-wipe-bg);
+    --tile-wipe-edge: var(--tile-wipe-bg);
+    --tile-wipe-fg: var(--background);
+    transition: transform 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* PALETİN KENDİSİ: `from → via` gradyanı, beyaz yazı. ⚠️ Duraklar
+     açıklıkta 0,50'YE TAVANLANIR, ton ve doygunluk paletin: ham gradyanda tek
+     bir mürekkep hiçbir yerde yetmiyordu — Green Garden ve Pastel Lavender'da
+     `from` koyu, `via` açık (ölçüldü: ham `from → via` 68 durumun 16'sında AA
+     altı, en kötü 2,97; üç duraklı 30'unda, en kötü 1,8). Tavan 0,50 → 17
+     palet × 2 tema × TR/RU'da en kötü 5,29:1, AA altı 0; 0,55 yetmiyor
+     (Ocean Breeze 4,34). ⚠️ `to` DURAĞI YOK: tavanlanınca Insta'nın sarısı
+     çamurlu bir hardala dönüyordu (yan yana görüntüyle elendi). */
+  @supports (color: oklch(from red l c h)) {
+    .prompt-tile {
+      --tile-wipe-from: oklch(from var(--brand-from) min(l, 0.5) c h);
+      --tile-wipe-via: oklch(from var(--brand-via) min(l, 0.5) c h);
+      --tile-wipe-fill: linear-gradient(90deg, var(--tile-wipe-from), var(--tile-wipe-via));
+      --tile-wipe-edge: var(--tile-wipe-via);
+      --tile-wipe-fg: var(--brand-on-brand);
+    }
+  }
+  .prompt-tile:active {
+    transform: translateY(1px);
+  }
+  /* Dokunmatikte basınca küçülme (`PromptTile` › `data-pressed`). */
+  .prompt-tile[data-pressed] {
+    transform: scale(0.97);
+  }
+  .prompt-tile-wipe {
+    background: var(--tile-wipe-fill);
+    color: var(--tile-wipe-fg);
+    clip-path: polygon(-1% 0%, -1% 0%, -100% 100%, -1% 100%);
+    transition: clip-path 0.4s cubic-bezier(0.25, 0, 0, 1);
+  }
+  @media (hover: hover) {
+    .prompt-tile:hover .prompt-tile-wipe {
+      clip-path: polygon(0% 0%, 200% 0%, 100% 100%, 0% 100%);
+    }
+  }
+  /* Sohbetin öneri kartında (`chat/PromptCard`) kök bir `div`; odak, içindeki
+     kaplama düğmesinde (`.prompt-tile-hit`). */
+  .prompt-tile:focus-visible .prompt-tile-wipe,
+  .prompt-tile:has(.prompt-tile-hit:focus-visible) .prompt-tile-wipe {
+    clip-path: polygon(0% 0%, 200% 0%, 100% 100%, 0% 100%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .prompt-tile,
+    .prompt-tile-wipe {
+      transition: none;
+    }
+    .prompt-tile:active,
+    .prompt-tile[data-pressed] {
+      transform: none;
+    }
+  }
+
+  .ms-surface {
+    background-color: var(--card);
+    border: 1px solid color-mix(in oklch, var(--foreground) 8%, transparent);
+    box-shadow:
+      0 1px 2px color-mix(in oklch, var(--foreground) 5%, transparent),
+      0 10px 28px -14px color-mix(in oklch, var(--foreground) 16%, transparent);
+  }
+  .dark .ms-surface {
+    border-color: color-mix(in oklch, var(--foreground) 10%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklch, var(--foreground) 5%, transparent),
+      0 12px 32px -16px rgb(0 0 0 / 0.6);
+  }
+
+  /* ANASAYFA'NIN İSKELETİ: veriler gelene kadar kart yükleyicisi.
+     Kartlar KENDİ şekillerinde hayalet parçalar çiziyor (avatarlar, konu
+     satırları, düğmeler, çubuklar); bu sınıf yalnız zemini ve üstünden
+     süzülen ışığı veriyor.
+     ⚠️ `animate-pulse` DEĞİL: opaklık nabzı bütün parçaları aynı anda
+     karartıp açıyor ve "bir şey yanıp sönüyor" diye okunuyor; ışık ise soldan
+     sağa, okuma yönünde akıyor ve parçaların DOLMAK ÜZERE olduğunu söylüyor.
+     ⚠️ IŞIK TEMAYA GÖRE: açıkta zemin mürekkebin %7'si, ışık KARTIN rengi
+     (beyaz bir hüzme); koyuda ışık mürekkebin kendisi — koyu kartın üstünde
+     "kart rengi" bir hüzme ışık değil GÖLGE gibi süzülürdü.
+     ⚠️ Görsel 2,5 kat geniş ve konum %120 → %−20: hüzme her parçanın solundan
+     girip sağından çıkıyor. Bütün parçalar aynı sürede geçtiği için aynı
+     anda başlayıp aynı anda bitiyorlar — dağınık değil, tek bir dalga gibi.
+     ⚠️ Hareketi azalt tercihinde ışık yok, düz zemin kalır. */
+  .ms-skeleton {
+    --ms-sk-base: color-mix(in oklch, var(--foreground) 7%, transparent);
+    --ms-sk-light: color-mix(in oklch, var(--card) 88%, transparent);
+    background-color: var(--ms-sk-base);
+    background-image: linear-gradient(
+      100deg,
+      transparent 32%,
+      var(--ms-sk-light) 50%,
+      transparent 68%
+    );
+    background-size: 250% 100%;
+    background-repeat: no-repeat;
+    background-position: 120% 0;
+  }
+  .dark .ms-skeleton {
+    --ms-sk-base: color-mix(in oklch, var(--foreground) 9%, transparent);
+    --ms-sk-light: color-mix(in oklch, var(--foreground) 8%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ms-skeleton {
+      animation: ms-skeleton 1.6s ease-in-out infinite;
+    }
+  }
+}
+@keyframes ms-skeleton {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -20% 0;
+  }
+}

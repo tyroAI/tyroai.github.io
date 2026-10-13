@@ -1,0 +1,128 @@
+/* Temel token'lar (shadcn) ve @layer base — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.5 0.134 242.749);
+  --primary-foreground: oklch(0.977 0.013 236.62);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.879 0.169 91.605);
+  --chart-2: oklch(0.769 0.188 70.08);
+  --chart-3: oklch(0.666 0.179 58.318);
+  --chart-4: oklch(0.555 0.163 48.998);
+  --chart-5: oklch(0.473 0.137 46.201);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.588 0.158 241.966);
+  --sidebar-primary-foreground: oklch(0.977 0.013 236.62);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.443 0.11 240.79);
+  --primary-foreground: oklch(0.977 0.013 236.62);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.879 0.169 91.605);
+  --chart-2: oklch(0.769 0.188 70.08);
+  --chart-3: oklch(0.666 0.179 58.318);
+  --chart-4: oklch(0.555 0.163 48.998);
+  --chart-5: oklch(0.473 0.137 46.201);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.685 0.169 237.323);
+  --sidebar-primary-foreground: oklch(0.293 0.066 243.157);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    /* Kill iOS Safari's auto-zoom on inputs; let users still pinch-zoom */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Kill the blue tap-flash on iOS / Android Chrome */
+    -webkit-tap-highlight-color: transparent;
+    /* PWA standalone: the html root paints the safe-area gutters (under
+       the notch / home indicator regions where viewport-fit=cover lets
+       content show through). Without this they default to white. */
+    background-color: var(--background);
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent Android Chrome pull-to-refresh from reloading the SPA + iOS
+       rubber-band revealing white background. Per-surface scrollers use
+       Tailwind's `overscroll-contain` for the same effect. */
+    overscroll-behavior-y: none;
+    /* Fill the full viewport — otherwise the safe-area gutters can paint
+       white when the page content is dark. Browser tabs use 100dvh (tracks
+       the URL bar); the standalone override below switches to 100vh because
+       iOS miscomputes the DYNAMIC viewport (dvh) on a freshly-launched PWA's
+       first paint, leaving a bottom gap until the first scroll — whereas the
+       static LARGEST viewport (vh) equals the full screen from the first
+       frame. (Proven by the tyrostrategy PWA, which uses h-screen/100vh.) */
+    min-height: 100dvh;
+  }
+  /* PWA standalone: there's no URL bar for dvh to track, and dvh's first-paint
+     miscalculation is exactly what caused the bottom gap. 100vh is the stable
+     full-screen height here. Pairs with the `h-[100dvh] pwa:h-screen` shells
+     in DashboardLayout / LoginPage. */
+  @media (display-mode: standalone) {
+    body {
+      min-height: 100vh;
+    }
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  /* Anything clickable: disable the 300ms tap delay and prevent double-tap
+     to zoom on buttons/links (pinch-zoom on the page still works). */
+  button,
+  [role="button"],
+  a,
+  label,
+  input[type="checkbox"],
+  input[type="radio"] {
+    touch-action: manipulation;
+  }
+}

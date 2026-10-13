@@ -1,0 +1,365 @@
+/* Karşılama kartı (`IntroWidget`) — paletin üç renginden katmanlı, premium zemin.
+   Renkler `--brand-from/via/to` (palettes.css): palet değişince kart da değişir. */
+.intro-card {
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgb(255 255 255 / 0.2), transparent 55%),
+    linear-gradient(135deg, var(--brand-from) 0%, var(--brand-via) 52%, var(--brand-to) 100%);
+}
+
+/* Yavaş süzülen aurora: paletin renklerinden üç yumuşak ışık. */
+.intro-card__aurora {
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  background:
+    radial-gradient(
+      38% 42% at 78% 30%,
+      color-mix(in oklch, var(--brand-to), white 35%),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 36% at 22% 85%,
+      color-mix(in oklch, var(--brand-from), white 18%),
+      transparent 70%
+    ),
+    radial-gradient(
+      26% 30% at 55% 55%,
+      color-mix(in oklch, var(--brand-via), transparent 25%),
+      transparent 70%
+    );
+  filter: blur(18px);
+  opacity: 0.7;
+  animation: intro-drift 18s ease-in-out infinite alternate;
+}
+
+/* KOYU paletlerde yazının altında paletin derin tonu, koyulaştırılmış: sol üstte
+   (selamlama, brifing) ve alt kenarda (haplar). Yazı beyaz. */
+.intro-card__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      180% 200% at 0% 0%,
+      color-mix(in oklch, var(--brand-from), black 50%) 0%,
+      transparent 78%
+    ),
+    linear-gradient(to top, color-mix(in oklch, var(--brand-from), black 44%) 0%, transparent 55%);
+  /* Gücü paletin parlaklığından (`useBrandInk` › veil): koyu palette hafif, orta tonda güçlü. */
+  opacity: var(--intro-veil, 0.95);
+}
+
+/* İnce film greni — düz degradenin "plastik" görünmesini kırar. */
+.intro-card__grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.16;
+}
+
+/* Haplar: paletin derin tonundan cam — beyaz yazı her zeminde okunur. */
+.intro-card__chip {
+  background: color-mix(
+    in oklch,
+    color-mix(in oklch, var(--brand-from), black 40%),
+    transparent 30%
+  );
+}
+.intro-card__chip:hover,
+.intro-card__chip[data-state="open"] {
+  background: color-mix(
+    in oklch,
+    color-mix(in oklch, var(--brand-from), black 46%),
+    transparent 15%
+  );
+}
+
+/* "Günün özeti": beyaz hap, yazısı paletin derin tonunun bir kademe koyusu (AA). */
+.intro-card__cta {
+  color: color-mix(in oklch, var(--brand-fill-deep), black 30%);
+}
+
+/* AÇIK paletler (gün batımı, şeftali…): beyaz yazı sarının ve açık pembenin
+   üstünde okunmuyordu — paletin derin tonundan koyu mürekkep, açık cam haplar,
+   koyu "Günün özeti". Karar `useBrandInk`te (yazının durduğu tonların parlaklığı). */
+.intro-card[data-ink="dark"] {
+  color: color-mix(in oklch, var(--brand-from), black 74%);
+}
+.intro-card[data-ink="dark"] .intro-card__shade {
+  background:
+    radial-gradient(140% 160% at 0% 0%, rgb(255 255 255 / 0.42) 0%, transparent 72%),
+    linear-gradient(to top, rgb(255 255 255 / 0.36) 0%, transparent 55%);
+  opacity: 1;
+}
+.intro-card[data-ink="dark"] h2 {
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.25);
+}
+.intro-card[data-ink="dark"] .intro-card__chip {
+  background: rgb(255 255 255 / 0.6);
+  color: inherit;
+  --tw-ring-color: rgb(0 0 0 / 0.08);
+}
+.intro-card[data-ink="dark"] .intro-card__chip:hover,
+.intro-card[data-ink="dark"] .intro-card__chip[data-state="open"] {
+  background: rgb(255 255 255 / 0.8);
+}
+.intro-card[data-ink="dark"] .intro-card__cta {
+  background: color-mix(in oklch, var(--brand-from), black 74%);
+  color: #fff;
+}
+
+@keyframes intro-drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(3%, 2%, 0) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-card__aurora {
+    animation: none;
+  }
+}
+
+/* ── Görünüm (Pano › Düzenle › Görünüm; `data-widget-look`) ─────────────────────────
+   CAM: paletin AÇIK hâli — üç renk beyazla seyreltilir, buzlu cam; yazı paletin derin
+   tonundan koyu, haplar beyaz cam, "Günün özeti" koyu. Koyu temada koyu cam, yazı beyaz.
+   SADE: temanın düz kartı; yalnız küre ve düğmeler (haplar, "Günün özeti") renkli.
+   Seçiciler `.intro-card`ı da taşır: mürekkep kurallarıyla (`data-ink`) eşit ağırlıkta,
+   dosyada sonra geldikleri için onlar kazanır. */
+[data-widget-look="glass"] .intro-card {
+  border: 1px solid rgb(255 255 255 / 0.7);
+  color: color-mix(in oklch, var(--brand-from), black 74%);
+  background:
+    linear-gradient(
+      150deg,
+      rgb(255 255 255 / 0.55),
+      rgb(255 255 255 / 0.1) 50%,
+      rgb(255 255 255 / 0.28)
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--brand-from) 24%, rgb(255 255 255 / 0.5)) 0%,
+      color-mix(in oklab, var(--brand-via) 20%, rgb(255 255 255 / 0.5)) 52%,
+      color-mix(in oklab, var(--brand-to) 24%, rgb(255 255 255 / 0.5)) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -1px 0 rgb(255 255 255 / 0.35),
+    0 18px 40px -22px color-mix(in oklab, var(--brand-via) 45%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  backdrop-filter: blur(24px) saturate(1.6);
+}
+[data-widget-look="glass"] .intro-card .intro-card__aurora {
+  opacity: 0.32;
+}
+[data-widget-look="glass"] .intro-card .intro-card__shade {
+  display: none;
+}
+[data-widget-look="glass"] .intro-card .intro-card__grain {
+  opacity: 0.08;
+}
+[data-widget-look="glass"] .intro-card h2 {
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
+}
+[data-widget-look="glass"] .intro-card .intro-card__chip {
+  background: rgb(255 255 255 / 0.55);
+  color: inherit;
+  --tw-ring-color: rgb(255 255 255 / 0.85);
+}
+[data-widget-look="glass"] .intro-card .intro-card__chip:hover,
+[data-widget-look="glass"] .intro-card .intro-card__chip[data-state="open"] {
+  background: rgb(255 255 255 / 0.78);
+}
+[data-widget-look="glass"] .intro-card .intro-card__cta {
+  background: color-mix(in oklch, var(--brand-from), black 74%);
+  color: #fff;
+}
+[data-widget-look="glass"] .intro-card .intro-card__chip:focus-visible,
+[data-widget-look="glass"] .intro-card .intro-card__cta:focus-visible {
+  --tw-ring-color: color-mix(in oklch, var(--brand-from), black 55%);
+}
+[data-widget-look="glass"] .intro-card .intro-card__skel {
+  background: color-mix(in oklab, currentColor 12%, transparent);
+}
+.dark [data-widget-look="glass"] .intro-card {
+  border-color: rgb(255 255 255 / 0.14);
+  color: #fff;
+  /* Koyu cam: paletin tonu koyu bir camın içinde — açık paletlerde (okyanus, şeftali)
+     beyaz yazı ancak böyle AA. */
+  background:
+    linear-gradient(
+      150deg,
+      rgb(255 255 255 / 0.12),
+      rgb(255 255 255 / 0.02) 50%,
+      rgb(255 255 255 / 0.05)
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--brand-from) 24%, rgb(14 14 18 / 0.72)) 0%,
+      color-mix(in oklab, var(--brand-via) 20%, rgb(14 14 18 / 0.72)) 52%,
+      color-mix(in oklab, var(--brand-to) 22%, rgb(14 14 18 / 0.72)) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 18px 40px -22px rgb(0 0 0 / 0.7);
+}
+.dark [data-widget-look="glass"] .intro-card .intro-card__aurora {
+  opacity: 0.14;
+}
+/* Kürenin beyaz halesi koyu camda sağ yarıyı aydınlatıp haplara iniyordu. */
+.dark [data-widget-look="glass"] .intro-card .intro-card__glow {
+  background: color-mix(in oklab, var(--brand-via) 22%, transparent);
+}
+.dark [data-widget-look="glass"] .intro-card .intro-card__grain {
+  opacity: 0;
+}
+.dark [data-widget-look="glass"] .intro-card h2 {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+}
+.dark [data-widget-look="glass"] .intro-card .intro-card__chip {
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+  --tw-ring-color: rgb(255 255 255 / 0.2);
+}
+.dark [data-widget-look="glass"] .intro-card .intro-card__chip:hover,
+.dark [data-widget-look="glass"] .intro-card .intro-card__chip[data-state="open"] {
+  background: rgb(255 255 255 / 0.18);
+}
+.dark [data-widget-look="glass"] .intro-card .intro-card__cta {
+  background: #fff;
+  color: color-mix(in oklch, var(--brand-fill-deep), black 30%);
+}
+.dark [data-widget-look="glass"] .intro-card .intro-card__chip:focus-visible,
+.dark [data-widget-look="glass"] .intro-card .intro-card__cta:focus-visible {
+  --tw-ring-color: rgb(255 255 255 / 0.8);
+}
+
+[data-widget-look="plain"] .intro-card {
+  border: 1px solid color-mix(in oklch, var(--foreground) 8%, transparent);
+  color: var(--foreground);
+  background: var(--card);
+  box-shadow:
+    0 1px 2px color-mix(in oklch, var(--foreground) 5%, transparent),
+    0 10px 28px -14px color-mix(in oklch, var(--foreground) 16%, transparent);
+}
+.dark [data-widget-look="plain"] .intro-card {
+  border-color: color-mix(in oklch, var(--foreground) 10%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, var(--foreground) 5%, transparent),
+    0 12px 32px -16px rgb(0 0 0 / 0.6);
+}
+[data-widget-look="plain"] .intro-card .intro-card__aurora,
+[data-widget-look="plain"] .intro-card .intro-card__shade,
+[data-widget-look="plain"] .intro-card .intro-card__grain {
+  display: none;
+}
+[data-widget-look="plain"] .intro-card h2 {
+  text-shadow: none;
+}
+[data-widget-look="plain"] .intro-card .intro-card__kicker {
+  color: var(--muted-foreground);
+}
+/* Ad paletin yazı degradesinde — İLK İKİ durak, açıklık 0,55'e tavanlı: sondaki açık durak
+   (Insta'nın sarısı) beyaz kartta 1,35:1 kalıyordu; büyük yazı için 3:1 her palette tutsun. */
+[data-widget-look="plain"] .intro-card .intro-card__name {
+  color: var(--brand-ink);
+}
+@supports (color: oklch(from red l c h)) {
+  [data-widget-look="plain"] .intro-card .intro-card__name {
+    background: linear-gradient(
+      90deg,
+      oklch(from var(--brand-text-from) min(l, 0.55) c h),
+      oklch(from var(--brand-text-via) min(l, 0.55) c h)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .dark [data-widget-look="plain"] .intro-card .intro-card__name {
+    background: none;
+    color: oklch(from var(--brand-ink) max(l, 0.75) c h);
+  }
+}
+[data-widget-look="plain"] .intro-card .intro-card__glow {
+  background: color-mix(in oklab, var(--brand-via) 22%, transparent);
+}
+[data-widget-look="plain"] .intro-card .intro-card__skel {
+  background: var(--muted);
+}
+/* Düğmeler renkli: haplar paletin yumuşak tonu, "Günün özeti" paletin kendisi
+   (hazır istem kutucuğunun tarifi: açıklık 0,50 tavanı, beyaz yazı AA). */
+[data-widget-look="plain"] .intro-card .intro-card__chip {
+  background: color-mix(in oklab, var(--brand-via) 13%, var(--card));
+  color: var(--brand-ink);
+  --tw-ring-color: color-mix(in oklab, var(--brand-via) 28%, transparent);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* Açık paletlerde (şeftali, gün batımı) mürekkep yumuşak tonun üstünde AA'nın altındaydı. */
+@supports (color: oklch(from red l c h)) {
+  :root:not(.dark) [data-widget-look="plain"] .intro-card .intro-card__chip {
+    color: oklch(from var(--brand-ink) min(l, 0.42) c h);
+  }
+  /* Koyu temada bazı paletlerin mürekkebi (okyanus, çikolata) orta tonda kalıyor. */
+  .dark [data-widget-look="plain"] .intro-card .intro-card__chip {
+    color: oklch(from var(--brand-ink) max(l, 0.8) c h);
+  }
+}
+[data-widget-look="plain"] .intro-card .intro-card__chip:hover,
+[data-widget-look="plain"] .intro-card .intro-card__chip[data-state="open"] {
+  background: color-mix(in oklab, var(--brand-via) 21%, var(--card));
+}
+[data-widget-look="plain"] .intro-card .intro-card__cta {
+  background: var(--brand-fill-deep);
+  color: var(--brand-on-brand);
+}
+@supports (color: oklch(from red l c h)) {
+  [data-widget-look="plain"] .intro-card .intro-card__cta {
+    background: linear-gradient(
+      90deg,
+      oklch(from var(--brand-from) min(l, 0.5) c h),
+      oklch(from var(--brand-via) min(l, 0.5) c h)
+    );
+  }
+}
+[data-widget-look="plain"] .intro-card .intro-card__chip:focus-visible,
+[data-widget-look="plain"] .intro-card .intro-card__cta:focus-visible {
+  --tw-ring-color: color-mix(in oklab, var(--brand-via) 70%, transparent);
+}
+
+/* ── Vurgulu terimler (`InsightTerm`, `useIntroLines`) ────────────────────────
+   Renkli ve camda kartın yazı rengini alır (zemin degrade; ölçülmüş tonlar açık kart
+   için). Sadede Anasayfa özetinin ölçülmüş tonları (`daySummary.css` › `--ds-*`).
+   Üstüne gelince yazının kendi renginden hafif bir zemin — her görünümde görünür. */
+.intro-card {
+  --ds-from: currentColor;
+  --ds-via: currentColor;
+  --ds-to: currentColor;
+}
+.intro-card span[role="button"]:hover,
+.intro-card span[role="button"][data-state="open"] {
+  background-color: color-mix(in oklab, currentColor 14%, transparent);
+}
+.intro-card span[role="button"]:focus-visible {
+  --tw-ring-color: color-mix(in oklab, currentColor 55%, transparent);
+}
+[data-widget-look="plain"] .intro-card {
+  --ds-from: color-mix(in oklch, var(--brand-from) 72%, var(--foreground));
+  --ds-via: color-mix(in oklch, var(--brand-via) 72%, var(--foreground));
+  --ds-to: var(--brand-text);
+}
+@supports (color: oklch(from red l c h)) {
+  :root:not(.dark) [data-widget-look="plain"] .intro-card {
+    --ds-from: oklch(from var(--brand-from) min(l, 0.5) min(c, 0.2) h);
+    --ds-via: oklch(from var(--brand-via) min(l, 0.5) min(c, 0.2) h);
+  }
+  .dark [data-widget-look="plain"] .intro-card {
+    --ds-from: oklch(from var(--brand-from) max(l, 0.8) min(c, 0.12) h);
+    --ds-via: oklch(from var(--brand-via) max(l, 0.8) min(c, 0.12) h);
+  }
+}

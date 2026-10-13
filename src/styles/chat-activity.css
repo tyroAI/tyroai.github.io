@@ -1,0 +1,98 @@
+/* Ajan izi, azaltılmış hareket, telefonda besteci yer tutucusu — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* ── Ajan izi (AgentActivity) ───────────────────────────────────────────
+   Başlık satırı canlıyken PARILDAR: sabit bir "yükleniyor" glifinin
+   söyleyemediği şeyi söyler — satır hâlâ değişiyor, tur bitmedi. Işık
+   metnin İÇİNDEN geçer (`background-clip: text`), arkasında bir kutu
+   yoktur; balonun içinde ikinci bir yüzey açmak satırı bileşen gibi
+   gösterirdi.
+
+   Mürekkep tema tokenlarından gelir: sönük uç `--muted-foreground`, parlak
+   uç `--foreground`. Sabit gri yazılsaydı 16 palet ve iki temanın yarısında
+   ya kaybolur ya bağırırdı. */
+@keyframes agent-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.agent-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--muted-foreground) 35%,
+    var(--foreground) 50%,
+    var(--muted-foreground) 65%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: agent-shimmer 1.4s linear infinite;
+}
+
+/* İz satırları sırayla belirir. Gecikme satır BAŞINA verilir (inline
+   `animationDelay`), çünkü kaç satır olduğu çalışma anında belli. */
+@keyframes agent-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.agent-row {
+  animation: agent-fade-up 320ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* ⚠️ Azaltılmış hareket kipinde parıltı SÖNMEZ, KAPANIR: animasyonu
+   durdurmak `color: transparent` bırakır ve satır görünmez olurdu. */
+@media (prefers-reduced-motion: reduce) {
+  .agent-shimmer {
+    animation: none;
+    background-image: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: var(--foreground);
+  }
+
+  .agent-row {
+    animation: none;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Bekleme göstergesinin donması eskiden yanıltıcıydı — o yüzden burada
+     "yazıyor" noktaları için bir istisna vardı. Artık gerekmiyor: AgentActivity
+     hareket etmeyen bir ilerleme de veriyor (saniye sayacı ve değişen durum
+     satırı), ve generative-loaders kendi stil sayfasında reduced-motion altında
+     zaten duruyor — o kararı ezmiyoruz. */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BESTECİ — TELEFONDA YER TUTUCU
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Telefonda bestecinin YALNIZCA yer tutucusu küçülür, yazılan metin değil.
+   Alanın kendisi 16px kalmak ZORUNDA (bkz. `text-[16px]`): iOS 16px'in
+   altında odaklanınca sayfayı yakınlaştırıyor. Yakınlaştırmayı tetikleyen
+   alanın font boyutudur, `::placeholder`ınki değil — yer tutucu bu yüzden
+   güvenle küçültülebilir ve uzun ipucu metni telefonda kesilmeden sığar.
+   `line-height` verilmez: satır yüksekliği `leading-6`dan gelir ve kutu
+   yüksekliği aynı kalır. */
+@media (max-width: 767px) {
+  .composer-input::placeholder {
+    font-size: 13px;
+  }
+}

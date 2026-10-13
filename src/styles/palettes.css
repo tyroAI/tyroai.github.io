@@ -1,0 +1,455 @@
+/* Marka paletleri (data-palette) — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* Marka paleti — Ocean Breeze (default) */
+:root,
+:root[data-palette="ocean-breeze"] {
+  --brand-from: oklch(0.755 0.143 226);
+  --brand-via: oklch(0.785 0.123 195);
+  --brand-to: oklch(0.745 0.103 184);
+  --brand-soft: oklch(0.92 0.045 200);
+  --brand-deep: oklch(0.45 0.085 215);
+  --brand-text: oklch(0.56 0.13 220);
+  --brand-orb-0: #fdfeff;
+  --brand-orb-1: #e6faff;
+  --brand-orb-2: #a5f3fc;
+  --brand-orb-3: #22d3ee;
+  --brand-orb-4: #0e7490;
+  --brand-logo-1: #38bdf8;
+  --brand-logo-2: #0ea5e9;
+  --brand-logo-3: #0891b2;
+  --brand-logo-4: #22d3ee;
+  --brand-logo-5: #0e7490;
+  --chart-1: var(--brand-via);
+  --chart-2: var(--brand-deep);
+}
+
+:root[data-palette="ocean-breeze-v2"] {
+  --brand-from: #03045e;
+  --brand-via: #0077b6;
+  --brand-to: #48cae4;
+  --brand-soft: #caf0f8;
+  --brand-deep: #03045e;
+  --brand-text: #0077b6;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #90e0ef;
+  --brand-orb-2: #48cae4;
+  --brand-orb-3: #00b4d8;
+  --brand-orb-4: #03045e;
+  --brand-logo-1: #48cae4;
+  --brand-logo-2: #00b4d8;
+  --brand-logo-3: #0077b6;
+  --brand-logo-4: #00b4d8;
+  --brand-logo-5: #03045e;
+  --chart-1: #00b4d8;
+  --chart-2: #03045e;
+}
+
+/* Marka paleti — Arctic Mint (Color Hunt: 2563EB · 22C1C3 · A7F3D0 · D1FAE5).
+   tyroTrade'den taşındı; iki uygulama aynı palet kümesini paylaşıyor ve
+   kullanıcı ikisini yan yana açıyor. Gradyan derin maviden mint yeşiline
+   iner, orb renkleri aşağıdaki `--voiceorb-*` bloğunda. */
+:root[data-palette="arctic-mint"] {
+  --brand-from: #2563eb;
+  --brand-via: #22c1c3;
+  --brand-to: #a7f3d0;
+  --brand-soft: #d1fae5;
+  --brand-deep: #1d4ed8;
+  --brand-text: #2563eb;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #a7f3d0;
+  --brand-orb-2: #5eead4;
+  --brand-orb-3: #22c1c3;
+  --brand-orb-4: #1d4ed8;
+  --brand-logo-1: #a7f3d0;
+  --brand-logo-2: #22c1c3;
+  --brand-logo-3: #2563eb;
+  --brand-logo-4: #22c1c3;
+  --brand-logo-5: #1d4ed8;
+  --chart-1: #22c1c3;
+  --chart-2: #2563eb;
+  --accent-grad-1: #a7f3d0;
+  --accent-grad-2: #22c1c3;
+  --accent-grad-3: #2563eb;
+}
+
+/* Marka paleti — Rose Blush (Color Hunt: FCF5EE · FFC4C4 · EE6983 · 850E35).
+   Gradyan KOYUDAN AÇIĞA iner: #a3164a → #cc3c66 → #ee6983. Beyaz metnin
+   kontrastı sırasıyla 7,58 / 4,77 / 3,01. İlk denemede gradyan kreme
+   açılıyordu ve düğmenin sonunda beyaz yazı yok oluyordu (ölçüldü: 1,08:1,
+   yani kontrastsız); ikinci denemede bordoya iniyordu ama bu kez rozet
+   kuralı kırılıyordu. Başlangıç bordodan bir tık açık (#a3164a) tutuldu.
+   Krem ve açık pembe yumuşak zemin, orb ve logo renklerinde yaşamaya
+   devam ediyor — oralarda üstlerine yazı gelmiyor. */
+:root[data-palette="rose-blush"] {
+  --brand-from: #a3164a;
+  --brand-via: #cc3c66;
+  --brand-to: #ee6983;
+  /* Rozet AÇIKÇA tanımlı. Varsayılan kural `--badge: var(--brand-soft)`;
+       bu palette yumuşak zemin krem ve üstündeki bordo rakamla 9,2:1
+       veriyor ama krem, beyaz başlıkla kaynaşıp rozeti rozet olmaktan
+       çıkarıyor — sayı boşlukta duruyor. Dolgu KOYU, rakam açık. */
+  --badge: #850e35;
+  --badge-foreground: #fcf5ee;
+  --brand-soft: #fcf5ee;
+  --brand-deep: #850e35;
+  --brand-text: #850e35;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #fcf5ee;
+  --brand-orb-2: #ffc4c4;
+  --brand-orb-3: #ee6983;
+  --brand-orb-4: #850e35;
+  /* Logonun İLK durağı krem (#fcf5ee) idi ve beyaz başlıkta kayboluyordu —
+       kontrast 1,06:1. Rampa bir kademe yukarı çekildi; en açık durak artık
+       pembe. */
+  --brand-logo-1: #ffc4c4;
+  --brand-logo-2: #f5899f;
+  --brand-logo-3: #ee6983;
+  --brand-logo-4: #b31a4b;
+  --brand-logo-5: #850e35;
+  --chart-1: #ee6983;
+  --chart-2: #850e35;
+}
+
+/* Marka paleti — Peach Sorbet (peach-dominant; lavender 3. renk accent) */
+:root[data-palette="peach-sorbet"] {
+  --brand-from: #ff835d;
+  --brand-via: #ffa583;
+  --brand-to: #ffd2c2;
+  --brand-soft: #fff0e8;
+  --brand-deep: #c25540;
+  --brand-text: #c25540;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #ffd2c2;
+  --brand-orb-2: #ffa583;
+  --brand-orb-3: #ff835d;
+  --brand-orb-4: #db9df5;
+  --brand-logo-1: #ffd2c2;
+  --brand-logo-2: #ffa583;
+  --brand-logo-3: #ff835d;
+  --brand-logo-4: #c25540;
+  --brand-logo-5: #8c3a2c;
+  --chart-1: #ff835d;
+  --chart-2: #db9df5;
+}
+
+/* Marka paleti — Sunset Gradient */
+:root[data-palette="sunset-gradient"] {
+  --brand-from: #ff7b00;
+  --brand-via: #ffaa00;
+  --brand-to: #ffea00;
+  --brand-soft: #fff5cc;
+  --brand-deep: #cc5500;
+  --brand-text: #cc5500;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #ffea00;
+  --brand-orb-2: #ffc300;
+  --brand-orb-3: #ffaa00;
+  --brand-orb-4: #ff7b00;
+  --brand-logo-1: #ffea00;
+  --brand-logo-2: #ffc300;
+  --brand-logo-3: #ffaa00;
+  --brand-logo-4: #ff7b00;
+  --brand-logo-5: #cc5500;
+  --chart-1: #ff9500;
+  --chart-2: #ff7b00;
+}
+
+/* Marka paleti — Pastel Lavender */
+:root[data-palette="pastel-lavender"] {
+  --brand-from: #6247aa;
+  --brand-via: #b185db;
+  --brand-to: #c19ee0;
+  --brand-soft: #dec9e9;
+  --brand-deep: #6247aa;
+  --brand-text: #815ac0;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #c19ee0;
+  --brand-orb-2: #b185db;
+  --brand-orb-3: #a06cd5;
+  --brand-orb-4: #6247aa;
+  --brand-logo-1: #c19ee0;
+  --brand-logo-2: #b185db;
+  --brand-logo-3: #a06cd5;
+  --brand-logo-4: #815ac0;
+  --brand-logo-5: #6247aa;
+  --chart-1: #b185db;
+  --chart-2: #6247aa;
+}
+
+/* Marka paleti — Green Garden */
+:root[data-palette="green-garden"] {
+  --brand-from: #31572c;
+  --brand-via: #90a955;
+  --brand-to: #c5d566;
+  --brand-soft: #ecf39e;
+  --brand-deep: #132a13;
+  --brand-text: #4f772d;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #c5d566;
+  --brand-orb-2: #90a955;
+  --brand-orb-3: #4f772d;
+  --brand-orb-4: #132a13;
+  --brand-logo-1: #c5d566;
+  --brand-logo-2: #90a955;
+  --brand-logo-3: #4f772d;
+  --brand-logo-4: #31572c;
+  --brand-logo-5: #132a13;
+  --chart-1: #4f772d;
+  --chart-2: #132a13;
+}
+
+/* Marka paleti — Fiery Red */
+:root[data-palette="fiery-red"] {
+  --brand-from: #621708;
+  --brand-via: #bc3908;
+  --brand-to: #f6aa1c;
+  --brand-soft: #f6aa1c;
+  --brand-deep: #220901;
+  --brand-text: #941b0c;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #f6aa1c;
+  --brand-orb-2: #bc3908;
+  --brand-orb-3: #941b0c;
+  --brand-orb-4: #220901;
+  --brand-logo-1: #f6aa1c;
+  --brand-logo-2: #bc3908;
+  --brand-logo-3: #941b0c;
+  --brand-logo-4: #621708;
+  --brand-logo-5: #220901;
+  --chart-1: #bc3908;
+  --chart-2: #941b0c;
+}
+
+/* Marka paleti — Fiesta (Instagram gradient: blue-purple → pink → yellow) */
+:root[data-palette="fiesta"] {
+  --brand-from: #515bd4;
+  --brand-via: #dd2a7b;
+  --brand-to: #feda77;
+  --brand-soft: #fff3d0;
+  --brand-deep: #4f1d8f;
+  --brand-text: #8134af;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #feda77;
+  --brand-orb-2: #f58529;
+  --brand-orb-3: #dd2a7b;
+  --brand-orb-4: #515bd4;
+  --brand-logo-1: #feda77;
+  --brand-logo-2: #dd2a7b;
+  --brand-logo-3: #ad339d;
+  --brand-logo-4: #8134af;
+  --brand-logo-5: #8134af;
+  --brand-orb-1: #feda77;
+  --brand-orb-2: #dd2a7b;
+  --brand-orb-3: #8134af;
+  --brand-orb-4: #515bd4;
+  --chart-1: #dd2a7b;
+  --chart-2: #515bd4;
+}
+
+/* Marka paleti — Chocolate Delight (dark→light brown) */
+:root[data-palette="chocolate-delight"] {
+  --brand-from: #210f04;
+  --brand-via: #690500;
+  --brand-to: #bb6b00;
+  --brand-soft: #f5e0c0;
+  --brand-deep: #210f04;
+  --brand-text: #690500;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #bb6b00;
+  --brand-orb-2: #934b00;
+  --brand-orb-3: #690500;
+  --brand-orb-4: #210f04;
+  --brand-logo-1: #bb6b00;
+  --brand-logo-2: #934b00;
+  --brand-logo-3: #690500;
+  --brand-logo-4: #452103;
+  --brand-logo-5: #210f04;
+  --chart-1: #934b00;
+  --chart-2: #210f04;
+}
+
+/* Midnight — derin gece lacivertinden buza. Kaynak, başka bir ürünün YÜZEY
+   tarifiydi (#080D16 arka plan, #131E30 panel, #18243B seçili, #E7EDF7
+   başlık, #DFEBFF birincil eylem zemini, #17243C o eylemin mürekkebi,
+   #B7C9E3 kenarlık). Burada paletler yüzeye DOKUNMAZ — arka plan, kart ve
+   kenarlık dark/light temasının işi ve bir paletin onları ezmesi tema
+   düğmesini yalancı yapardı. Uyarlama şu: verilen aile bir MARKA RAMPASI
+   olarak okundu, ara tonlar (#2B3E62 · #31456B · #425C87 · #5A76A3 ·
+   #7E95BC) aynı hue üzerinde türetildi.
+
+   ⚠️ tyrotrade'deki aynı paletin `--accent-grad-*` override'ı BURAYA
+   ALINMADI: o token ailesi bu uygulamada hiç tanımlı değil (süzgeç/harita
+   işaretçisi tyrotrade'e ait), ve okunmayan bir değişken yazmak sonraki
+   okuyucuya var olmayan bir bağ gösterirdi. */
+:root[data-palette="midnight"] {
+  /* Rampa KOYU UÇTAN başlar ve bu bilinçli: `from/via/to` üçlüsü
+       uygulamada ağırlıkla BEYAZ METİN ALTINDA dolgu olarak kullanılıyor
+       (gönder düğmesi, avatar, ikon karoları, header hapı) — beyaz metin
+       #131E30 üzerinde 15,5:1. */
+  --brand-from: #131e30;
+  --brand-via: #31456b;
+  --brand-to: #7e95bc;
+  /* Kaynağın birincil eylem çifti olduğu gibi korunur: soluk zemin +
+       gece mürekkebi. */
+  --brand-soft: #dfebff;
+  --brand-deep: #17243c;
+  --brand-text: #31456b;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #dfebff;
+  --brand-orb-2: #b7c9e3;
+  --brand-orb-3: #5a76a3;
+  --brand-orb-4: #131e30;
+  /* Logo rampası kaynağın en soluk tonundan BAŞLAMAZ. Bu ailenin açık ucu
+       düşük doygunlukta (#DFEBFF/#B7C9E3): beyaz zeminde gri bir lekeye
+       dönüşüyor ve logonun ilk iki darbesi kayboluyor. Rampa bir kademe
+       koyudan başlar. */
+  --brand-logo-1: #7e95bc;
+  --brand-logo-2: #5a76a3;
+  --brand-logo-3: #425c87;
+  --brand-logo-4: #2b3e62;
+  --brand-logo-5: #17243c;
+  /* Açık temada beyaz üzerinde 6,75:1 ve 10,67:1, iki seri arası 3,51 —
+       ailenin denenen beş tonu içinde en iyi ayrım. */
+  --chart-1: #7e95bc;
+  --chart-2: #2b3e62;
+}
+
+:root[data-palette="black"] {
+  --brand-from: #000000;
+  --brand-via: #000000;
+  --brand-to: #000000;
+  --brand-soft: #ededed;
+  --brand-deep: #000000;
+  --brand-text: #000000;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #d4d4d4;
+  --brand-orb-2: #737373;
+  --brand-orb-3: #262626;
+  --brand-orb-4: #000000;
+  --brand-logo-1: #000000;
+  --brand-logo-2: #000000;
+  --brand-logo-3: #000000;
+  --brand-logo-4: #000000;
+  --brand-logo-5: #000000;
+  --chart-1: #404040;
+  --chart-2: #000000;
+  /* Single-hue palette: every gradient stop is the same colour, so the
+       default --badge rule would be invisible. Light tint + text tone. */
+  --badge: var(--brand-soft);
+  --badge-foreground: var(--brand-text);
+  /* Zemin koyu temada koyuya döndüğü için mürekkep de dönmek zorunda —
+       bkz. --brand-on-soft docblock'u. */
+  --brand-on-soft: var(--brand-text);
+}
+
+:root[data-palette="amber"] {
+  --brand-from: #d97706;
+  --brand-via: #d97706;
+  --brand-to: #d97706;
+  --brand-soft: #fef3c7;
+  --brand-deep: #d97706;
+  --brand-text: #92400e;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #fcd34d;
+  --brand-orb-2: #f59e0b;
+  --brand-orb-3: #d97706;
+  --brand-orb-4: #92400e;
+  --brand-logo-1: #d97706;
+  --brand-logo-2: #d97706;
+  --brand-logo-3: #d97706;
+  --brand-logo-4: #d97706;
+  --brand-logo-5: #d97706;
+  --chart-1: #f59e0b;
+  --chart-2: #92400e;
+  /* Single-hue palette: every gradient stop is the same colour, so the
+       default --badge rule would be invisible. Light tint + text tone. */
+  --badge: var(--brand-soft);
+  --badge-foreground: var(--brand-text);
+  /* Zemin koyu temada koyuya döndüğü için mürekkep de dönmek zorunda —
+       bkz. --brand-on-soft docblock'u. */
+  --brand-on-soft: var(--brand-text);
+}
+
+:root[data-palette="navy"] {
+  --brand-from: #1e40af;
+  --brand-via: #1e40af;
+  --brand-to: #1e40af;
+  --brand-soft: #dbeafe;
+  --brand-deep: #1e40af;
+  --brand-text: #1e3a8a;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #bfdbfe;
+  --brand-orb-2: #60a5fa;
+  --brand-orb-3: #1e40af;
+  --brand-orb-4: #1e3a8a;
+  --brand-logo-1: #1e40af;
+  --brand-logo-2: #1e40af;
+  --brand-logo-3: #1e40af;
+  --brand-logo-4: #1e40af;
+  --brand-logo-5: #1e40af;
+  --chart-1: #60a5fa;
+  --chart-2: #1e3a8a;
+  /* Single-hue palette: every gradient stop is the same colour, so the
+       default --badge rule would be invisible. Light tint + text tone. */
+  --badge: var(--brand-soft);
+  --badge-foreground: var(--brand-text);
+  /* Zemin koyu temada koyuya döndüğü için mürekkep de dönmek zorunda —
+       bkz. --brand-on-soft docblock'u. */
+  --brand-on-soft: var(--brand-text);
+}
+
+:root[data-palette="sky"] {
+  --brand-from: #0ea5e9;
+  --brand-via: #0ea5e9;
+  --brand-to: #0ea5e9;
+  --brand-soft: #e0f2fe;
+  --brand-deep: #0ea5e9;
+  --brand-text: #0369a1;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #bae6fd;
+  --brand-orb-2: #38bdf8;
+  --brand-orb-3: #0ea5e9;
+  --brand-orb-4: #0369a1;
+  --brand-logo-1: #0ea5e9;
+  --brand-logo-2: #0ea5e9;
+  --brand-logo-3: #0ea5e9;
+  --brand-logo-4: #0ea5e9;
+  --brand-logo-5: #0ea5e9;
+  --chart-1: #38bdf8;
+  --chart-2: #0369a1;
+  /* Single-hue palette: every gradient stop is the same colour, so the
+       default --badge rule would be invisible. Light tint + text tone. */
+  --badge: var(--brand-soft);
+  --badge-foreground: var(--brand-text);
+  /* Zemin koyu temada koyuya döndüğü için mürekkep de dönmek zorunda —
+       bkz. --brand-on-soft docblock'u. */
+  --brand-on-soft: var(--brand-text);
+}
+
+:root[data-palette="violet"] {
+  --brand-from: #8b5cf6;
+  --brand-via: #8b5cf6;
+  --brand-to: #8b5cf6;
+  --brand-soft: #ede9fe;
+  --brand-deep: #8b5cf6;
+  --brand-text: #6d28d9;
+  --brand-orb-0: #ffffff;
+  --brand-orb-1: #ddd6fe;
+  --brand-orb-2: #a78bfa;
+  --brand-orb-3: #8b5cf6;
+  --brand-orb-4: #6d28d9;
+  --brand-logo-1: #8b5cf6;
+  --brand-logo-2: #8b5cf6;
+  --brand-logo-3: #8b5cf6;
+  --brand-logo-4: #8b5cf6;
+  --brand-logo-5: #8b5cf6;
+  --chart-1: #a78bfa;
+  --chart-2: #6d28d9;
+  /* Single-hue palette: every gradient stop is the same colour, so the
+       default --badge rule would be invisible. Light tint + text tone. */
+  --badge: var(--brand-soft);
+  --badge-foreground: var(--brand-text);
+  /* Zemin koyu temada koyuya döndüğü için mürekkep de dönmek zorunda —
+       bkz. --brand-on-soft docblock'u. */
+  --brand-on-soft: var(--brand-text);
+}

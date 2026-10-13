@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // MSAL v5, popup ve gizli-iframe akışlarının cevabını REDIRECT URI'deki
+      // sayfanın BroadcastChannel'a yayınlamasını bekler (redirect-bridge).
+      // Redirect URI bu SPA'nın kökü, yani o iş BİZE düşüyor. Burada yalnız
+      // KARAR verilir; köprüyü `src/lib/msalRedirectBridge.js` çalıştırır.
+      //
+      // ⚠️ `window.stop()` KALDIRILDI ve bu kasıtlı. Bundle'ı durdurmak
+      // uygulamanın o pencerede çizilmesini engelliyordu ama köprüyü de
+      // imkânsız kılıyordu: cevap hiç yayınlanmıyor, açan pencere zaman
+      // aşımına düşüyor ve popup ekranda AÇIK kalıyordu (sahada bildirilen
+      // "yeni pencerede site açılıyor" tam olarak buydu). Gizli çerçevede
+      // paket zaten önbellekten geliyor ve React hiç çizilmiyor.
+      //
+      // ⚠️ Popup'ı `window.name` ele verir (MSAL pencereyi `msal.<clientId>…`
+      // adıyla açıyor). Yalnız `window.opener`a bakmak, başka bir siteden
+      // yeni sekmede açılan kullanıcıyı girişten edebilirdi.
+      ;(function () {
+        try {
+          var hasAuth = /[?#].*(code=|error=|state=)/.test(window.location.href)
+          var inIframe = window.parent && window.parent !== window
+          var inMsalPopup = !!(
+            window.opener &&
+            window.opener !== window &&
+            typeof window.name === "string" &&
+            window.name.indexOf("msal.") === 0
+          )
+          if (hasAuth && (inIframe || inMsalPopup)) {
+            window.__MSAL_RENEWAL_FRAME__ = true
+            document.title = "Signing you in…"
+          }
+        } catch (_) {}
+      })()
+    </script>
+    <script>
+      /**
+       * AÇILIŞ BEKÇİSİ — "açılır gibi olup boş ekran"ın son savunması.
+       *
+       * ⚠️ SATIR İÇİ OLMAK ZORUNDA. Kapattığı hata tam olarak "giriş modülü
+       * inmedi": ayrı bir dosyaya konsa o dosya da inmeyebilir. Vite'ın
+       * `vite:preloadError` kancası TEMBEL parçaları kurtarır, GİRİŞ
+       * modülünü kurtaramaz.
+       *
+       * ⚠️ İKİ EŞİK, İKİ FARKLI DAVRANIŞ:
+       *   ENTRY_MS  — giriş modülü hiç çalışmadı → OTOMATİK ONARIM
+       *   RENDER_MS — çalıştı ama hiçbir şey çizmedi → yalnız PANEL
+       * İkincisinde önbellek SİLİNMEZ: bilmediğimiz bir hata için
+       * kullanıcının verisini temizlemek teşhis değil kumar olurdu.
+       *
+       * ⚠️ ONARIM localStorage'A DOKUNMAZ. Yalnız servis çalışanı kayıtları
+       * ve Cache Storage siliniyor; tema, palet, dil, MSAL oturumu, sohbet
+       * dökümü ve favoriler yerinde kalıyor. Bir açılış hatası, kullanıcının
+       * ayarlarını silmenin gerekçesi değildir.
+       *
+       * ⚠️ SEKME BAŞINA TEK ONARIM (`sessionStorage`). İşaret YAZILAMIYORSA
+       * onarım HİÇ denenmez, doğrudan panel çizilir: sonsuz yenileme
+       * döngüsü, boş ekrandan beterdir.
+       */
+      ;(function () {
+        if (window.__MSAL_RENEWAL_FRAME__) return
+
+        var ENTRY_MS = 8000
+        var RENDER_MS = 25000
+        var FLAG = "tyro-boot-recover"
+        var done = false
+        var timers = []
+
+        function clearTimers() {
+          for (var i = 0; i < timers.length; i++) clearTimeout(timers[i])
+          timers = []
+        }
+
+        // Uygulama ayağa kalktı: main.jsx bunu çağırıyor.
+        window.__tyroBootOk = function () {
+          done = true
+          clearTimers()
+        }
+
+        function isDark() {
+          // ⚠️ `<html>`in `.dark` sınıfına BAKILAMAZ: onu ThemeProvider bir
+          // effect'te yazıyor ve açılış çöktüğünde React hiç çalışmamıştır.
+          // Kullanıcının kendi seçimi localStorage'da; yoksa açık (ThemeProvider'ın
+          // varsayılanı).
+          try {
+            return localStorage.getItem("tyro-theme") === "dark"
+          } catch (_) {
+            return false
+          }
+        }
+
+        function panel(detail) {
+          if (document.getElementById("tyro-boot-panel")) return
+          var dark = isDark()
+          var bg = dark ? "#0a1628" : "#ffffff"
+          var ink = dark ? "#e8eef7" : "#16202e"
+          var muted = dark ? "#8fa3bd" : "#5b6b80"
+          var wrap = document.createElement("div")
+          wrap.id = "tyro-boot-panel"
+          // ⚠️ ÖLÇÜLER px, rem DEĞİL: kök yazı boyu CSS'ten geliyor ve CSS de
+          // inmemiş olabilir. `min-height:2.75rem` o durumda 40px'e düşüyor
+          // ve dokunma hedefi 44px'in altında kalıyordu.
+          wrap.setAttribute(
+            "style",
+            "position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;" +
+              "justify-content:center;padding:24px;background:" +
+              bg +
+              ";color:" +
+              ink +
+              ";" +
+              "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;",
+          )
+          var box = document.createElement("div")
+          box.setAttribute("style", "max-width:420px;text-align:center;")
+          var h = document.createElement("div")
+          h.setAttribute("style", "font-size:17px;font-weight:600;line-height:1.3;")
+          h.textContent = "TYRO AI açılamadı"
+          var p1 = document.createElement("p")
+          p1.setAttribute(
+            "style",
+            "margin:10px 0 0;font-size:14px;line-height:1.55;color:" + muted + ";",
+          )
+          p1.textContent =
+            "Tarayıcıda kalan eski bir sürüm uygulamayı engelliyor olabilir. " +
+            "Temizleyip yeniden denemek ayarlarını ve oturumunu silmez."
+          var p2 = document.createElement("p")
+          p2.setAttribute(
+            "style",
+            "margin:6px 0 0;font-size:12px;line-height:1.5;color:" + muted + ";",
+          )
+          p2.textContent =
+            "TYRO AI could not start. Clearing the cached copy will not sign you out."
+          var btn = document.createElement("button")
+          btn.setAttribute(
+            "style",
+            "margin-top:18px;min-height:44px;padding:0 20px;border:0;border-radius:12px;" +
+              "background:#dd2a7b;color:#fff;font-size:14px;font-weight:600;cursor:pointer;",
+          )
+          btn.textContent = "Temizle ve yeniden dene"
+          btn.onclick = function () {
+            btn.disabled = true
+            btn.textContent = "Temizleniyor…"
+            purge().then(function () {
+              location.reload()
+            })
+          }
+          box.appendChild(h)
+          box.appendChild(p1)
+          box.appendChild(p2)
+          box.appendChild(btn)
+          if (detail) {
+            var d = document.createElement("p")
+            d.setAttribute(
+              "style",
+              "margin:14px 0 0;font-size:11px;color:" + muted + ";word-break:break-all;",
+            )
+            // `textContent`: teşhis metni bir URL ve HTML olarak basılmamalı.
+            d.textContent = detail
+            box.appendChild(d)
+          }
+          wrap.appendChild(box)
+          document.body.appendChild(wrap)
+        }
+
+        function purge() {
+          var jobs = []
+          try {
+            if (navigator.serviceWorker) {
+              jobs.push(
+                navigator.serviceWorker.getRegistrations().then(function (rs) {
+                  return Promise.all(
+                    rs.map(function (r) {
+                      return r.unregister()
+                    }),
+                  )
+                }),
+              )
+            }
+          } catch (_) {}
+          try {
+            if (window.caches) {
+              jobs.push(
+                caches.keys().then(function (ks) {
+                  return Promise.all(
+                    ks.map(function (k) {
+                      return caches.delete(k)
+                    }),
+                  )
+                }),
+              )
+            }
+          } catch (_) {}
+          return Promise.all(jobs).catch(function () {})
+        }
+
+        function recover(detail) {
+          if (done) return
+          done = true
+          clearTimers()
+          var tried
+          try {
+            tried = sessionStorage.getItem(FLAG) === "1"
+            if (!tried) sessionStorage.setItem(FLAG, "1")
+          } catch (_) {
+            // İşaret yazılamıyorsa onarım HİÇ denenmez: döngü riski.
+            panel(detail)
+            return
+          }
+          if (tried) {
+            panel(detail)
+            return
+          }
+          purge().then(function () {
+            location.reload()
+          })
+        }
+
+        // Düşen bir <script>/<link> için beklemeye gerek yok. Olay KÖPÜRMEZ,
+        // o yüzden yakalama fazında dinleniyor.
+        window.addEventListener(
+          "error",
+          function (e) {
+            if (done) return
+            var el = e && e.target
+            if (!el || !el.tagName) return
+            var url = el.src || el.href || ""
+            if (!url) return
+            if (url.indexOf("/assets/") === -1 && url.indexOf("/src/") === -1) return
+            recover(url)
+          },
+          true,
+        )
+
+        function arm() {
+          // ⚠️ Sayaç `load`tan SONRA başlar, ayrıştırmadan değil: `load`
+          // "bütün varlıklar bitti ya da DÜŞTÜ" demek, ve düşen bir betik de
+          // `load`ı tetikliyor.
+          timers.push(
+            setTimeout(function () {
+              if (done) return
+              if (!window.__TYRO_BOOT__) recover("entry module did not run")
+            }, ENTRY_MS),
+          )
+          timers.push(
+            setTimeout(function () {
+              if (done) return
+              var root = document.getElementById("root")
+              if (!root || root.childElementCount === 0) {
+                // Giriş modülü ÇALIŞTI ama çizmedi: önbelleği silmiyoruz.
+                done = true
+                panel("render timeout")
+              }
+            }, RENDER_MS),
+          )
+        }
+
+        if (document.readyState === "complete") arm()
+        else window.addEventListener("load", arm)
+      })()
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Demo: arama motorlarında görünmesi gerekmiyor (404.html bu dosyanın kopyası). -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="tyroAI - kurumsal AI çalışma alanı (demo). Asistanlar, AI ürünleri ve iş uygulamalarına tek bir yerden erişim. Tüm veriler kurgusaldır."
+    />
+    <meta name="theme-color" content="#dd2a7b" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a1628" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="tyroAI" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>tyroAI - Kurumsal AI Platformu</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

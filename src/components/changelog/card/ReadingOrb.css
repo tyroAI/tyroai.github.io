@@ -1,0 +1,308 @@
+/*
+ * OKUYAN MASKOTUN ÇEVRESİ — gazete, telefon, tutuş ve hareketler.
+ *
+ * Kullanıcının verdiği paketten (`tyro-whats-new-mascot-reading 2`)
+ * BİREBİR taşındı; değişen iki şey aşağıda işaretli. Maskotun KENDİSİ
+ * buradan gelmiyor (gerekçe `ReadingOrb.jsx`).
+ *
+ * ⚠️ Ölçüler `cqw` ve yüzde: kart genişliği değişince gazete de küreyle
+ * birlikte ölçekleniyor. Kap `container-type: inline-size` taşımak ZORUNDA.
+ *
+ * ⚠️ Kâğıdın renkleri palete BAĞLANMADI ve bu bilinçli: gazete kâğıt
+ * rengindedir. Paletten gelen şey kürenin kendisi; kâğıdı da boyamak
+ * maskotun elinde renkli bir levha bırakırdı.
+ *
+ * ⚠️ Duraklatma seçicisi DEĞİŞTİ: kaynak kendi kart sınıfına
+ * (`.tyro-release[data-active=false]`) bakıyordu, burada kartın kendi
+ * görünürlük sınıfı `.wn-speaking-active` (SpeakingCore yazıyor).
+ */
+/* ⚠️ Kutu YUVAYI DOLDURUR (kare), sabit bir px almaz — gerekçe
+   `ReadingOrb.jsx`teki taşma notu. `container-type` şart: kâğıdın ölçüleri
+   `cqw` cinsinden. */
+.tyro-reader {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  height: 100%;
+  aspect-ratio: 1;
+}
+/* Maskotun kendi kutusu tam ortada dursun: `reader-head` mutlak konumlu. */
+.tyro-reader .reader-head {
+  display: grid;
+  place-items: center;
+}
+.tyro-reader .reader-head {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 65%;
+  animation: reader-nod 6s ease-in-out infinite;
+}
+.tyro-reader .reader-paper {
+  position: absolute;
+  left: 14%;
+  top: 61%;
+  width: 72%;
+  height: 32%;
+  display: flex;
+  filter: drop-shadow(0 3px 2px #10253250);
+  transform: rotate(-5deg);
+  animation: reader-page 6s ease-in-out infinite;
+}
+.tyro-reader .reader-page {
+  width: 50%;
+  height: 100%;
+  padding: 4% 7%;
+  display: flex;
+  flex-direction: column;
+  gap: 8%;
+  border: 1px solid #a8b9bd;
+}
+.tyro-reader .reader-left {
+  background: linear-gradient(100deg, #f6faf7, #d4dfdf);
+  border-radius: 2px 0 0 3px;
+  transform: skewY(8deg);
+}
+.tyro-reader .reader-right {
+  background: linear-gradient(100deg, #becdce, #f2f7f3 25%, #e1e9e6);
+  border-left: 0;
+  border-radius: 0 2px 3px 0;
+  transform: skewY(-8deg);
+}
+.tyro-reader .reader-page strong {
+  font:
+    700 5cqw/1 Georgia,
+    serif;
+  color: #244353;
+  letter-spacing: -0.2px;
+}
+.tyro-reader .reader-page i {
+  display: block;
+  background: #6f8990;
+  height: 1px;
+  width: 100%;
+  opacity: 0.65;
+}
+.tyro-reader .reader-page b {
+  display: block;
+  background: linear-gradient(135deg, #91b9c5, #37657c);
+  height: 24%;
+  width: 65%;
+  border-radius: 1px;
+}
+/* ⚠️ ELLER PALETTEN (sahada bildirildi, 2026-09-21: *"eli renk paletine
+   uyarlanmamış, hem gazete okurken hem telefon tutarken"*). Kaynak burada
+   sabit bir deniz mavisi kullanıyor (#d3f7ff → #45748b → #132938) ve
+   maskot altın-mor bir palette bile mavi elle duruyordu — el kürenin
+   KENDİ maddesi, yani kürenin rengini taşımak zorunda.
+   Değerlerin YAPISI korundu (parlak highlight → orta ton → derin gölge),
+   yalnız hue paletten geliyor: `--reader-a/b/c` ReadingOrb.jsx'te
+   `mascotColorsForPalette`ten yazılıyor, yani küreyle AYNI üç renk. */
+.tyro-reader .reader-grip,
+.tyro-reader .reader-thumb {
+  position: absolute;
+  width: 11%;
+  height: 28%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 30% 25%,
+    color-mix(in oklab, var(--reader-c, #d3f7ff) 20%, #ffffff),
+    color-mix(in oklab, var(--reader-b, #45748b) 72%, #14222e) 45%,
+    color-mix(in oklab, var(--reader-a, #132938) 42%, #0b1520)
+  );
+  border: 1px solid color-mix(in oklab, var(--reader-c, #8bc4d0) 42%, #ffffff);
+  box-shadow: 0 1px 2px #10273570;
+}
+.tyro-reader .reader-grip-left {
+  left: -5%;
+  top: 44%;
+  transform: rotate(-20deg);
+}
+.tyro-reader .reader-grip-right {
+  right: -5%;
+  top: 44%;
+  transform: rotate(20deg);
+}
+.tyro-reader .reader-phone {
+  position: absolute;
+  left: 54%;
+  top: 50%;
+  width: 26%;
+  height: 44%;
+  border-radius: 4cqw;
+  background: linear-gradient(120deg, #7c929e, #182b39 30%, #0b1824);
+  padding: 2.4%;
+  border: 1px solid #72949e;
+  box-shadow: 2px 3px 4px #11263766;
+  transform: rotate(-14deg);
+  animation: reader-phone 5s ease-in-out infinite;
+}
+/* ⚠️ YÖN İŞARETLERİ GÜÇLENDİRİLDİ (sahada: *"telefonu ters tutuyor"*).
+   Kaynakta tek ipucu üstteki kamera hapıydı ve 45 piksellik bir sahnede o
+   tek başına okunmuyor: alttaki büyük boşluk "çene" gibi görünüp telefonu
+   baş aşağı gösteriyordu. Üst dolgu kısaldı (kamera bir ÇENTİK olarak
+   okunsun), alta ana ekran çubuğu geldi — iki uç artık birbirinden farklı.
+   Ekranın YÖNÜ değişmedi: telefon bize dönük, tıpkı gazetenin bize dönük
+   açılması gibi. */
+.tyro-reader .reader-screen {
+  height: 100%;
+  border-radius: 2cqw;
+  background: linear-gradient(160deg, #d5faff, #73b6d0);
+  overflow: hidden;
+  position: relative;
+  padding: 14% 12% 14%;
+}
+.tyro-reader .reader-home {
+  position: absolute;
+  bottom: 4%;
+  left: 32%;
+  width: 36%;
+  height: 3.5%;
+  border-radius: 99px;
+  background: #2a5468;
+  opacity: 0.55;
+}
+.tyro-reader .reader-camera {
+  position: absolute;
+  top: 5%;
+  left: 35%;
+  width: 30%;
+  height: 5%;
+  border-radius: 3px;
+  background: #18313e;
+}
+.tyro-reader .reader-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 3cqw;
+  animation: reader-scroll 5s ease-in-out infinite;
+}
+.tyro-reader .reader-feed b {
+  display: block;
+  min-height: 8cqw;
+  background: #3b789b;
+  border-radius: 1px;
+}
+.tyro-reader .reader-feed i {
+  display: block;
+  min-height: 1cqw;
+  background: #42798d;
+}
+.tyro-reader .reader-thumb {
+  right: -20%;
+  top: 50%;
+  width: 34%;
+  height: 24%;
+  animation: reader-tap 5s ease-in-out infinite;
+}
+@keyframes reader-nod {
+  0%,
+  100% {
+    transform: translateY(-1%) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(1%) rotate(2deg);
+  }
+}
+@keyframes reader-scan {
+  0%,
+  100% {
+    transform: translateX(-2cqw);
+  }
+  45%,
+  65% {
+    transform: translateX(2cqw);
+  }
+}
+@keyframes reader-page {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(-2deg) translateY(1%);
+  }
+}
+@keyframes reader-phone {
+  0%,
+  100% {
+    transform: rotate(-14deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+@keyframes reader-scroll {
+  0%,
+  35%,
+  100% {
+    transform: translateY(0);
+  }
+  55%,
+  85% {
+    transform: translateY(-12cqw);
+  }
+}
+@keyframes reader-tap {
+  0%,
+  35%,
+  100% {
+    transform: translateY(0);
+  }
+  55%,
+  85% {
+    transform: translateY(-30%);
+  }
+}
+.tyro-reader[data-still="true"] *,
+.wn-speaking:not(.wn-speaking-active) .tyro-reader * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tyro-reader * {
+    animation: none !important;
+  }
+}
+
+.tyro-reader .reader-mascot,
+.tyro-reader .reader-mascot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* MİNİ KARTIN YUVASINDA: kutu 40px, sahne kaynağın oranıyla taşıyor.
+   ⚠️ Ölçüler tuvalin KENDİ kuralından alındı (`.wn-mini-orb canvas`,
+   2.9375rem = %117): iki görünümün küresi mini kartta aynı ağırlıkta
+   dursun, biri ötekinden küçük görünmesin. */
+.wn-mini-orb .tyro-reader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.9375rem;
+  height: 2.9375rem;
+  transform: translate(-50%, -50%);
+}
+
+/* KULLANICI MENÜSÜNDEKİ YUVA (`WhatsNewMenuRow`, 2026-09-29). Menü satırının
+   ikon yerindeki okuyan maskot — 36px'lik kare, arkasında paletten yumuşak bir
+   hale (mini kartın `--sp-glow`u o kartın görünüm tokenlarına bağlı; menüde
+   görünüm yok, hale doğrudan paletten).
+   ⚠️ Maskotun SVG'si boyunu satır içi `width:100%` ile taşıyor; menünün
+   "ikon 18px" kuralı bu yüzden yalnız DOĞRUDAN çocuk `svg`lere yazılı
+   (`NavUser`) — torunlara yazılsaydı `!important` maskotu 18px'e ezerdi.
+   ⚠️ Yanlarda −0,5rem: küre 36px, öteki satırların ikonu 18px; pay olmasa
+   "Yenilikler" yazısı "Profil"/"Yardım"ın ~18px sağından başlıyordu. Küre
+   ikon sütununa ORTALI taşıyor, metin sütunu hizalı kalıyor. */
+.wn-menu-orb {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: -0.25rem -0.5rem;
+  background: radial-gradient(
+    circle at 50% 55%,
+    color-mix(in oklch, var(--brand-via) 24%, transparent),
+    transparent 68%
+  );
+}

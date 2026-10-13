@@ -1,0 +1,100 @@
+/*
+ * Anasayfa'nın giriş hareketleri. Kartlar sırayla yükselir, özetin satırları
+ * birer birer gelir; yardım kartının küresi dışarıdan zıplayıp yerine konar
+ * (`HelpOrbCard`, yükleme başına bir kez). Hepsi yalnız hareket tercihi
+ * açıkken; dolgu `backwards` — bitince kalıcı transform kalmaz.
+ */
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    .ms-stagger > * {
+      animation: ms-rise 0.6s cubic-bezier(0.2, 0.75, 0.25, 1) backwards;
+    }
+    .ms-stagger > :nth-child(2) {
+      animation-delay: 80ms;
+    }
+    .ms-stagger > :nth-child(3) {
+      animation-delay: 160ms;
+    }
+    .ms-stagger > :nth-child(4) {
+      animation-delay: 240ms;
+    }
+    .ms-stagger > :nth-child(5) {
+      animation-delay: 320ms;
+    }
+    .ms-stagger > :nth-child(n + 6) {
+      animation-delay: 400ms;
+    }
+
+    .day-summary > li {
+      animation: ms-line 0.5s ease-out backwards;
+    }
+    .day-summary > li:nth-child(1) {
+      animation-delay: 300ms;
+    }
+    .day-summary > li:nth-child(2) {
+      animation-delay: 420ms;
+    }
+    .day-summary > li:nth-child(3) {
+      animation-delay: 540ms;
+    }
+    .day-summary > li:nth-child(n + 4) {
+      animation-delay: 660ms;
+    }
+
+    .ms-orb-enter {
+      animation: ms-orb-jump 1.15s cubic-bezier(0.3, 0.7, 0.35, 1) 0.35s backwards;
+    }
+  }
+
+  /* Yazılırken yanıp sönen imleç; yazı bitince kaybolur. */
+  .ms-caret {
+    display: inline-block;
+    width: 2px;
+    height: 0.95em;
+    margin-inline-start: 2px;
+    vertical-align: -0.1em;
+    border-radius: 1px;
+    background: currentColor;
+    animation: ms-caret 0.8s steps(1) infinite;
+  }
+}
+
+@keyframes ms-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+}
+@keyframes ms-line {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+/* Sağ üstten kavisle zıplar, yere basınca ezilir, küçük bir sekme ve yerinde. */
+@keyframes ms-orb-jump {
+  0% {
+    opacity: 0;
+    transform: translate(120%, -170%) scale(0.5) rotate(28deg);
+  }
+  25% {
+    opacity: 1;
+  }
+  55% {
+    transform: translate(-4%, -38%) scale(0.92) rotate(-6deg);
+  }
+  72% {
+    transform: translate(0, 5%) scale(1.06, 0.92);
+  }
+  86% {
+    transform: translate(0, -7%) scale(0.98, 1.03);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes ms-caret {
+  50% {
+    opacity: 0;
+  }
+}

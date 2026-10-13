@@ -1,0 +1,47 @@
+/* Klavye açıkken besteci, mobil/PWA yardımcıları — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* Klavye açıkken bestecinin altında pay BIRAKILMAZ.
+   `pwa:pb-5` kurulu uygulamada ana ekran göstergesinin üstünde soluk alma
+   payı; klavye açıkken gösterge zaten yok, o şeridi klavye kaplıyor ve pay
+   besteciyle klavye arasında ölü bir bant olarak kalıyor. Öznitelik
+   ChatDock'ta, klavye durumunu tek yerden okuyan bileşende yazılıyor —
+   ChatScreen'in kendisi görüntü alanı kancasına abone olsa her klavye
+   karesinde bütün mesaj listesini yeniden çizerdi. */
+[data-keyboard="up"] .chat-composer-row {
+  padding-bottom: 0;
+}
+
+/* ── Mobile / PWA utilities ───────────────────────────────────────
+   Reusable helpers for safe-area insets and tap targets. Apply to
+   bottom-sticky chrome (composer, footer, toaster) and any 32–40 px
+   icon button that's reachable on a touch device. */
+@layer utilities {
+  /* Vertical safe-area padding (notch / home indicator). Pure env() with
+     NO minimum — browser tabs (insets=0) get zero padding, only PWA
+     standalone gets the actual indicator/notch height. Previous max()
+     with 0.5rem minimum was leaving a visible white strip in the browser
+     where there was no system chrome to push past. For sticky chrome
+     that needs a base padding even in browser, combine .pb-safe with a
+     regular py-X class on the same element. */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  /* Landscape safe-area lateral padding (Dynamic Island, edge sensors). */
+  .pl-safe {
+    padding-left: env(safe-area-inset-left);
+  }
+  .pr-safe {
+    padding-right: env(safe-area-inset-right);
+  }
+  /* Hit-area expander — keep the icon visually 16-20 px but make the
+     interactive box >= 44 px on coarse pointers (Apple HIG / WCAG 2.5.5). */
+  @media (pointer: coarse) {
+    .touch-target {
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+}

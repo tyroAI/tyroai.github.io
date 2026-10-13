@@ -1,0 +1,179 @@
+/* Bütün hareket köşk katmanında; gece ışıklar ve yağış daha soluk kalır. */
+.sky-estate {
+  --effect-opacity: 0.48;
+  --mist-color: 205 221 234;
+  --flash-opacity: 0.2;
+}
+.sky-weather[data-time="night"] .sky-estate {
+  --effect-opacity: 0.3;
+  --mist-color: 114 145 178;
+  --flash-opacity: 0.13;
+}
+.sky-estate__rain,
+.sky-estate__snow {
+  overflow: hidden;
+  opacity: var(--effect-opacity);
+  /* Başlık ve dip satırındaki hareketi hafifletir. */
+  mask-image: linear-gradient(transparent, #000 24%, #000 78%, #0007);
+}
+.sky-estate__rain::before,
+.sky-estate__rain::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--tile)) -30px 0;
+  background-size: var(--tile) var(--tile);
+  animation: estate-rain var(--speed) linear infinite;
+}
+.sky-estate__rain::before {
+  --tile: 112px;
+  --speed: 0.85s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='112' height='112'%3E%3Cg stroke='%23e3effa' stroke-linecap='round' stroke-width='1'%3E%3Cpath d='M18 8l-3 18' stroke-opacity='.6'/%3E%3Cpath d='M66 48l-3 15' stroke-opacity='.45'/%3E%3Cpath d='M98 12l-3 20' stroke-opacity='.55'/%3E%3Cpath d='M35 79l-2 14' stroke-opacity='.4'/%3E%3C/g%3E%3C/svg%3E");
+}
+.sky-estate__rain::after {
+  --tile: 80px;
+  --speed: 1.35s;
+  opacity: 0.55;
+  filter: blur(0.4px);
+  animation-delay: -0.7s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg stroke='%23d5e6f4' stroke-linecap='round' stroke-width='.7' stroke-opacity='.5'%3E%3Cpath d='M12 20l-1.5 10'/%3E%3Cpath d='M55 61l-1.5 9'/%3E%3C/g%3E%3C/svg%3E");
+}
+.sky-weather[data-kind="lightRain"] .sky-estate__rain {
+  opacity: calc(var(--effect-opacity) * 0.6);
+}
+.sky-weather:is([data-kind="heavyRain"], [data-kind="thunder"]) .sky-estate__rain::before {
+  --speed: 0.65s;
+}
+.sky-estate__snow > span {
+  position: absolute;
+  top: -8px;
+  left: var(--x);
+  height: calc(100% + 16px);
+  width: var(--size);
+  transform: translateY(var(--rest));
+}
+.sky-estate__snow i {
+  display: block;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #edf6ff;
+  box-shadow: 0 0 2px #edf6ff66;
+}
+.sky-estate__snow > span:nth-child(3n) i {
+  opacity: 0.6;
+  filter: blur(0.5px);
+}
+.sky-estate__mist {
+  overflow: hidden;
+  mask-image: linear-gradient(transparent 12%, #000 38%, #000 82%, transparent);
+}
+.sky-estate__mist i {
+  position: absolute;
+  left: -20%;
+  top: 15%;
+  width: 140%;
+  height: 78%;
+  opacity: 0.2;
+  filter: blur(16px);
+  background:
+    radial-gradient(ellipse at 20% 60%, rgb(var(--mist-color) / 0.65), transparent 46%),
+    radial-gradient(ellipse at 75% 50%, rgb(var(--mist-color) / 0.5), transparent 48%);
+}
+.sky-estate__mist i:nth-child(2) {
+  top: 36%;
+  opacity: 0.15;
+  scale: 1.12;
+}
+.sky-estate__mist i:nth-child(3) {
+  top: 5%;
+  opacity: 0.12;
+  scale: 0.9;
+}
+.sky-estate__lightning {
+  opacity: 0;
+  background: radial-gradient(ellipse at 76% 4%, #e1eeff, #c6ddf9a6 24%, transparent 68%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sky-estate__snow > span {
+    animation: estate-snow-fall var(--duration) linear var(--delay) infinite;
+  }
+  .sky-estate__snow i {
+    animation: estate-snow-sway 4.5s ease-in-out var(--delay) infinite alternate;
+  }
+  .sky-estate__mist i {
+    animation: estate-mist 28s ease-in-out -12s infinite alternate;
+  }
+  .sky-estate__mist i:nth-child(2) {
+    animation-duration: 37s;
+    animation-delay: -25s;
+    animation-direction: alternate-reverse;
+  }
+  .sky-estate__mist i:nth-child(3) {
+    animation-duration: 43s;
+    animation-delay: -8s;
+  }
+  .sky-estate__lightning {
+    animation: estate-lightning 23s linear -5s infinite;
+  }
+}
+@keyframes estate-rain {
+  to {
+    transform: translateY(var(--tile));
+  }
+}
+@keyframes estate-snow-fall {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes estate-snow-sway {
+  from {
+    transform: translateX(calc(var(--sway) * -0.5));
+  }
+  to {
+    transform: translateX(var(--sway));
+  }
+}
+@keyframes estate-mist {
+  from {
+    transform: translate3d(-7%, 2%, 0);
+  }
+  to {
+    transform: translate3d(7%, -3%, 0);
+  }
+}
+/* Farklı aralıkta üç kısa olay; yalnız gökyüzü aydınlanır. */
+@keyframes estate-lightning {
+  0%,
+  18%,
+  19%,
+  57%,
+  58%,
+  89%,
+  90%,
+  100% {
+    opacity: 0;
+  }
+  18.35%,
+  57.3%,
+  89.25% {
+    opacity: var(--flash-opacity);
+  }
+  18.65% {
+    opacity: calc(var(--flash-opacity) * 0.35);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sky-estate__rain::before,
+  .sky-estate__rain::after {
+    animation: none;
+  }
+}
+/* Sözde öğeler genel :is(*) durdurma seçicisine girmiyor. */
+.sky-weather[data-live="off"] .sky-estate__rain::before,
+.sky-weather[data-live="off"] .sky-estate__rain::after {
+  animation-play-state: paused;
+}

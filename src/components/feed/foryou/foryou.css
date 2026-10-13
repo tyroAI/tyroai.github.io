@@ -1,0 +1,35 @@
+/*
+ * SANA ÖZEL — panonun küçük hareketleri (2026-10-01).
+ *
+ * Giriş kademesi: karşılama ve üç kutucuk 6px yükselerek, 40 ms arayla.
+ * To-Do'ya devredilen satırın kısa marka ışığı — renk `--brand-text`
+ * (`--brand` diye bir değişken YOK; To-Do'nun `todo-fresh`i bu yüzden hiç
+ * görünmüyordu). Hareketi azalt tercihinde ikisi de yok.
+ */
+@keyframes foryou-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes foryou-fresh {
+  0% {
+    background-color: color-mix(in oklch, var(--brand-text) 14%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .foryou-rise {
+    animation: foryou-rise 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 40ms);
+  }
+  #foryou-list [data-fresh] {
+    animation: foryou-fresh 1.6s ease-out;
+  }
+}

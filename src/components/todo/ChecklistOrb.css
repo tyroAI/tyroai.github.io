@@ -1,0 +1,255 @@
+/*
+ * PANOLU MASKOT — To-Do sayfasının karşılama kartı (2026-09-30).
+ *
+ * Okuyan maskotun (`ReadingOrb`) kardeşi: maskotun KENDİSİ yine depodaki
+ * tek çizici (`MascotOrb` → `mascot.mjs`), buradaki yalnız ÇEVRESİ — iki
+ * elin tuttuğu bir yapılacaklar panosu. Panonun üç satırı BUGÜNÜN
+ * ilerlemesini gösteriyor (`data-checked`): süs değil ölçü, Akışım'ın kuralı.
+ *
+ * ⚠️ Ölçüler `cqw` ve yüzde: kart genişliği değişince pano küreyle birlikte
+ * ölçekleniyor. Kap `container-type: inline-size` taşımak ZORUNDA.
+ * ⚠️ Kâğıt kâğıt renginde (paletten boyanmıyor — `ReadingOrb.css`in
+ * gerekçesi); eller, kıskaç ve tikler KÜRENİN kendi üç renginde
+ * (`--todo-a/b/c`, `mascotColorsForPalette`).
+ * ⚠️ Pano kutunun %63,5'inden başlıyor (2026-09-30): gözlük geldiğinde %57'deki
+ * pano camların alt yarısını ve GÖZLERİ örtüyordu — küre defterin arkasından
+ * bakıyor gibiydi. Alt kenar %97'de; karşılama kartı kutuyu o %3 kadar aşağı
+ * sarkıtıyor ki pano giriş kutusunun kenarına otursun.
+ */
+.tyro-todo-orb {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.tyro-todo-orb .todo-head {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transform-origin: 50% 70%;
+  animation: todo-bob 5.5s ease-in-out infinite;
+}
+.tyro-todo-orb .todo-board {
+  position: absolute;
+  left: 25%;
+  top: 63.5%;
+  width: 50%;
+  height: 33.5%;
+  border-radius: 4cqw;
+  padding: 9% 9% 7%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: linear-gradient(170deg, #fbfdfb, #e6ecea);
+  border: 1px solid #c3ced0;
+  box-shadow: 0 0.6cqw 1.4cqw #0f233036;
+  transform: rotate(-4deg);
+  transform-origin: 50% 20%;
+  animation: todo-board 5.5s ease-in-out infinite;
+}
+.tyro-todo-orb .todo-clip {
+  position: absolute;
+  top: -4.2%;
+  left: 34%;
+  width: 32%;
+  height: 9%;
+  border-radius: 1.2cqw 1.2cqw 0.8cqw 0.8cqw;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--todo-c, #d3f7ff) 55%, #ffffff),
+    color-mix(in oklab, var(--todo-b, #45748b) 80%, #14222e)
+  );
+  box-shadow: 0 0.3cqw 0.5cqw #10273550;
+}
+.tyro-todo-orb .todo-row {
+  display: flex;
+  align-items: center;
+  gap: 7%;
+}
+.tyro-todo-orb .todo-box {
+  position: relative;
+  flex: none;
+  width: 13%;
+  aspect-ratio: 1;
+  border-radius: 1.2cqw;
+  border: 0.45cqw solid #9fb0b4;
+  background: #fff;
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease;
+}
+.tyro-todo-orb .todo-box svg {
+  position: absolute;
+  inset: 8%;
+  width: 84%;
+  height: 84%;
+  overflow: visible;
+}
+.tyro-todo-orb .todo-box path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 14;
+  stroke-dashoffset: 14;
+  transition: stroke-dashoffset 0.45s ease 0.12s;
+}
+.tyro-todo-orb .todo-line {
+  flex: 1;
+  height: 0.9cqw;
+  border-radius: 99px;
+  background: #8aa1a7;
+  opacity: 0.55;
+  transition: opacity 0.35s ease;
+}
+.tyro-todo-orb .todo-row:nth-child(3) .todo-line {
+  flex: 0.72;
+}
+.tyro-todo-orb .todo-row:nth-child(4) .todo-line {
+  flex: 0.86;
+}
+/* İşaretli satır: kutu kürenin rengiyle dolar, tik ÇİZİLİR, çizgi söner. */
+.tyro-todo-orb .todo-row[data-on] .todo-box {
+  background: linear-gradient(135deg, var(--todo-c, #8bc4d0), var(--todo-b, #45748b));
+  border-color: transparent;
+}
+.tyro-todo-orb .todo-row[data-on] .todo-box path {
+  stroke-dashoffset: 0;
+}
+.tyro-todo-orb .todo-row[data-on] .todo-line {
+  opacity: 0.22;
+}
+/* Eller — okuyan maskotun tutuşunun aynısı: PANONUN içinde konumlu, iki
+   yan kenarı kavrıyor. ⚠️ Yüzdeler panoya göre (pano kabın 50% × 38%'i):
+   16% × 26% ≈ kabın 8% × 10%'u, okuyan maskotun elleriyle aynı boy. Bir tur
+   eller kabın içinde duruyordu ve panonun ~40px dışında havada kaldı. */
+.tyro-todo-orb .todo-grip {
+  position: absolute;
+  width: 16%;
+  height: 29%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 30% 25%,
+    color-mix(in oklab, var(--todo-c, #d3f7ff) 20%, #ffffff),
+    color-mix(in oklab, var(--todo-b, #45748b) 72%, #14222e) 45%,
+    color-mix(in oklab, var(--todo-a, #132938) 42%, #0b1520)
+  );
+  border: 1px solid color-mix(in oklab, var(--todo-c, #8bc4d0) 42%, #ffffff);
+  box-shadow: 0 1px 2px #10273570;
+}
+.tyro-todo-orb .todo-grip-left {
+  left: -9%;
+  top: 40%;
+  transform: rotate(-14deg);
+}
+.tyro-todo-orb .todo-grip-right {
+  right: -9%;
+  top: 40%;
+  transform: rotate(14deg);
+}
+/* Sevinç: bir iş bittiğinde pano havaya kalkar, üç kıvılcım saçılır. */
+.tyro-todo-orb .todo-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.tyro-todo-orb .todo-sparks i {
+  position: absolute;
+  width: 3.6%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  box-shadow: 0 0 2cqw #ffffffcc;
+}
+.tyro-todo-orb .todo-sparks i:nth-child(1) {
+  left: 20%;
+  top: 48%;
+}
+.tyro-todo-orb .todo-sparks i:nth-child(2) {
+  left: 76%;
+  top: 44%;
+}
+.tyro-todo-orb .todo-sparks i:nth-child(3) {
+  left: 52%;
+  top: 40%;
+}
+.tyro-todo-orb[data-celebrate] .todo-board {
+  animation: todo-cheer 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) 1;
+}
+.tyro-todo-orb[data-celebrate] .todo-sparks i {
+  animation: todo-spark 0.9s ease-out 1;
+}
+.tyro-todo-orb[data-celebrate] .todo-sparks i:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.tyro-todo-orb[data-celebrate] .todo-sparks i:nth-child(3) {
+  animation-delay: 0.16s;
+}
+@keyframes todo-bob {
+  0%,
+  100% {
+    transform: translateY(-1%) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(1%) rotate(2deg);
+  }
+}
+@keyframes todo-board {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(-1.5deg) translateY(1.2%);
+  }
+}
+@keyframes todo-cheer {
+  0% {
+    transform: rotate(-4deg);
+  }
+  35% {
+    transform: rotate(3deg) translateY(-9%) scale(1.04);
+  }
+  70% {
+    transform: rotate(-2deg) translateY(1%);
+  }
+  100% {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes todo-spark {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.4);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120%) scale(1.3);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tyro-todo-orb * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Yeni eklenen satırın kısa ışığı (`TodoBoard` › `fresh`).
+   ⚠️ `--brand-text`, `--brand` DEĞİL: `--brand` diye bir değişken HİÇ
+   tanımlı değil (Tailwind yalnız `--color-brand`ı basıyor) ve ışık bu yüzden
+   hiç görünmüyordu (2026-10-01'de fark edildi). */
+@keyframes todo-fresh {
+  0% {
+    background-color: color-mix(in oklch, var(--brand-text) 14%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}

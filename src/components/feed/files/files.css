@@ -1,0 +1,21 @@
+/*
+ * DOSYALARIM — panonun küçük hareketleri (2026-10-01).
+ *
+ * Yenile'den sonra YENİ ya da DEĞİŞMİŞ satırın kısa marka ışığı. To-Do'nun
+ * `todo-fresh`inin aynısı; renk `--brand-text` (`--brand` diye bir değişken
+ * yok — Tailwind yalnız `--color-brand`ı basıyor).
+ * Hareketi azalt tercihinde ışık yok: sonucu bildirim zaten söylüyor.
+ */
+@keyframes files-fresh {
+  0% {
+    background-color: color-mix(in oklch, var(--brand-text) 14%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .files-fresh {
+    animation: files-fresh 1.6s ease-out 1;
+  }
+}

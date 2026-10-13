@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/roboto";
+@import "@fontsource-variable/outfit";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* Bölümler ayrı dosyalarda; @import sırası CSS kural sırasıdır — değiştirme. */
+@import "./styles/theme.css";
+@import "./styles/palettes.css";
+@import "./styles/palette-tokens.css";
+@import "./styles/base.css";
+@import "./styles/composer.css";
+@import "./styles/scrollbars.css";
+@import "./styles/utilities.css";
+@import "./styles/adaptive-cards.css";
+@import "./styles/chat-activity.css";
+@import "./styles/edge-notch.css";
+@import "./styles/myspace-surfaces.css";
+@import "./styles/myspace-weather.css";
+@import "./styles/toasts.css";

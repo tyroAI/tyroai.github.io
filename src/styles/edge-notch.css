@@ -1,0 +1,249 @@
+/* Sağ kenar çentiği ve çentik oluğu — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* ── Sağ kenar çentiği — üç kabuk, tek token seti ─────────────────────
+   `.notch-skin[data-design="palette" | "glass-light" | "glass-brand"]`.
+   Ray da (EdgeNotch) Tercihler'deki önizleme de aynı sınıfı taşır: seçilen
+   şey tam olarak görülecek şey. Tüketiciler yalnız `--notch-*` okur; kabuk
+   değiştiğinde düğme/halka/hap kodu değişmez.
+
+   ── palette ── Yenilikler kartının SEÇİLİ görünümüyle birebir (`data-card`
+   ↔ `SpeakingVariants.css`). İlk tur silinmiş özgün Ses kartının reçetesini
+   kopyalamıştı; kullanıcının kartı Ses · Çekim ve Insta'da ikisi bariz
+   ayrışıyordu. Formüller kartınkinin aynısı; kartın reçetesi değişirse
+   burası da değişmeli — iki yüzey tek zemin.
+
+   ── glass ── "liquid glass": arkadaki sayfa `backdrop-filter` ile bulanık
+   geçer (katman EdgeNotch'ta, silüete `clip-path: url(#…)` ile kırpılır),
+   kenarda 1px ışık çizgisi (silüetin kendisi stroke olarak), yüzeyde ağır
+   ağır kayan parıltı (`notch-liquid`). Cam TEMAYI izler — şeffaf bir şey
+   başka türlü yapamaz: açık temada beyaz süt, koyu temada duman. `glass-brand`
+   aynı camın üstüne paletin üç durağını gradyan bir TINT olarak koyar.
+
+   ⚠️ `@supports` bloğu kartla aynı sebepten: göreli renk (`oklch(from …)`)
+   açıklığı BİZ belirliyoruz, ton paletin; özel değişkene desteklenmeyen bir
+   fonksiyon yazılırsa `var()` okuyan her kural hesaplama anında düşer.
+
+   ⚠️ `--notch-hot-*` = "Yeni sohbet" düğmesinin üç durağı, yalnız okunurluk
+   tabanı/tavanı (koyu kabukta `max(l, .58)`, açık kabukta `min(l, .55)`).
+   Bir tur açıklık 0,84'e sabitlenmişti — Insta'da indigo lavantaya dönüyordu,
+   "bu parlak renk paletimde yok". `--notch-on-hot` hapın mürekkebi.
+*/
+.notch-skin {
+  /* palette · Ses · Çekim */
+  --notch-bg: color-mix(in oklab, var(--brand-via) 30%, #060b14);
+  --notch-ink: color-mix(in oklab, var(--brand-to) 14%, #eef3fb);
+  --notch-raised: color-mix(in oklab, var(--brand-via) 34%, #101a2c);
+  --notch-selected: color-mix(in oklab, var(--brand-via) 38%, #182338);
+  --notch-muted: color-mix(in oklab, var(--notch-ink) 58%, transparent);
+  --notch-line: color-mix(in oklab, var(--notch-ink) 14%, transparent);
+  --notch-hot-1: var(--brand-from);
+  --notch-hot-2: var(--brand-via);
+  --notch-hot-3: var(--brand-to);
+  --notch-on-hot: var(--notch-bg);
+  --notch-focus: rgb(255 255 255 / 0.3);
+}
+.notch-skin[data-card="light"] {
+  /* palette · Ses · Açık — temayı izleyen kabuk */
+  --notch-bg: color-mix(in oklab, var(--sidebar) 50%, #ffffff);
+  --notch-ink: var(--foreground);
+  --notch-raised: color-mix(in oklab, var(--notch-ink) 8%, transparent);
+  --notch-selected: color-mix(in oklab, var(--notch-ink) 12%, transparent);
+  --notch-muted: color-mix(in oklab, var(--notch-ink) 70%, transparent);
+  --notch-line: color-mix(in oklab, var(--notch-ink) 16%, transparent);
+  --notch-hot-1: color-mix(in oklab, var(--brand-from) 75%, #17243c);
+  --notch-hot-2: color-mix(in oklab, var(--brand-via) 75%, #17243c);
+  --notch-hot-3: color-mix(in oklab, var(--brand-to) 75%, #17243c);
+  --notch-on-hot: #ffffff;
+  --notch-focus: color-mix(in oklab, var(--notch-ink) 35%, transparent);
+}
+.dark .notch-skin[data-card="light"] {
+  --notch-bg: color-mix(in oklab, var(--sidebar) 96%, #ffffff);
+  --notch-on-hot: #0c1422;
+}
+
+/* glass-light · açık tema: beyaz süt */
+.notch-skin[data-design="glass-light"],
+.notch-skin[data-design="glass-brand"] {
+  --notch-glass-fill: rgb(255 255 255 / 0.56);
+  --notch-glass-rim: rgb(255 255 255 / 0.92);
+  --notch-glass-rim-soft: rgb(255 255 255 / 0.35);
+  --notch-glass-shadow: rgb(20 25 31 / 0.22);
+  --notch-glass-sheen: rgb(255 255 255 / 0.65);
+  --notch-ink: var(--foreground);
+  --notch-muted: color-mix(in oklab, var(--notch-ink) 62%, transparent);
+  --notch-raised: rgb(255 255 255 / 0.55);
+  --notch-selected: rgb(255 255 255 / 0.78);
+  --notch-line: rgb(255 255 255 / 0.85);
+  --notch-hot-1: color-mix(in oklab, var(--brand-from) 75%, #17243c);
+  --notch-hot-2: color-mix(in oklab, var(--brand-via) 75%, #17243c);
+  --notch-hot-3: color-mix(in oklab, var(--brand-to) 75%, #17243c);
+  --notch-on-hot: #ffffff;
+  --notch-focus: color-mix(in oklab, var(--notch-ink) 35%, transparent);
+  /* palette kabuğunun dolgusu cam kabukta çizilmez; token yine tanımlı
+     kalır ki var() zinciri kırılmasın. */
+  --notch-bg: transparent;
+}
+/* glass-light YALNIZ · daha açık süt. %56'lık dolguda camın ARKASINDAKİ gölge (silüetin
+   sola-aşağı kaymış bulanık kopyası) yarı saydam camdan geçip gövdeyi griye
+   çekiyordu; dolgu %56 → %84, gölge 0,22 → 0,13. Cam hâlâ arkasını geçiriyor
+   (bulanıklık + doygunluk aynı), yalnız süt daha beyaz. Koyu tema ve palet
+   camı değişmedi — `.dark` kuralı daha özgül, glass-brand kendi dolgusunu
+   aşağıda yazıyor. */
+.notch-skin[data-design="glass-light"] {
+  --notch-glass-fill: rgb(255 255 255 / 0.84);
+  --notch-glass-shadow: rgb(20 25 31 / 0.13);
+}
+/* glass · koyu tema: duman */
+.dark .notch-skin[data-design="glass-light"],
+.dark .notch-skin[data-design="glass-brand"] {
+  --notch-glass-fill: rgb(255 255 255 / 0.09);
+  --notch-glass-rim: rgb(255 255 255 / 0.26);
+  --notch-glass-rim-soft: rgb(255 255 255 / 0.1);
+  --notch-glass-shadow: rgb(0 0 0 / 0.45);
+  --notch-glass-sheen: rgb(255 255 255 / 0.18);
+  --notch-raised: rgb(255 255 255 / 0.09);
+  --notch-selected: rgb(255 255 255 / 0.15);
+  --notch-line: rgb(255 255 255 / 0.22);
+  --notch-hot-1: color-mix(in oklab, var(--brand-from) 70%, #ffffff);
+  --notch-hot-2: color-mix(in oklab, var(--brand-via) 70%, #ffffff);
+  --notch-hot-3: color-mix(in oklab, var(--brand-to) 70%, #ffffff);
+  --notch-on-hot: #0c1422;
+}
+/* glass-brand · aynı cam + paletin gradyan tint'i */
+.notch-skin[data-design="glass-brand"] {
+  --notch-glass-fill: rgb(255 255 255 / 0.4);
+  --notch-tint-1: color-mix(in oklab, var(--brand-from) 46%, transparent);
+  --notch-tint-2: color-mix(in oklab, var(--brand-via) 40%, transparent);
+  --notch-tint-3: color-mix(in oklab, var(--brand-to) 46%, transparent);
+  --notch-glass-rim: color-mix(in oklab, var(--brand-to) 30%, rgb(255 255 255 / 0.92));
+  --notch-ink: color-mix(in oklab, var(--brand-deep) 55%, var(--foreground));
+  --notch-raised: rgb(255 255 255 / 0.42);
+  --notch-selected: rgb(255 255 255 / 0.66);
+  --notch-line: rgb(255 255 255 / 0.8);
+}
+.dark .notch-skin[data-design="glass-brand"] {
+  --notch-glass-fill: rgb(255 255 255 / 0.07);
+  --notch-tint-1: color-mix(in oklab, var(--brand-from) 34%, transparent);
+  --notch-tint-2: color-mix(in oklab, var(--brand-via) 30%, transparent);
+  --notch-tint-3: color-mix(in oklab, var(--brand-to) 34%, transparent);
+  --notch-glass-rim: color-mix(in oklab, var(--brand-to) 35%, rgb(255 255 255 / 0.3));
+  --notch-ink: color-mix(in oklab, var(--brand-soft) 45%, #ffffff);
+  --notch-raised: rgb(255 255 255 / 0.1);
+  --notch-selected: rgb(255 255 255 / 0.17);
+  --notch-line: rgb(255 255 255 / 0.24);
+}
+
+@supports (color: oklch(from white 0.5 0.1 0deg)) {
+  .notch-skin {
+    --notch-bg: oklch(from var(--brand-via) 0.19 calc(c * 0.42) h);
+    --notch-ink: oklch(from var(--brand-via) 0.95 calc(c * 0.055) h);
+    --notch-raised: oklch(from var(--brand-via) 0.28 calc(c * 0.5) h);
+    --notch-selected: oklch(from var(--brand-via) 0.34 calc(c * 0.55) h);
+    --notch-hot-1: oklch(from var(--brand-from) max(l, 0.58) c h);
+    --notch-hot-2: oklch(from var(--brand-via) max(l, 0.58) c h);
+    --notch-hot-3: oklch(from var(--brand-to) max(l, 0.58) c h);
+  }
+  .notch-skin[data-card="light"],
+  .notch-skin[data-design="glass-light"],
+  .notch-skin[data-design="glass-brand"] {
+    --notch-hot-1: oklch(from var(--brand-from) min(l, 0.55) c h);
+    --notch-hot-2: oklch(from var(--brand-via) min(l, 0.55) c h);
+    --notch-hot-3: oklch(from var(--brand-to) min(l, 0.55) c h);
+  }
+  .notch-skin[data-card="light"] {
+    --notch-bg: color-mix(in oklab, var(--sidebar) 50%, #ffffff);
+    --notch-ink: var(--foreground);
+    --notch-raised: color-mix(in oklab, var(--notch-ink) 8%, transparent);
+    --notch-selected: color-mix(in oklab, var(--notch-ink) 12%, transparent);
+  }
+  .dark .notch-skin[data-card="light"] {
+    --notch-bg: color-mix(in oklab, var(--sidebar) 96%, #ffffff);
+  }
+  .notch-skin[data-design="glass-light"],
+  .notch-skin[data-design="glass-brand"] {
+    --notch-bg: transparent;
+    --notch-ink: var(--foreground);
+    --notch-raised: rgb(255 255 255 / 0.55);
+    --notch-selected: rgb(255 255 255 / 0.78);
+  }
+  .notch-skin[data-design="glass-brand"] {
+    --notch-ink: oklch(from var(--brand-deep) min(l, 0.32) calc(c * 0.7) h);
+    --notch-raised: rgb(255 255 255 / 0.42);
+    --notch-selected: rgb(255 255 255 / 0.66);
+  }
+  .dark .notch-skin[data-design="glass-light"],
+  .dark .notch-skin[data-design="glass-brand"] {
+    --notch-ink: var(--foreground);
+    --notch-raised: rgb(255 255 255 / 0.09);
+    --notch-selected: rgb(255 255 255 / 0.15);
+    --notch-hot-1: oklch(from var(--brand-from) max(l, 0.7) c h);
+    --notch-hot-2: oklch(from var(--brand-via) max(l, 0.7) c h);
+    --notch-hot-3: oklch(from var(--brand-to) max(l, 0.7) c h);
+  }
+  .dark .notch-skin[data-design="glass-brand"] {
+    --notch-ink: oklch(from var(--brand-soft) max(l, 0.93) calc(c * 0.4) h);
+    --notch-raised: rgb(255 255 255 / 0.1);
+    --notch-selected: rgb(255 255 255 / 0.17);
+  }
+}
+
+/* Camın yüzeyinde ağır ağır kayan parıltı — "liquid". Yalnız cam kabukta
+   ve yalnız hareket azaltılmamışsa; 14 sn'lik tek döngü, boşta GPU'yu
+   yormayan bir background-position kayması. */
+@keyframes notch-liquid {
+  0%,
+  100% {
+    background-position:
+      0% 0%,
+      0% 0%;
+  }
+  50% {
+    background-position:
+      100% 100%,
+      0% 30%;
+  }
+}
+.notch-sheen {
+  background-image:
+    linear-gradient(
+      115deg,
+      var(--notch-glass-sheen) 0%,
+      rgb(255 255 255 / 0.12) 26%,
+      rgb(255 255 255 / 0) 48%,
+      rgb(255 255 255 / 0.08) 74%,
+      rgb(255 255 255 / 0.26) 100%
+    ),
+    radial-gradient(120% 55% at 28% 0%, rgb(255 255 255 / 0.42), transparent 62%);
+  background-size:
+    220% 220%,
+    100% 100%;
+  background-repeat: no-repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .notch-sheen {
+    animation: notch-liquid 14s ease-in-out infinite;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ÇENTİK OLUĞU — sağ kenar rayının altına içerik girmesin.
+
+   Çentik `position: fixed` ve görüntü alanının sağ kenarına 90px'lik bir ray
+   çiziyor. Dashboard ve sohbette bunun bir bedeli yok (o sayfaların sağ
+   kenarında bir şey durmuyor), ama Keşfet'in sağ rayı — kategoriler ve kişi
+   panelleri — tam da orada. Bu kural o sayfaya bir oluk açıyor.
+
+   ⚠️ ARALIK BİLİNÇLİ. Taşma yalnız içerik kutusunun sağ kenarı görüntü
+   alanının 90px'ine girdiğinde var: kutu `mx-auto max-w-6xl` olduğu için
+   sağdaki boşluk ekran genişledikçe büyüyor ve ~1590px'ten sonra ray zaten
+   boşluğa düşüyor (hesap: sağ kenar = (vw + sidebar)/2 + 576). Oluğu her
+   genişlikte açmak, geniş ekranda sayfayı sebepsiz sola kaydırırdı.
+   Kenar çubuğu daralınca eşik AŞAĞI iner, yani 1600 tavanı emniyetli taraf.
+
+   ⚠️ `main[data-notch]`a bağlı: çentik yokken (rıhtım açık, dar ekran,
+   başka sayfa) oluk da yok. */
+@media (min-width: 1024px) and (max-width: 1599px) {
+  main[data-notch="on"] .notch-gutter {
+    padding-right: 6.5rem;
+  }
+}

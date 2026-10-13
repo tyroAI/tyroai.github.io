@@ -1,0 +1,251 @@
+/* Anasayfa: hava durumu penceresi, maskot okuma kipi, kendi kaydırma çubuğu — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   HAVA DURUMU PENCERESİ — düzen (Akışım › `myspace/weather/WeatherDialog.jsx`). Göğün
+   kendisi, simgeler ve renkler kartın dilinde ve kendi dosyalarında:
+   `myspace/skyCard.css` (kart + ortak gök değişkenleri) ·
+   `myspace/weatherDialog.css` (pencere).
+   ⚠️ Buradaki kurallar KATMAN DIŞINDA ya da `@layer components` içinde,
+   gerekçesi her birinin yanında: utilities katmanındaki `overflow-*` ve
+   `flex-1` yardımcılarını yenmeleri gerekiyor.
+   ───────────────────────────────────────────────────────────────────────── */
+@layer components {
+  /* Saatlik şerit: kenarlarda yumuşak kayboluş, çubuk yok (parmak, iz yüzeyi,
+     fare için oklar, klavye için odaklanan bölge). */
+  .wx-hscroll {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 0.75rem,
+      #000 calc(100% - 0.75rem),
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 0.75rem,
+      #000 calc(100% - 0.75rem),
+      transparent
+    );
+    scrollbar-width: none;
+  }
+  .wx-hscroll::-webkit-scrollbar {
+    display: none;
+  }
+  /* Klavye odağında maske kalkar: halka bölgenin kendi kenarına çiziliyor ve
+     kenar maskesi halkanın sol/sağ kenarını siliyordu. */
+  .wx-hscroll:focus-visible {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+/* PENCERE GENİŞ EKRANDA İKİ SÜTUN (dördüncü tur): solda seçilen anın kutucukları
+   ve konum, sağda günler — her sütun kendi içinde kayar, kahraman sabit.
+   ⚠️ Satır `minmax(0, 1fr)`: yoksa ızgaranın tek satırı içeriği kadar (günler
+   ~720 px) uzar ve sütunlar hiç kaymaz. `scrollbar-gutter: auto`: gövde burada
+   kaymıyor; `[class*="overflow-y-auto"]` kuralının oluğu sağ sütunun oluğunun
+   yanına İKİNCİ bir boş şerit açardı. */
+@media (min-width: 48rem) {
+  .wx-dialog-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-rows: minmax(0, 1fr);
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
+  .wx-dialog-body > .wx-dialog-col {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+/* TELEFONDA DA TEK KAYDIRICI:
+   kahraman gökyüzü ve saatlik bantla ~490 px; sabit kalınca gövdeye 844 px'lik
+   ekranda yalnız ~250 px kalıyordu. Tek sütunda bütün pencere kayar ve gövde
+   (`.wxd-sheet`) göğün üstüne kayarak gelir. */
+@media (max-width: 47.99rem) {
+  .wx-dialog {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .wx-dialog > .wx-dialog-body {
+    flex: none;
+    overflow: visible;
+  }
+}
+/* PENCERE KISA EKRANDA TEK KAYDIRICI (telefon yatay, %175-200 yakınlaştırma).
+   Bölünmüş düzende kahraman (gökyüzü + saatlik şerit) sabit, gövde kalan
+   yüksekliği alıyor; 36rem'in altında o yükseklik SIFIRA iniyordu — gün
+   listeleri, "Konumumu kullan" ve atıf ulaşılamazdı (ölçüldü: 844×390'da
+   gövde 0 px). Orada bütün pencere tek parça kayar, kahraman da kayıp gider.
+   ⚠️ Tailwind sınıfı (`…:overflow-y-auto`) DEĞİL: `[class*="overflow-y-auto"]`
+   kuralı pencereye kalıcı bir kaydırma oluğu (`scrollbar-gutter: stable`)
+   ekler ve gökyüzü sağ kenara ulaşamazdı.
+   ⚠️ KATMAN DIŞINDA: `@layer components` içinde yazılsaydı pencerenin
+   `overflow-hidden` ve gövdenin `flex-1 overflow-y-auto` yardımcıları (utilities
+   katmanı) onu her koşulda ezerdi. */
+@media (max-height: 36rem) {
+  .wx-dialog {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .wx-dialog > .wx-dialog-body {
+    flex: none;
+    overflow: visible;
+  }
+  .wx-dialog-body > .wx-dialog-col {
+    overflow: visible;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   MASKOTUN OKUMA KİPİ (`TyroMascot` › `reading`)
+
+   Akışım'ın özet balonundaki küre bize değil, sağındaki CÜMLEYE bakmalı ve
+   gözleri satırları taramalı (istek: *"sağa, profilden bakmalı; gözleri
+   aşağı yukarı hareket etmeli; karşıya bakmamalı"*).
+
+   ⚠️ PROFİL = SAĞA KAYMA + YATAY SIKIŞMA. Yüz (`[data-look]`: iki göz ve
+   ışıkları) tuvalin ortasında, x 171–269; 64 birim sağa kayınca kürenin sağ
+   yarısına oturuyor, `scaleX(.74)` de dönmüş bir yüzün kısalmasını veriyor.
+   Yalnız kaydırmak "yana kaymış bir yüz", yalnız sıkıştırmak "ince gözler"
+   okunuyordu — ikisi birlikte "başını sağa çevirmiş".
+
+   ⚠️ TARAMA YUKARIDAN AŞAĞI, SATIR SATIR: küre balonun sol üstünde ve ilk
+   satır onun hizasında, sonrakiler aşağıda. Dört durak (satır başına ~2 sn
+   bekleme), sonra başa dönüş. Genlik tuvalde ±20 birim ≈ 44px'lik kürede
+   ~5px — daha azı bir önceki denemenin hatasıydı: kaynağın `lookX`i ±12'yle
+   sınırlı ve 40px'te ~1,3px ediyordu, küre hâlâ karşıya bakıyor görünüyordu.
+
+   ⚠️ CSS `transform`, SVG'nin `transform` NİTELİĞİNİ ezer; imleç takibi o
+   niteliği yazıyor ve okuma kipinde zaten kapalı. `fill-box` + `center`:
+   sıkıştırma gözlerin kendi merkezinde olsun, tuvalin (0,0)'ında değil.
+   Hareketi azalt tercihinde tarama yok, profil duruşu kalıyor. */
+[data-mascot-read] [data-look] {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate(64px, 6px) scale(0.74, 1);
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-mascot-read] [data-look] {
+    animation: mascot-read 8s cubic-bezier(0.45, 0, 0.3, 1) infinite;
+  }
+}
+@keyframes mascot-read {
+  0%,
+  14% {
+    transform: translate(60px, -8px) scale(0.74, 1);
+  }
+  24%,
+  38% {
+    transform: translate(66px, 5px) scale(0.74, 1);
+  }
+  48%,
+  62% {
+    transform: translate(64px, 18px) scale(0.74, 1);
+  }
+  72%,
+  86% {
+    transform: translate(66px, 30px) scale(0.74, 1);
+  }
+  96%,
+  100% {
+    transform: translate(60px, -8px) scale(0.74, 1);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   KENDİ KAYDIRMA ÇUBUĞU — `OverlayScrollbar` (Anasayfa).
+   Yerli çubuk tam boy koşuyor ve sağ kenar çentiğinin arkasından geçiyordu.
+   ⚠️ Gizleme YALNIZ ince işaretçide: dokunmatikte cihazın kendi göstergesi
+   kalır ve bizim çubuk hiç çizilmez. Rayın kendisi görünmez bir 12px şerit
+   (kenara gelen imleç onu uyandırıyor); görünen başparmak 5px.
+   ───────────────────────────────────────────────────────────────────────── */
+@media (pointer: fine) {
+  .ms-scroll {
+    scrollbar-width: none;
+  }
+  .ms-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+.ms-scrollbar {
+  position: absolute;
+  top: 10px;
+  right: 3px;
+  z-index: 20;
+  width: 12px;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  touch-action: none;
+}
+.ms-scrollbar[data-active],
+.ms-scrollbar[data-hover],
+.ms-scrollbar[data-drag] {
+  opacity: 1;
+}
+.ms-scrollbar[data-off] {
+  display: none;
+}
+.ms-scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  right: 3px;
+  width: 5px;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--foreground) 22%, transparent);
+  cursor: grab;
+  transition:
+    width 0.15s ease,
+    right 0.15s ease,
+    background-color 0.15s ease;
+}
+.ms-scrollbar[data-hover] .ms-scrollbar-thumb,
+.ms-scrollbar[data-drag] .ms-scrollbar-thumb {
+  right: 2px;
+  width: 7px;
+  background: color-mix(in oklch, var(--foreground) 38%, transparent);
+}
+.ms-scrollbar[data-drag] .ms-scrollbar-thumb {
+  cursor: grabbing;
+}
+@media (pointer: coarse) {
+  .ms-scrollbar {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  main[data-notch="on"] .myspace-gutter {
+    padding-right: 6.5rem;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   KEŞFET KANAL TONU — paletten TÜRETİLİR, yeni hue YOK.
+
+   Altı kanal var ve paletin hazır durakları beşte bitti (gerekçe
+   `lib/feedPolicy.js` › ACCENT_VAR). Bu ton paletin ORTA durağının temaya
+   göre kaydırılmış hâli: açık temada mürekkebe, koyu temada beyaza doğru.
+   Tek bir `:root` tanımı 14 paletin hepsini kapsıyor, çünkü `--brand-via`
+   kullanıldığı anda çözülüyor ve `data-palette` aynı elemanda.
+
+   ⚠️ Emsal: içgörü kartlarının `--series-3..5`i de fazladan serileri
+   paletin kendi renklerinden türetiyor ve koyu temada mürekkeple açıyor.
+
+   ⚠️ **KARIŞIM NÖTR GRİYE, SAF MÜREKKEBE DEĞİL — ÖLÇÜLDÜ.** İlk reçete
+   `#0b1220` ile karışıyordu ve ortalaması daha iyiydi; ama "black"
+   paletinin AÇIK temasında `--brand-via` zaten `#000000` ve siyahı
+   mürekkeple karıştırmak yine siyah veriyor: `via` ile ton arasındaki RGB
+   uzaklığı 1 (yani aynı renk, iki kanal tek nokta). Nötr griye karışan
+   reçetede en kötü durum 43'e çıkıyor (siyah/açık 61). Bir tonun
+   ORTALAMASI değil EN KÖTÜSÜ önemli: görünmeyen tek bir hâl, o palette o
+   kanalı aksansız bırakır. Ölçüm (piksel okuma, altı palet × iki tema):
+   mürekkep 1–124, nötr 43–112. */
+:root {
+  --brand-shade: color-mix(in oklab, var(--brand-via) 55%, #64748b);
+}
+.dark {
+  --brand-shade: color-mix(in oklab, var(--brand-via) 55%, #cbd5e1);
+}

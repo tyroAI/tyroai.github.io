@@ -1,0 +1,97 @@
+/*
+ * Özet balonunun KUTLAMA bloğu (`CelebrationNote`).
+ *
+ * ⚠️ Dosyanın geri kalanı 2026-10-03'e kadar kutlama AFİŞİNİNDİ
+ * (`CelebrationStage`: panonun üstünde tam genişlikte gece partisi / gala
+ * sahnesi, flama, balonlar, çelenk). İstek üzerine (*"kutlama tebriklerini hava
+ * kartında yapalım, uzun banner'a gerek yok"*) afiş kalktı; tebrik artık hava
+ * kartının içinde (`skyCard.css` › `__party` · `__cel-chip`). Afişi geri
+ * getirmek: git.
+ */
+/* ── Özet balonunun KUTLAMA bloğu (`CelebrationNote`) ─────────────────── */
+.cel-note {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 1.25rem;
+  padding: 0.6875rem 0.75rem 0.6875rem 0.6875rem;
+  cursor: pointer;
+  transition:
+    box-shadow 200ms ease,
+    transform 200ms ease;
+  outline: none;
+  background:
+    radial-gradient(
+      9rem 5rem at 100% 0%,
+      color-mix(in oklab, var(--brand-via) 16%, transparent),
+      transparent 75%
+    ),
+    color-mix(in oklab, var(--brand-via) 7%, var(--card));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--brand-via) 18%, transparent);
+}
+.cel-note:hover {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--brand-via) 34%, transparent),
+    0 6px 16px -10px var(--brand-via);
+}
+.cel-note:focus-visible {
+  box-shadow: 0 0 0 2px var(--foreground);
+}
+.cel-note-go {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--brand-fill-deep);
+  color: var(--brand-on-brand);
+  transition: transform 200ms ease;
+}
+.cel-note:hover .cel-note-go {
+  transform: translateX(2px);
+}
+.cel-note[data-kind="anniversary"] {
+  background:
+    radial-gradient(9rem 5rem at 100% 0%, rgb(246 197 74 / 0.16), transparent 75%),
+    color-mix(in oklab, #c48d16 7%, var(--card));
+  box-shadow: inset 0 0 0 1px rgb(196 141 22 / 0.22);
+}
+.cel-note-icon {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: 0.875rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-from), var(--brand-via) 55%, var(--brand-to));
+  box-shadow:
+    0 6px 14px -8px var(--brand-via),
+    inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.cel-note[data-compact] {
+  gap: 0.5rem;
+  border-radius: 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+.cel-note[data-compact] .cel-note-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.625rem;
+}
+.cel-note[data-compact] .cel-note-go {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.cel-note[data-kind="anniversary"] .cel-note-icon {
+  color: #4a2f00;
+  background: linear-gradient(160deg, #fff1b8, #f6c54a 55%, #c98a14);
+  box-shadow:
+    0 6px 14px -8px #c98a14,
+    inset 0 0 0 1px rgb(255 255 255 / 0.4);
+}

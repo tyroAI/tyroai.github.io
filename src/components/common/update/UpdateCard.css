@@ -1,0 +1,22 @@
+/* "Yeni sürüm hazır" kartının marka tonları (`UpdateCard.jsx`). Açık paletlerde (gün batımı,
+   şeftali) marka mürekkebi beyaz zeminde 4,3–4,5:1 kalıyordu; koyu temada bazıları (okyanus)
+   orta tonda. Etiket ve düğme açıklığı tavanlı/tabanlı: her palette AA. */
+.update-card__eyebrow {
+  color: var(--brand-text);
+}
+.update-card__cta {
+  background: var(--brand-fill-deep);
+  color: var(--brand-on-brand);
+}
+@supports (color: oklch(from red l c h)) {
+  .update-card__eyebrow {
+    color: oklch(from var(--brand-text) min(l, 0.5) c h);
+  }
+  .dark .update-card__eyebrow {
+    color: oklch(from var(--brand-text) max(l, 0.78) c h);
+  }
+  .update-card__cta {
+    background: oklch(from var(--brand-fill-deep) min(l, 0.5) c h);
+    color: #fff;
+  }
+}

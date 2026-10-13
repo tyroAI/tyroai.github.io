@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Organizasyon Şeması — Vega Global</title>
+    <style>
+      :root { font-family: "Segoe UI", Inter, system-ui, Arial, sans-serif; color: #0f172a; }
+      body { margin: 0; background: #f1f5f9; }
+      header { background: linear-gradient(135deg, #1e1b4b, #4338ca); color: #fff; padding: 28px 32px; }
+      header small { letter-spacing: 3px; color: #a5b4fc; font-size: 12px; }
+      header h1 { margin: 6px 0 4px; font-size: 26px; }
+      header p { margin: 0; color: #c7d2fe; font-size: 14px; }
+      .note { margin: 16px auto 0; width: min(1100px, calc(100% - 32px)); font-size: 12px; color: #64748b; }
+      .tree { width: min(1100px, calc(100% - 32px)); margin: 16px auto 40px; }
+      .lvl { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 0 0 28px; position: relative; }
+      .lvl + .lvl::before { content: ""; position: absolute; top: -20px; left: 50%; width: 2px; height: 14px; background: #cbd5e1; }
+      .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 16px; min-width: 190px; text-align: center; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); }
+      .card .n { font-weight: 700; font-size: 14px; }
+      .card .t { font-size: 12px; color: #64748b; margin-top: 2px; }
+      .card .d { display: inline-block; margin-top: 8px; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: #eef2ff; color: #4338ca; }
+      .card.me { border: 2px solid #4338ca; }
+      .group { background: #fff; border: 1px dashed #cbd5e1; border-radius: 16px; padding: 14px; }
+      .group h2 { margin: 0 0 10px; font-size: 13px; color: #475569; text-align: center; letter-spacing: 1px; text-transform: uppercase; }
+      .group .lvl { margin: 0; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <small>VEGA GLOBAL</small>
+      <h1>Organizasyon Şeması</h1>
+      <p>Vega Global Ticaret A.Ş. · Genel Müdürlük ve Satış Organizasyonu</p>
+    </header>
+    <p class="note">Demo içeriği — kişiler ve unvanlar kurgusaldır.</p>
+    <main class="tree">
+      <div class="lvl">
+        <div class="card"><div class="n">Selim Aydemir</div><div class="t">Genel Müdür (CEO)</div><span class="d">Yönetim</span></div>
+      </div>
+      <div class="lvl">
+        <div class="card"><div class="n">Nalan Ergün</div><div class="t">Finans Direktörü (CFO)</div><span class="d">Finans</span></div>
+        <div class="card"><div class="n">Kerem Öztürk</div><div class="t">Satış Direktörü</div><span class="d">Satış</span></div>
+        <div class="card"><div class="n">Oya Sezer</div><div class="t">Pazarlama Direktörü</div><span class="d">Pazarlama</span></div>
+        <div class="card"><div class="n">Levent Akar</div><div class="t">Ürün ve Teknoloji Direktörü</div><span class="d">Ürün</span></div>
+        <div class="card"><div class="n">Gülşen Tan</div><div class="t">İnsan Kaynakları Direktörü</div><span class="d">İK</span></div>
+      </div>
+      <div class="lvl">
+        <div class="card me"><div class="n">Deniz Arslan</div><div class="t">Satış Müdürü — Marmara</div><span class="d">Satış</span></div>
+        <div class="card"><div class="n">Tuna Kılıç</div><div class="t">Bölge Satış Müdürü — Ege</div><span class="d">Satış</span></div>
+        <div class="card"><div class="n">Melis Ateş</div><div class="t">Bölge Satış Müdürü — İç Anadolu</div><span class="d">Satış</span></div>
+        <div class="card"><div class="n">Sinan Oral</div><div class="t">Bölge Satış Müdürü — Akdeniz</div><span class="d">Satış</span></div>
+      </div>
+      <div class="group">
+        <h2>Marmara Satış Ekibi</h2>
+        <div class="lvl">
+          <div class="card"><div class="n">Ece Yıldız</div><div class="t">Kilit Müşteri Yöneticisi</div></div>
+          <div class="card"><div class="n">Mert Kaya</div><div class="t">Kıdemli Satış Uzmanı</div></div>
+          <div class="card"><div class="n">Selin Aksoy</div><div class="t">Satış Uzmanı</div></div>
+          <div class="card"><div class="n">Burak Demir</div><div class="t">Satış Operasyonları Uzmanı</div></div>
+          <div class="card"><div class="n">Zeynep Çelik</div><div class="t">İş Geliştirme Uzmanı</div></div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

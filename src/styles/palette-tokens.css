@@ -1,0 +1,331 @@
+/* Paletten türeyen token'lar: mürekkep, rozet, grafik, avatar, orb — index.css'ten bölündü; sıra index.css'teki @import sırasıdır. */
+
+/* Açık marka zemininin ÜZERİNDEKİ mürekkep (`bg-brand-soft` + bu renk).
+   Dashboard'un orta bölümü ve /settings'teki AI Ürün satırları bu çifti
+   kullanıyor: gradyan → AÇIK → koyu ritmi bölümleri ilk bakışta ayırıyor.
+
+   Varsayılan `--brand-deep`, ve gradyan paletlerinde iki temada da doğru:
+   `--brand-soft` orada koyu temada da açık kalıyor, mürekkep de koyu kalıyor
+   (en kötü durum sunset-gradient'te 3.94:1 — ölçüldü).
+
+   TEK RENKLİ paletler (black, amber, navy, sky, violet) bunu `--brand-text`e
+   çeviriyor, çünkü orada iki şey birden farklı: açık temada `--brand-deep`
+   paletin ORTA tonuna eşit (amber'de 2.86:1, sky'da 2.42:1 — okunmuyor), ve
+   koyu temada bu paletler `--brand-soft`u koyu bir tona çeviriyor, yani
+   mürekkebin de açılması gerekiyor. `--brand-text` ikisini birden çözüyor:
+   o da koyu temada açık tona dönüyor, yani zeminle birlikte takla atıyor.
+   Ölçüm: bu kuralla 14 paletin 14'ü, iki temada da 3:1'in üstünde. */
+/* Marka DOLGUSUNUN üstündeki mürekkep — `--brand-on-soft`un gradyan
+   karşılığı. Neredeyse her palette beyaz, çünkü rampa renkli bir dolgu.
+   İstisna siyah paletin koyu teması: orada rampa BEYAZA dönüyor (metin
+   olarak da kullanıldığı için dönmek zorunda) ve beyaz üstüne beyaz yazı
+   düğmeleri okunmaz yapıyordu — sol raydaki "Yeni sohbet", kahraman
+   düğmesi, asistan kartlarının ikon karoları, başlıktaki TYRO hapı, hepsi
+   boş beyaz blok olarak çiziliyordu. */
+/* Marka rampası İKİ işi birden yapıyor: düğme/karo DOLGUSU ve gradyan
+   METİN (selamlama, giriş başlığı). Neredeyse her palette ikisi de aynı
+   renkleri ister, o yüzden metin rampası varsayılan olarak dolguyu izler.
+   Ayrıştıkları tek yer siyah paletin koyu teması — bkz. oradaki not. */
+:root {
+  --brand-on-soft: var(--brand-deep);
+  --brand-on-brand: #ffffff;
+  --brand-text-from: var(--brand-from);
+  --brand-text-via: var(--brand-via);
+  --brand-text-to: var(--brand-to);
+  --brand-fill-deep: var(--brand-deep);
+}
+
+/* Bildirim rozetleri — paletin AÇIK ucu, KOYU ucunun üzerinde.
+   Rozetin görsel alanı kırması gerekir; header kabuğu gradyanın koyu
+   tarafından çiziliyor, o yüzden `--brand-text` ya da `--primary` almak
+   rozeti kamufle ediyordu. Açık uç, her palette o kabukla güvenilir biçimde
+   kontrast veren tek ton ve `--brand-deep` ile eşleşince 9px rakamlar
+   okunur kalıyor.
+   Tek renkli paletler (black, amber, navy, sky, violet) bütün gradyan
+   duraklarını AYNI renge kuruyor, yani bu kural rakamları kendi zemininin
+   rengiyle boyardı — tarayıcıda görünmez olduğu doğrulandı, o yüzden her
+   biri yukarıda soft/text çiftiyle bu kuralı eziyor. Yeni palet eklerken
+   kontrol et: --brand-to, --brand-deep'ten farklı olmalı ya da bir override
+   gerekir. */
+:root {
+  --badge: var(--brand-to);
+  --badge-foreground: var(--brand-deep);
+}
+
+/* ── Sohbet grafiklerinin SERİ RENKLERİ — paleti izler ────────────────────
+   `--chart-1/2` her palet bloğunda tanımlı ve paleti izliyor. Sohbet
+   grafikleri bunları okuyup üçten fazla seri için paletin iki rengini
+   zemin/mürekkeple karıştırarak türetiyor: her palette ayrışık, iki temada
+   okunur, YENİ HUE YOK. Koyu temada paletin koyu tonu (`--chart-2`, çoğu
+   palette lacivert/bordo) zemine kaybolduğu için mürekkeple açılıyor. */
+:root {
+  --series-1: var(--chart-1);
+  --series-2: var(--chart-2);
+  --series-3: color-mix(in oklab, var(--chart-1) 60%, var(--background));
+  --series-4: color-mix(in oklab, var(--chart-2) 55%, var(--background));
+  --series-5: color-mix(in oklab, var(--chart-1) 50%, var(--foreground));
+}
+.dark {
+  --series-1: var(--chart-1);
+  --series-2: color-mix(in oklab, var(--chart-2) 55%, var(--foreground));
+  --series-3: color-mix(in oklab, var(--chart-1) 60%, var(--background));
+  --series-4: color-mix(in oklab, var(--chart-1) 55%, var(--foreground));
+  --series-5: color-mix(in oklab, var(--chart-2) 35%, var(--foreground));
+}
+
+/* Avatar baş harf rengi — açık orb'lu paletlerde orb-4 (palet koyu rengi),
+   koyu orb'lu paletlerde orb-1 (palet açık tonu) kullanılır */
+:root {
+  --avatar-text: var(--brand-orb-4);
+}
+:root[data-palette="pastel-lavender"],
+:root[data-palette="green-garden"],
+:root[data-palette="fiery-red"],
+:root[data-palette="fiesta"],
+:root[data-palette="chocolate-delight"],
+:root[data-palette="black"],
+:root[data-palette="navy"],
+:root[data-palette="violet"],
+/* Midnight'ın orb'u da koyu uçlu (orb-4 #131E30): baş harf orada
+   okunmazdı. */
+:root[data-palette="midnight"] {
+  --avatar-text: var(--brand-orb-1);
+}
+
+/* PastelVoiceOrb renk değişkenleri */
+/* Ocean Breeze v2, Peach Sorbet ve Pastel Lavender'da spec pastel renkleri korunur (default :root). */
+/* Diğer paletlerde orb, palet renklerine adapte olur. */
+:root {
+  --voiceorb-c1: 255, 131, 93; /* warm peach / coral */
+  --voiceorb-c2: 196, 111, 236; /* lavender wave */
+  --voiceorb-c3: 175, 79, 232; /* deep violet */
+  --voiceorb-c4: 244, 142, 132; /* warm salmon */
+  --voiceorb-c5: 250, 220, 236; /* soft pink */
+}
+/* Ocean Breeze v2 — login'in sabitlendiği paletin orbu. Bu blok EKSİKTİ:
+   marka tokenleri (satır ~153) vardı ama `--voiceorb-*` yoktu, yani orb bu
+   palette varsayılan pastel renklere düşüyordu. Ekranda markanın turkuazı
+   yerine başka bir orb duruyordu. */
+:root[data-palette="ocean-breeze-v2"] {
+  --voiceorb-c1: 0, 180, 216; /* dominant cyan  (#00b4d8) */
+  --voiceorb-c2: 72, 202, 228; /* wave           (#48cae4) */
+  --voiceorb-c3: 0, 119, 182; /* deep blue      (#0077b6) */
+  --voiceorb-c4: 144, 224, 239; /* light mist     (#90e0ef) */
+  --voiceorb-c5: 202, 240, 248; /* soft highlight (#caf0f8) */
+}
+
+/* Arctic Mint — orb turkuazdan derin maviye. */
+:root[data-palette="arctic-mint"] {
+  --voiceorb-c1: 34, 193, 195; /* dominant turkuaz (#22C1C3) */
+  --voiceorb-c2: 94, 234, 212; /* dalga            (#5EEAD4) */
+  --voiceorb-c3: 37, 99, 235; /* derin mavi       (#2563EB) */
+  --voiceorb-c4: 167, 243, 208; /* açık mint        (#A7F3D0) */
+  --voiceorb-c5: 209, 250, 229; /* yumuşak vurgu    (#D1FAE5) */
+}
+
+/* Rose Blush — varsayılan pastel orb bu palette fazla soluk kalıyordu;
+   bir tık koyu tutuldu. */
+:root[data-palette="rose-blush"] {
+  --voiceorb-c1: 214, 74, 104; /* dominant gül   (#D64A68) */
+  --voiceorb-c2: 240, 163, 173; /* dalga          (#F0A3AD) */
+  --voiceorb-c3: 109, 11, 44; /* bordo derinlik (#6D0B2C) */
+  --voiceorb-c4: 212, 120, 138; /* gölge gülü     (#D4788A) */
+  --voiceorb-c5: 245, 230, 222; /* krem parlama   (#F5E6DE) */
+}
+:root[data-palette="sunset-gradient"] {
+  --voiceorb-c1: 255, 123, 0;
+  --voiceorb-c2: 255, 170, 0;
+  --voiceorb-c3: 204, 85, 0;
+  --voiceorb-c4: 255, 195, 0;
+  --voiceorb-c5: 255, 247, 208;
+}
+:root[data-palette="green-garden"] {
+  --voiceorb-c1: 144, 169, 85;
+  --voiceorb-c2: 79, 119, 45;
+  --voiceorb-c3: 19, 42, 19;
+  --voiceorb-c4: 197, 213, 102;
+  --voiceorb-c5: 245, 248, 208;
+}
+:root[data-palette="fiery-red"] {
+  --voiceorb-c1: 188, 57, 8;
+  --voiceorb-c2: 246, 170, 28;
+  --voiceorb-c3: 98, 23, 8;
+  --voiceorb-c4: 148, 27, 12;
+  --voiceorb-c5: 254, 240, 214;
+}
+:root[data-palette="fiesta"] {
+  --voiceorb-c1: 245, 133, 41;
+  --voiceorb-c2: 221, 42, 123;
+  --voiceorb-c3: 81, 91, 212;
+  --voiceorb-c4: 254, 218, 119;
+  --voiceorb-c5: 255, 243, 208;
+}
+:root[data-palette="chocolate-delight"] {
+  --voiceorb-c1: 147, 75, 0;
+  --voiceorb-c2: 187, 107, 0;
+  --voiceorb-c3: 33, 15, 4;
+  --voiceorb-c4: 69, 33, 3;
+  --voiceorb-c5: 245, 224, 192;
+}
+:root[data-palette="midnight"] {
+  --voiceorb-c1: 90, 118, 163; /* dominant lacivert (#5A76A3) */
+  --voiceorb-c2: 126, 149, 188; /* dalga             (#7E95BC) */
+  --voiceorb-c3: 23, 36, 60; /* gece derinligi    (#17243C) */
+  --voiceorb-c4: 183, 201, 227; /* buz               (#B7C9E3) */
+  --voiceorb-c5: 223, 235, 255; /* parlama           (#DFEBFF) */
+}
+:root[data-palette="black"] {
+  --voiceorb-c1: 64, 64, 64;
+  --voiceorb-c2: 115, 115, 115;
+  --voiceorb-c3: 38, 38, 38;
+  --voiceorb-c4: 0, 0, 0;
+  --voiceorb-c5: 237, 237, 237;
+}
+:root[data-palette="amber"] {
+  --voiceorb-c1: 245, 158, 11;
+  --voiceorb-c2: 217, 119, 6;
+  --voiceorb-c3: 146, 64, 14;
+  --voiceorb-c4: 120, 53, 15;
+  --voiceorb-c5: 253, 230, 138;
+}
+:root[data-palette="navy"] {
+  --voiceorb-c1: 96, 165, 250;
+  --voiceorb-c2: 59, 130, 246;
+  --voiceorb-c3: 30, 64, 175;
+  --voiceorb-c4: 30, 58, 138;
+  --voiceorb-c5: 191, 219, 254;
+}
+:root[data-palette="sky"] {
+  --voiceorb-c1: 56, 189, 248;
+  --voiceorb-c2: 14, 165, 233;
+  --voiceorb-c3: 3, 105, 161;
+  --voiceorb-c4: 12, 74, 110;
+  --voiceorb-c5: 224, 242, 254;
+}
+:root[data-palette="violet"] {
+  --voiceorb-c1: 167, 139, 250;
+  --voiceorb-c2: 139, 92, 246;
+  --voiceorb-c3: 109, 40, 217;
+  --voiceorb-c4: 76, 29, 149;
+  --voiceorb-c5: 237, 233, 254;
+}
+
+/* Marka MÜREKKEBİ — dolgu değil, yazının/konturun rengi. Düz, gradyan değil.
+   Açık temada paletin KOYU ucu (`--brand-deep`); beyaz zeminde lacivert bir
+   metin olarak okunur. Koyu temada aynı değer kalsaydı koyu yüzeyde ~1.3:1
+   kontrast verirdi, o yüzden orada paletin açık marka rengine düşer.
+
+   Takma ad olarak yazılıyor, kopya olarak değil: her palet yalnızca
+   `--brand-deep` / `--brand-text` tanımlıyor ve mürekkep onları izliyor —
+   yani yeni bir palet eklendiğinde burada yapılacak bir şey yok. */
+:root {
+  --brand-ink: var(--brand-deep);
+}
+
+.dark {
+  --brand-text: oklch(0.84 0.085 215);
+  --brand-ink: var(--brand-text);
+}
+
+.dark[data-palette="ocean-breeze-v2"] {
+  --brand-text: #90e0ef;
+}
+
+.dark[data-palette="arctic-mint"] {
+  --brand-text: #a7f3d0;
+}
+
+.dark[data-palette="rose-blush"] {
+  --brand-text: #ffc4c4;
+}
+
+/* Koyu temada murekkep ailenin buz tonuna doner. #DFEBFF degil #B7C9E3:
+   birincisi govde metni olarak koyu zeminde parliyor. */
+.dark[data-palette="midnight"] {
+  --brand-text: #b7c9e3;
+}
+
+.dark[data-palette="peach-sorbet"] {
+  --brand-text: #ffb59e;
+}
+
+.dark[data-palette="sunset-gradient"] {
+  --brand-text: #ffc300;
+}
+
+.dark[data-palette="pastel-lavender"] {
+  --brand-text: #c19ee0;
+}
+
+.dark[data-palette="green-garden"] {
+  --brand-text: #90a955;
+}
+
+.dark[data-palette="fiery-red"] {
+  --brand-text: #f6aa1c;
+}
+
+.dark[data-palette="fiesta"] {
+  --brand-text: #c9a3eb;
+}
+
+.dark[data-palette="chocolate-delight"] {
+  --brand-text: #bb6b00;
+}
+
+/* Siyah paletin koyu teması, rampanın iki işini ayıran TEK yer.
+   Dolgu KOYU kalır: düğmeler ve asistan karoları bir yüzey ve üstlerinde
+   beyaz yazı — ayrıca beyaz LOGO GÖRSELLERİ var. Bir görselin rengi
+   `text-*` ile dönmüyor, yani "dolguyu beyaz yap, mürekkebi koyult"
+   çözümü karoları boş beyaz kare olarak bırakıyordu.
+   Metin rampası BEYAZ: selamlama gradyanı neredeyse siyah bir zeminde
+   okunmak zorunda. */
+.dark[data-palette="black"] {
+  --brand-text: #ffffff;
+  --brand-from: #262626;
+  --brand-via: #404040;
+  --brand-to: #525252;
+  --brand-text-from: #ffffff;
+  --brand-text-via: #ffffff;
+  --brand-text-to: #ffffff;
+  --brand-deep: #ffffff;
+  /* İş uygulaması karoları `bg-brand-deep` ile dolduruluyor ve burada
+       o beyaz — üstündeki beyaz logo görseli kayboluyordu. Mürekkep
+       beyaz kalır, dolgu rampanın koyu ucuna iner. */
+  --brand-fill-deep: #262626;
+  --brand-logo-1: #ffffff;
+  --brand-logo-2: #ffffff;
+  --brand-logo-3: #ffffff;
+  --brand-logo-4: #ffffff;
+  --brand-logo-5: #ffffff;
+  --brand-soft: #1f1f1f;
+}
+
+.dark[data-palette="amber"] {
+  --brand-text: #f59e0b;
+  --brand-soft: #451a03;
+}
+
+.dark[data-palette="navy"] {
+  --brand-from: #3b82f6;
+  --brand-via: #3b82f6;
+  --brand-to: #3b82f6;
+  --brand-deep: #3b82f6;
+  --brand-text: #93c5fd;
+  --brand-logo-1: #3b82f6;
+  --brand-logo-2: #3b82f6;
+  --brand-logo-3: #3b82f6;
+  --brand-logo-4: #3b82f6;
+  --brand-logo-5: #3b82f6;
+  --brand-soft: #1e3a8a;
+}
+
+.dark[data-palette="sky"] {
+  --brand-text: #38bdf8;
+  --brand-soft: #082f49;
+}
+
+.dark[data-palette="violet"] {
+  --brand-text: #a78bfa;
+  --brand-soft: #2e1065;
+}

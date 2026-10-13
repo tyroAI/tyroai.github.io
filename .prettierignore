@@ -1,0 +1,11 @@
+dist
+node_modules
+package-lock.json
+solutions
+public
+docs
+*.md
+src/components/ui
+playwright-report
+test-results
+.claude/worktrees

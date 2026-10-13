@@ -1,0 +1,357 @@
+/*
+ * HAVA PENCERESİ — ön yüzdeki kartın dili (2026-10-03).
+ *
+ * İstek: *"weather kartına tıkladığımda açılan kart tasarımı önceki versiyondan
+ * kaldı; artık ön yüzdeki kart daha cool ve gerçekçi — güneşi, bulutu, yazıları.
+ * Detay ekranına da o tasarımları ve zarifliği geçirelim; aynı fonksiyonlar
+ * olsun ama daha iyi UI ve UX ile."*
+ *
+ * Kartın parçaları AYNEN: gökler (`skyCard.css` › `:is(.sky-weather, .wxd-sky)`
+ * değişkenleri — tek kaynak), gerçekçi güneş · bulut · ay · yağmur · kar ·
+ * şimşek · sis (`CardSymbol`), kesik çizgili gün yayı (`CARD_ARC`), ince büyük
+ * derece, Avenir Next. Pencerenin kendine ait olan: kahramanın düzeni, saatlik
+ * cam bant, gövdenin gökyüzünün üstüne kayan SAYFASI.
+ *
+ * ⚠️ BEYAZ MÜREKKEP: kartın gökleri ufka doğru AÇILIYOR (gündüz orta durak
+ * #369dde beyaza ~3:1) — kart bunu bilinçli taşıyor, pencere TAŞIMAZ: küçük
+ * yazılar (saatler, etiketler) okunmak zorunda. Kahramanın zemini yalnız göğün
+ * ÜST yarısı (`--sky-top` → üst ile ortanın karışımı) ve üstünde hafif bir
+ * gölge örtüsü (`--wxd-scrim`); ölçüm CLAUDE.md'de.
+ */
+@layer components {
+  .wxd {
+    --wxd-low: color-mix(in oklab, var(--sky-middle) 58%, var(--sky-top));
+    --wxd-scrim: 0.16;
+    /* Örtü AŞAĞI doğru koyulaşır: küçük yazılar (gün doğumu satırı, saatlik
+       bant) kahramanın alt yarısında ve göğün ufka doğru AÇILDIĞI yerde. */
+    --wxd-deepen: 0.14;
+    font-family: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: linear-gradient(
+      180deg,
+      var(--sky-top) 0%,
+      var(--wxd-low) 26rem,
+      var(--wxd-low) 100%
+    );
+    box-shadow:
+      0 40px 90px -40px rgb(10 30 60 / 0.55),
+      inset 0 0 0 1px rgb(255 255 255 / 0.14);
+    transition: background 400ms ease;
+  }
+  /* Açık göklerde örtü biraz daha koyu: orta durakları beyaza en yakın olanlar. */
+  .wxd:is([data-weather="cloudy"], [data-weather="snow"], [data-weather="fog"]) {
+    --wxd-scrim: 0.24;
+  }
+  /* Sis en açık gök (orta durağı beyaza en yakın) — bir kademe daha. */
+  .wxd[data-weather="fog"] {
+    --wxd-scrim: 0.28;
+  }
+  .wxd[data-time="night"] {
+    --wxd-scrim: 0.06;
+    --wxd-deepen: 0.04;
+  }
+  /* Kartın greni ve pusu — yazının arkasında değil, göğün üstünde. */
+  .wxd::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 30% at 18% 18%, #ffdc7030, transparent 70%),
+      radial-gradient(ellipse 45% 20% at 82% 22%, #dbf4ff2e, transparent 70%),
+      linear-gradient(
+        rgb(6 18 34 / var(--wxd-scrim)) 0,
+        rgb(6 18 34 / calc(var(--wxd-scrim) + var(--wxd-deepen))) 24rem
+      );
+  }
+  .wxd[data-time="night"]::before {
+    background:
+      radial-gradient(ellipse 50% 30% at 18% 16%, #accbff26, transparent 70%),
+      radial-gradient(ellipse 45% 30% at 85% 40%, #9b95de1e, transparent 70%),
+      linear-gradient(
+        rgb(6 18 34 / var(--wxd-scrim)) 0,
+        rgb(6 18 34 / calc(var(--wxd-scrim) + var(--wxd-deepen))) 24rem
+      );
+  }
+  .wxd::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23ffffff' filter='url(%23n)' opacity='.8' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+  }
+  .wxd > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Kahraman ─────────────────────────────────────────────────────────── */
+  .wxd-hero {
+    container-type: inline-size;
+    color: #fff;
+  }
+  .wxd-stars {
+    position: absolute;
+    inset: 3.5rem 0 auto;
+    height: 9rem;
+    pointer-events: none;
+  }
+  .wxd-stars i {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.6;
+  }
+  /* Sahne: yay kutunun TAMAMINA gerilir (kartın 480×300 kutusu, tepe boyun
+     1/3'ünde, ayaklar 5/6'sında). Derece tepenin altında, kubbenin içinde. */
+  /* Yükseklik derecenin bloğunu da taşır: blok tepenin altından başlıyor ve
+     alt satırı (↑↓ · hissedilen) "Gün uzunluğu" etiketine binmemeli (ilk
+     sürümde biniyordu). Üstte negatif pay: tepe başlık satırına yaklaşsın,
+     kahraman gereksiz uzamasın. */
+  .wxd-stage {
+    --stage-h: clamp(16.25rem, 35cqi, 18rem);
+    --sym-k: 1.45;
+    position: relative;
+    height: var(--stage-h);
+    margin-top: -2.25rem;
+  }
+  .wxd-orbit {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .wxd-orbit path {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+  .wxd-orbit-rest {
+    stroke: #efffff85;
+    stroke-width: 1;
+    stroke-dasharray: 7 9;
+  }
+  /* Gidilen yol düz ve hafif parlak — işaretle aynı parametreden. */
+  .wxd-orbit-done {
+    stroke: #fff3c9cc;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 4px #ffe4a266);
+  }
+  /* Gece gidilen yol ayın yolu: altın değil gümüş. */
+  .wxd[data-time="night"] .wxd-orbit-done {
+    stroke: rgb(226 233 255 / 0.7);
+  }
+  /* Ufuk — kartın kuralı (`.sky-weather__horizon`): yayın uçlarının altı kesilir. */
+  .wxd-horizon {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(-100% -50% calc(100% * 50 / 300) -50%);
+  }
+  .wxd-horizon > .sky-weather__symbol {
+    transform: translate(-50%, -50%) scale(var(--sym-k));
+  }
+  /* Yağmur/kar izleri kahramanda kısa (kartta 23 → 15): simge tepedeyken izler
+     derecenin kaşına ("Şimdi") iniyordu (ilk sürümde görüldü). */
+  .wxd-horizon > .sky-weather__symbol .sky-weather__precipitation {
+    height: 15px;
+  }
+  .wxd-reading {
+    position: absolute;
+    left: 50%;
+    /* Simgenin altından SABİT 1,5rem: yağmurun izi bu payın içinde biter.
+       Pay hava türüne göre DEĞİŞMEZ — değişseydi kuru bir günden yağmurlu
+       güne geçince kahraman zıplardı. */
+    top: calc(var(--stage-h) / 3 + 18px * var(--sym-k) + 1.5rem);
+    width: max-content;
+    max-width: 62%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  .wxd-kicker {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #fff;
+  }
+  .wxd-kicker::first-letter {
+    text-transform: uppercase;
+  }
+  .wxd-temp {
+    margin-top: 0.125rem;
+    font-size: clamp(3.25rem, 11cqi, 4.5rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 24px #11507322;
+  }
+  .wxd-temp-deg {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 0.04em;
+    font-size: 0.46em;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+  .wxd-cond {
+    margin-top: 0.375rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .wxd-meta {
+    margin-top: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: rgb(255 255 255 / 0.9);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Gün doğumu · uzunluğu · batımı — kartın alt satırı, ayakların altında. */
+  .wxd-daylight {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: end;
+    gap: 0.75rem;
+    padding: 0 6%;
+    margin-top: 0.25rem;
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    color: rgb(255 255 255 / 0.94);
+  }
+  .wxd-daylight > :nth-child(2) {
+    text-align: center;
+  }
+  .wxd-daylight > :last-child {
+    text-align: right;
+  }
+  .wxd-daylight strong {
+    display: block;
+    margin-top: 0.125rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Saatlik cam bant ─────────────────────────────────────────────────── */
+  /* Bant KOYU cam: beyaz bir yıkama altındaki saatleri açık gökte 2,4:1'e
+     indiriyordu (ölçüldü). Gecede gök zaten koyu — orada hafif açık cam. */
+  .wxd-band {
+    margin: 0.5rem 1rem 0;
+    border-radius: 1.25rem;
+    background: rgb(6 18 34 / 0.24);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.16),
+      inset 0 1px 0 rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
+  }
+  /* "Şimdi" hücresi: koyulaşan bir hap (beyaz yıkama yazının karşıtlığını
+     düşürüyordu — eski şeridin ölçülmüş dersi). */
+  .wxd[data-time="night"] .wxd-band {
+    background: rgb(255 255 255 / 0.07);
+  }
+  .wxd-now {
+    background: rgb(6 18 34 / 0.22);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.28);
+  }
+
+  /* ── Kartın simgesi küçük boyda (saatler · günler) ─────────────────────
+     36 px'lik çizim OLDUĞU GİBİ ölçeklenir (`--k`): güneşin hâlesi, bulutun
+     gölgesi, yağmur izleri aynı oranda kalır. Küçükte hareket YOK — yirmi beş
+     hücrede dönen damla göz yorardı; damlalar durgun yerlerinde. */
+  /* Kutu simgeden %30 UZUN: yağmur ve kar izleri simgenin ALTINA düşüyor ve
+     kutunun içinde kalmalı — ilk sürümde saatlik hücrede derecenin üstüne
+     biniyordu. Simge kutunun üst kısmında, izler 10 birimle kısa. */
+  .wxd-mini {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    height: calc(var(--s) * 1.3) !important;
+  }
+  .wxd-mini > .sky-weather__symbol {
+    left: 50%;
+    top: calc(var(--s) / 2);
+    transform: translate(-50%, -50%) scale(var(--k));
+  }
+  .wxd-mini .sky-weather__precipitation {
+    height: 10px;
+  }
+  .wxd-mini :is(*, *::before, *::after) {
+    animation: none !important;
+  }
+  .wxd-mini .sky-weather__precipitation i {
+    top: 10px;
+  }
+  .wxd-mini .sky-weather__precipitation i:nth-child(2n) {
+    top: 2px;
+  }
+  /* Gün satırının küçük göğü — kartın kendisinin minyatürü. */
+  .wxd-tile {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: linear-gradient(174deg, var(--sky-top), var(--sky-middle) 70%, var(--sky-low));
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.22),
+      0 2px 6px -2px rgb(10 30 60 / 0.35);
+  }
+
+  /* ── Gövde: gökyüzünün üstüne kayan sayfa ────────────────────────────── */
+  .wxd-sheet {
+    margin-top: 1rem;
+    border-radius: 1.5rem 1.5rem 0 0;
+    background: var(--card);
+    color: var(--foreground);
+    box-shadow: 0 -14px 34px -22px rgb(6 18 34 / 0.6);
+  }
+  /* Sayfanın tutamağı — "aşağısı var" der, süs değil işaret. YALNIZ tek
+     sütunda (telefon): iki sütunlu düzende sütun ayracının yanına düşüyordu. */
+  @media (min-width: 48rem) {
+    .wxd-sheet::before {
+      display: none;
+    }
+  }
+  .wxd-sheet::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    width: 2.25rem;
+    height: 0.25rem;
+    border-radius: 999px;
+    transform: translateX(-50%);
+    background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  }
+  .wxd-foot {
+    background: var(--card);
+    color: var(--muted-foreground);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wxd {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .wxd,
+  .wxd-tile {
+    forced-color-adjust: none;
+  }
+}
