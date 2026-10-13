@@ -1,6 +1,6 @@
 # tyroAI — Demo
 
-**Canlı:** https://tyroai.github.io
+**Canlı:** https://tyroai.github.io/tyroAI/
 
 TYRO kurumsal AI çalışma alanının **tanıtım (demo) sürümü**. Arayüz gerçek
 ürünle aynıdır; ancak hiçbir gerçek sisteme bağlanmaz ve **tüm kişi, şirket ve

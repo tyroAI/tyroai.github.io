@@ -8,8 +8,8 @@ import { iconShards } from "./scripts/vite/iconShards.mjs"
 
 // https://vite.dev/config/
 export default defineConfig(() => ({
-  // GitHub Pages kuruluş sitesi (tyroai.github.io) kökten sunulur.
-  base: "/",
+  // GitHub Pages proje sitesi: https://tyroai.github.io/tyroAI/
+  base: "/tyroAI/",
   plugins: [
     react(),
     tailwindcss(),
@@ -50,8 +50,8 @@ export default defineConfig(() => ({
         display: "standalone",
         orientation: "portrait",
         lang: "tr",
-        scope: "/",
-        start_url: "/",
+        scope: "/tyroAI/",
+        start_url: "/tyroAI/",
         icons: [
           {
             src: "pwa-icon.svg",
@@ -74,7 +74,7 @@ export default defineConfig(() => ({
         // default click behaviour, so notify-sw.js adds the click handler.
         // importScripts keeps the generateSW strategy and this whole precache
         // config untouched; no switch to injectManifest needed.
-        importScripts: ["/notify-sw.js"],
+        importScripts: ["/tyroAI/notify-sw.js"],
         // ⚠️ **`**/*.js` DEĞİL.** Bu desen dist'teki HER chunk'ı ön-önbelleğe
         // koyuyordu — ikon setinin tembel parçası (5,2 MB) dahil. Yani ikonlar
         // giriş paketinden çıkarıldıktan sonra bile herkes onları ARKA PLANDA
@@ -126,7 +126,7 @@ export default defineConfig(() => ({
             // ayakta tutan kural budur.
             urlPattern: ({ url, request }) =>
               url.origin === self.location.origin &&
-              url.pathname.startsWith("/assets/") &&
+              url.pathname.startsWith("/tyroAI/assets/") &&
               (request.destination === "script" || request.destination === "style"),
             handler: "CacheFirst",
             options: {

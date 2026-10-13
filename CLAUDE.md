@@ -1,7 +1,7 @@
 # tyroAI — Demo (Claude Code rehberi)
 
 Kurumsal AI platformu TYRO'nun **çevrimdışı demo** kopyası; canlı adres
-https://tyroai.github.io (GitHub Pages, `tyroAI/tyroai.github.io`, `gh-pages` dalı).
+https://tyroai.github.io/tyroAI/ (GitHub Pages, `tyroAI/tyroAI`, `gh-pages` dalı).
 React 19 + Vite 8, JS/JSX, alias `@/` → `src/`.
 
 ## Kesin kurallar
