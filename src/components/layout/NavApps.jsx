@@ -201,7 +201,7 @@ export function NavApps() {
   const { aiApps, businessApps } = useConfig()
   const lock = useAppLock()
   const openAiApps = useMemo(
-    () => (appliesTo("aiApp") ? aiApps.filter((a) => !lock.isLocked(a.name)) : aiApps),
+    () => aiApps.filter((a) => safeExternalUrl(a.url) !== "#" && (!appliesTo("aiApp") || !lock.isLocked(a.name))),
     [aiApps, lock],
   )
   return (

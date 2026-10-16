@@ -37,7 +37,8 @@ export const AI_APPS = [
   {
     name: "tyroSign",
     iconName: "SignatureIcon",
-    description: "Dijital imza ve onay akışları — teklif ve sözleşmeleri tek ekrandan imzaya gönderin.",
+    url: "https://tyroai.github.io/tyroSign/",
+    description: "Dijital İmza Stüdyosu (Demo) — teklif ve sözleşmeleri tek ekrandan imzaya gönderin.",
   },
   {
     name: "tyroForecast",
@@ -141,7 +142,7 @@ export function catalogRows() {
       tyro_name: a.name,
       tyro_type: TYPE_AI_APP,
       tyro_description: a.description,
-      tyro_url: "#",
+      tyro_url: a.url ?? "#",
       tyro_tenantid: null,
       tyro_clientid: null,
       tyro_agentid: null,

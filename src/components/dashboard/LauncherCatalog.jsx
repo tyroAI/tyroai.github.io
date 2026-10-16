@@ -222,7 +222,8 @@ export function LauncherCatalog({ onOpenChat, onlyFavorites = false, id = "apps"
                   const safe = safeExternalUrl(app.url)
                   if (safe !== "#") window.open(safe, "_blank", "noopener,noreferrer")
                 }}
-                locked={lock.isLocked(app.name)}
+                comingSoon={safeExternalUrl(app.url) === "#"}
+                locked={safeExternalUrl(app.url) !== "#" && lock.isLocked(app.name)}
                 request={pendingReq.getRequest(app.name)}
                 onRequest={() => openRequest(app)}
                 onShowRequest={() =>

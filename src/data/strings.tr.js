@@ -1,4 +1,5 @@
 export const strings = {
+  "launcher.comingSoon": "Yakında",
   "brand.name": "tyroAI",
   "brand.tag": "Demo",
   "brand.fullName": "tyroAI · TTECH Business Solutions",

@@ -21,6 +21,8 @@ export function LauncherCard({
   // Kilitli kart AÇILMAZ: tıklama app'i değil TALEBİ tetikler. Kilidin ne
   // olduğu ve neyi gerçekten engellediği `lib/appLockPolicy.js`te yazılı.
   locked = false,
+  // Yakında: adresi olmayan uygulama — rozetli, tıklanamaz.
+  comingSoon = false,
   onRequest,
   // Bu app icin acik talep varsa SATIRIN KENDISI gelir (tarih + notlar),
   // yalniz bir bayrak degil: ortadaki dugme ona tiklayinca talebin
@@ -80,9 +82,10 @@ export function LauncherCard({
     >
       <button
         type="button"
-        onClick={locked ? undefined : onClick}
-        onContextMenu={locked ? undefined : onContextMenu}
-        aria-disabled={locked || undefined}
+        onClick={locked || comingSoon ? undefined : onClick}
+        onContextMenu={locked || comingSoon ? undefined : onContextMenu}
+        disabled={comingSoon || undefined}
+        aria-disabled={locked || comingSoon || undefined}
         className={cn(
           "flex h-full w-full items-center gap-4 rounded-2xl border border-border bg-card p-4 text-left sm:p-5 @max-[34rem]/launcher:gap-3 @max-[34rem]/launcher:p-3",
           // Telefonda kalp HEP görünür ve sağ üst köşede; kısa kartta ortalı
@@ -92,7 +95,9 @@ export function LauncherCard({
           // Kilitli kart SİLİK, renksiz değil: marka rengi app'in kimliği,
           // onu düşürmek kartı tanınmaz yapıyordu. Tek kademe opaklık +
           // kesikli kenarlık farkı zaten anlatıyor.
-          locked
+          comingSoon
+            ? "cursor-not-allowed border-dashed opacity-[0.72]"
+            : locked
             ? "cursor-default border-dashed opacity-[0.72] @max-[34rem]/launcher:pe-36"
             : "hover:border-brand/40 hover:shadow-lg",
         )}
@@ -133,6 +138,11 @@ export function LauncherCard({
               kullanıcıya hâlâ hiçbir şey yapmamış gibi hissettiriyordu.
               Eski "Beklemede" metni de bu turda gitti: neyin beklediğini
               söylemiyordu. */}
+          {comingSoon && (
+            <span className="mt-1.5 inline-flex w-fit items-center rounded-md bg-brand/10 px-1.5 py-0.5 text-[0.6875rem] font-semibold text-brand">
+              {t("launcher.comingSoon")}
+            </span>
+          )}
           {locked && (
             <span
               className={cn(
@@ -155,7 +165,7 @@ export function LauncherCard({
         </div>
         {/* Kilitliyken burada HİÇBİR glif yok: ok "aç beni" derdi ve
             yalan olurdu, kilit ise alttaki rozetin tekrarı olurdu. */}
-        {!locked && (
+        {!locked && !comingSoon && (
           <HugeiconsIcon
             icon={ArrowRight01Icon}
             className="size-4 shrink-0 text-muted-foreground/40 transition group-hover:translate-x-0.5 group-hover:text-brand"
@@ -244,7 +254,7 @@ export function LauncherCard({
           )}
         </div>
       )}
-      {!locked && onToggleFavorite && (
+      {!locked && !comingSoon && onToggleFavorite && (
         <motion.button
           type="button"
           onClick={onToggleFavorite}
