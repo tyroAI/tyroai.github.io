@@ -1,0 +1,1 @@
+@keyframes files-fresh{0%{background-color:color-mix(in oklch, var(--brand-text) 14%, transparent)}to{background-color:#0000}}@media (prefers-reduced-motion:no-preference){.files-fresh{animation:1.6s ease-out files-fresh}}

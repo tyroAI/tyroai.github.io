@@ -1,0 +1,1 @@
+var e=`/about`,t=new Set([e]);function n(e){let n=e.replace(/\/+$/,``)||`/`;return t.has(n)?n:null}function r(e){return n(e)!==null}export{r as n,n as r,e as t};

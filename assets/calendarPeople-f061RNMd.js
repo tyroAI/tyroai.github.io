@@ -1,0 +1,1 @@
+function e(e){let t=new Set,n=[];for(let r of e?.attendees??[]){let e=(r.address||r.name||``).toLowerCase();e&&!t.has(e)&&(t.add(e),n.push(r))}return n}export{e as t};

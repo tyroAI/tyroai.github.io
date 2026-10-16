@@ -1,0 +1,1 @@
+import{s as e,t}from"./refreshToast-SofvSesY.js";function n(e){return(n,r)=>{let{description:i,action:a,duration:o,id:s}=r??{};return t({state:e,title:n,detail:i,action:a,duration:o,id:s})}}var r={success:n(`success`),info:n(`info`),warning:n(`warning`),error:n(`error`),dismiss:t=>e.dismiss(t)};export{r as t};

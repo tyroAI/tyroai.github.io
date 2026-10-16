@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // MSAL v5, popup ve gizli-iframe akışlarının cevabını REDIRECT URI'deki
+      // sayfanın BroadcastChannel'a yayınlamasını bekler (redirect-bridge).
+      // Redirect URI bu SPA'nın kökü, yani o iş BİZE düşüyor. Burada yalnız
+      // KARAR verilir; köprüyü `src/lib/msalRedirectBridge.js` çalıştırır.
+      //
+      // ⚠️ `window.stop()` KALDIRILDI ve bu kasıtlı. Bundle'ı durdurmak
+      // uygulamanın o pencerede çizilmesini engelliyordu ama köprüyü de
+      // imkânsız kılıyordu: cevap hiç yayınlanmıyor, açan pencere zaman
+      // aşımına düşüyor ve popup ekranda AÇIK kalıyordu (sahada bildirilen
+      // "yeni pencerede site açılıyor" tam olarak buydu). Gizli çerçevede
+      // paket zaten önbellekten geliyor ve React hiç çizilmiyor.
+      //
+      // ⚠️ Popup'ı `window.name` ele verir (MSAL pencereyi `msal.<clientId>…`
+      // adıyla açıyor). Yalnız `window.opener`a bakmak, başka bir siteden
+      // yeni sekmede açılan kullanıcıyı girişten edebilirdi.
+      ;(function () {
+        try {
+          var hasAuth = /[?#].*(code=|error=|state=)/.test(window.location.href)
+          var inIframe = window.parent && window.parent !== window
+          var inMsalPopup = !!(
+            window.opener &&
+            window.opener !== window &&
+            typeof window.name === "string" &&
+            window.name.indexOf("msal.") === 0
+          )
+          if (hasAuth && (inIframe || inMsalPopup)) {
+            window.__MSAL_RENEWAL_FRAME__ = true
+            document.title = "Signing you in…"
+          }
+        } catch (_) {}
+      })()
+    </script>
+    <script>
+      /**
+       * AÇILIŞ BEKÇİSİ — "açılır gibi olup boş ekran"ın son savunması.
+       *
+       * ⚠️ SATIR İÇİ OLMAK ZORUNDA. Kapattığı hata tam olarak "giriş modülü
+       * inmedi": ayrı bir dosyaya konsa o dosya da inmeyebilir. Vite'ın
+       * `vite:preloadError` kancası TEMBEL parçaları kurtarır, GİRİŞ
+       * modülünü kurtaramaz.
+       *
+       * ⚠️ İKİ EŞİK, İKİ FARKLI DAVRANIŞ:
+       *   ENTRY_MS  — giriş modülü hiç çalışmadı → OTOMATİK ONARIM
+       *   RENDER_MS — çalıştı ama hiçbir şey çizmedi → yalnız PANEL
+       * İkincisinde önbellek SİLİNMEZ: bilmediğimiz bir hata için
+       * kullanıcının verisini temizlemek teşhis değil kumar olurdu.
+       *
+       * ⚠️ ONARIM localStorage'A DOKUNMAZ. Yalnız servis çalışanı kayıtları
+       * ve Cache Storage siliniyor; tema, palet, dil, MSAL oturumu, sohbet
+       * dökümü ve favoriler yerinde kalıyor. Bir açılış hatası, kullanıcının
+       * ayarlarını silmenin gerekçesi değildir.
+       *
+       * ⚠️ SEKME BAŞINA TEK ONARIM (`sessionStorage`). İşaret YAZILAMIYORSA
+       * onarım HİÇ denenmez, doğrudan panel çizilir: sonsuz yenileme
+       * döngüsü, boş ekrandan beterdir.
+       */
+      ;(function () {
+        if (window.__MSAL_RENEWAL_FRAME__) return
+
+        var ENTRY_MS = 8000
+        var RENDER_MS = 25000
+        var FLAG = "tyro-boot-recover"
+        var done = false
+        var timers = []
+
+        function clearTimers() {
+          for (var i = 0; i < timers.length; i++) clearTimeout(timers[i])
+          timers = []
+        }
+
+        // Uygulama ayağa kalktı: main.jsx bunu çağırıyor.
+        window.__tyroBootOk = function () {
+          done = true
+          clearTimers()
+        }
+
+        function isDark() {
+          // ⚠️ `<html>`in `.dark` sınıfına BAKILAMAZ: onu ThemeProvider bir
+          // effect'te yazıyor ve açılış çöktüğünde React hiç çalışmamıştır.
+          // Kullanıcının kendi seçimi localStorage'da; yoksa açık (ThemeProvider'ın
+          // varsayılanı).
+          try {
+            return localStorage.getItem("tyro-theme") === "dark"
+          } catch (_) {
+            return false
+          }
+        }
+
+        function panel(detail) {
+          if (document.getElementById("tyro-boot-panel")) return
+          var dark = isDark()
+          var bg = dark ? "#0a1628" : "#ffffff"
+          var ink = dark ? "#e8eef7" : "#16202e"
+          var muted = dark ? "#8fa3bd" : "#5b6b80"
+          var wrap = document.createElement("div")
+          wrap.id = "tyro-boot-panel"
+          // ⚠️ ÖLÇÜLER px, rem DEĞİL: kök yazı boyu CSS'ten geliyor ve CSS de
+          // inmemiş olabilir. `min-height:2.75rem` o durumda 40px'e düşüyor
+          // ve dokunma hedefi 44px'in altında kalıyordu.
+          wrap.setAttribute(
+            "style",
+            "position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;" +
+              "justify-content:center;padding:24px;background:" +
+              bg +
+              ";color:" +
+              ink +
+              ";" +
+              "font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;",
+          )
+          var box = document.createElement("div")
+          box.setAttribute("style", "max-width:420px;text-align:center;")
+          var h = document.createElement("div")
+          h.setAttribute("style", "font-size:17px;font-weight:600;line-height:1.3;")
+          h.textContent = "TYRO AI açılamadı"
+          var p1 = document.createElement("p")
+          p1.setAttribute(
+            "style",
+            "margin:10px 0 0;font-size:14px;line-height:1.55;color:" + muted + ";",
+          )
+          p1.textContent =
+            "Tarayıcıda kalan eski bir sürüm uygulamayı engelliyor olabilir. " +
+            "Temizleyip yeniden denemek ayarlarını ve oturumunu silmez."
+          var p2 = document.createElement("p")
+          p2.setAttribute(
+            "style",
+            "margin:6px 0 0;font-size:12px;line-height:1.5;color:" + muted + ";",
+          )
+          p2.textContent =
+            "TYRO AI could not start. Clearing the cached copy will not sign you out."
+          var btn = document.createElement("button")
+          btn.setAttribute(
+            "style",
+            "margin-top:18px;min-height:44px;padding:0 20px;border:0;border-radius:12px;" +
+              "background:#dd2a7b;color:#fff;font-size:14px;font-weight:600;cursor:pointer;",
+          )
+          btn.textContent = "Temizle ve yeniden dene"
+          btn.onclick = function () {
+            btn.disabled = true
+            btn.textContent = "Temizleniyor…"
+            purge().then(function () {
+              location.reload()
+            })
+          }
+          box.appendChild(h)
+          box.appendChild(p1)
+          box.appendChild(p2)
+          box.appendChild(btn)
+          if (detail) {
+            var d = document.createElement("p")
+            d.setAttribute(
+              "style",
+              "margin:14px 0 0;font-size:11px;color:" + muted + ";word-break:break-all;",
+            )
+            // `textContent`: teşhis metni bir URL ve HTML olarak basılmamalı.
+            d.textContent = detail
+            box.appendChild(d)
+          }
+          wrap.appendChild(box)
+          document.body.appendChild(wrap)
+        }
+
+        function purge() {
+          var jobs = []
+          try {
+            if (navigator.serviceWorker) {
+              jobs.push(
+                navigator.serviceWorker.getRegistrations().then(function (rs) {
+                  return Promise.all(
+                    rs.map(function (r) {
+                      return r.unregister()
+                    }),
+                  )
+                }),
+              )
+            }
+          } catch (_) {}
+          try {
+            if (window.caches) {
+              jobs.push(
+                caches.keys().then(function (ks) {
+                  return Promise.all(
+                    ks.map(function (k) {
+                      return caches.delete(k)
+                    }),
+                  )
+                }),
+              )
+            }
+          } catch (_) {}
+          return Promise.all(jobs).catch(function () {})
+        }
+
+        function recover(detail) {
+          if (done) return
+          done = true
+          clearTimers()
+          var tried
+          try {
+            tried = sessionStorage.getItem(FLAG) === "1"
+            if (!tried) sessionStorage.setItem(FLAG, "1")
+          } catch (_) {
+            // İşaret yazılamıyorsa onarım HİÇ denenmez: döngü riski.
+            panel(detail)
+            return
+          }
+          if (tried) {
+            panel(detail)
+            return
+          }
+          purge().then(function () {
+            location.reload()
+          })
+        }
+
+        // Düşen bir <script>/<link> için beklemeye gerek yok. Olay KÖPÜRMEZ,
+        // o yüzden yakalama fazında dinleniyor.
+        window.addEventListener(
+          "error",
+          function (e) {
+            if (done) return
+            var el = e && e.target
+            if (!el || !el.tagName) return
+            var url = el.src || el.href || ""
+            if (!url) return
+            if (url.indexOf("/assets/") === -1 && url.indexOf("/src/") === -1) return
+            recover(url)
+          },
+          true,
+        )
+
+        function arm() {
+          // ⚠️ Sayaç `load`tan SONRA başlar, ayrıştırmadan değil: `load`
+          // "bütün varlıklar bitti ya da DÜŞTÜ" demek, ve düşen bir betik de
+          // `load`ı tetikliyor.
+          timers.push(
+            setTimeout(function () {
+              if (done) return
+              if (!window.__TYRO_BOOT__) recover("entry module did not run")
+            }, ENTRY_MS),
+          )
+          timers.push(
+            setTimeout(function () {
+              if (done) return
+              var root = document.getElementById("root")
+              if (!root || root.childElementCount === 0) {
+                // Giriş modülü ÇALIŞTI ama çizmedi: önbelleği silmiyoruz.
+                done = true
+                panel("render timeout")
+              }
+            }, RENDER_MS),
+          )
+        }
+
+        if (document.readyState === "complete") arm()
+        else window.addEventListener("load", arm)
+      })()
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- Demo: arama motorlarında görünmesi gerekmiyor (404.html bu dosyanın kopyası). -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="tyroAI - kurumsal AI çalışma alanı (demo). Asistanlar, AI ürünleri ve iş uygulamalarına tek bir yerden erişim. Tüm veriler kurgusaldır."
+    />
+    <meta name="theme-color" content="#dd2a7b" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a1628" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="tyroAI" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>tyroAI - Kurumsal AI Platformu</title>
+    <script type="module" crossorigin src="/assets/index--3xonGsE.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-DB-4Zxce.js">
+    <link rel="modulepreload" crossorigin href="/assets/jsx-runtime-BtH0gOTJ.js">
+    <link rel="modulepreload" crossorigin href="/assets/preload-helper-DjzSQ1t3.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-dom-6cEjSHVw.js">
+    <link rel="modulepreload" crossorigin href="/assets/chunk-OB3PAWPO-C7mQrWaJ.js">
+    <link rel="modulepreload" crossorigin href="/assets/persona-D-TR9g7r.js">
+    <link rel="modulepreload" crossorigin href="/assets/msal-SWWXrs53.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-D3FZpzZN.js">
+    <link rel="modulepreload" crossorigin href="/assets/chatBus-Djqp3rUX.js">
+    <link rel="modulepreload" crossorigin href="/assets/agentName-nXIWLOWR.js">
+    <link rel="modulepreload" crossorigin href="/assets/useAuthorizations-1BpvqvXc.js">
+    <link rel="modulepreload" crossorigin href="/assets/useIsInGroup-B-q9ms8k.js">
+    <link rel="modulepreload" crossorigin href="/assets/constants-Fqjo9nMo.js">
+    <link rel="modulepreload" crossorigin href="/assets/feedPolicy-CZSgwNFi.js">
+    <link rel="modulepreload" crossorigin href="/assets/usePageAccess-jfWN-XBN.js">
+    <link rel="modulepreload" crossorigin href="/assets/HugeiconsIcon-C3rR7BSY.js">
+    <link rel="modulepreload" crossorigin href="/assets/Alert02Icon-Czonl5wg.js">
+    <link rel="modulepreload" crossorigin href="/assets/react--AIEmK6Q.js">
+    <link rel="modulepreload" crossorigin href="/assets/utils-CP0NROPu.js">
+    <link rel="modulepreload" crossorigin href="/assets/Tick02Icon-BZZvPScA.js">
+    <link rel="modulepreload" crossorigin href="/assets/refreshToast-SofvSesY.js">
+    <link rel="modulepreload" crossorigin href="/assets/CheckmarkCircle02Icon-ew8N-Nqv.js">
+    <link rel="modulepreload" crossorigin href="/assets/ArrowRight02Icon-D56SaUqK.js">
+    <link rel="modulepreload" crossorigin href="/assets/Loading03Icon-BcN5iSGp.js">
+    <link rel="modulepreload" crossorigin href="/assets/TelephoneIcon-CV0uMOiI.js">
+    <link rel="modulepreload" crossorigin href="/assets/WhatsappIcon-BBMdmvHo.js">
+    <link rel="modulepreload" crossorigin href="/assets/ColorsIcon-CBYeCk6r.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-BnDbZnOt.js">
+    <link rel="modulepreload" crossorigin href="/assets/es2015-FpmTt5z2.js">
+    <link rel="modulepreload" crossorigin href="/assets/Cancel01Icon-BeNMMUFU.js">
+    <link rel="modulepreload" crossorigin href="/assets/useLocale-BC6Jsy3p.js">
+    <link rel="modulepreload" crossorigin href="/assets/notify-BSsHUoVA.js">
+    <link rel="modulepreload" crossorigin href="/assets/teamsJoin-mrs9cCP3.js">
+    <link rel="modulepreload" crossorigin href="/assets/intl-cache-DGgacNgB.js">
+    <link rel="modulepreload" crossorigin href="/assets/initialsPhoto-B1GMb31a.js">
+    <link rel="modulepreload" crossorigin href="/assets/usePeoplePhotos-CZJCDw-U.js">
+    <link rel="modulepreload" crossorigin href="/assets/graph-CBTtsHeZ.js">
+    <link rel="modulepreload" crossorigin href="/assets/meetingJoin-DeKUCoke.js">
+    <link rel="modulepreload" crossorigin href="/assets/calendarPeople-f061RNMd.js">
+    <link rel="modulepreload" crossorigin href="/assets/meetingInsights-D3jZD6F-.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-DfpvAFEC.js">
+    <link rel="modulepreload" crossorigin href="/assets/ArrowRight01Icon-CpyfVR64.js">
+    <link rel="modulepreload" crossorigin href="/assets/dropdown-menu-w7rmiq6S.js">
+    <link rel="modulepreload" crossorigin href="/assets/ArrowLeft01Icon-BJdQ1Oac.js">
+    <link rel="modulepreload" crossorigin href="/assets/UserAdd01Icon-CeNWxiQ5.js">
+    <link rel="modulepreload" crossorigin href="/assets/CalendarAdd01Icon-BoM9kVhr.js">
+    <link rel="modulepreload" crossorigin href="/assets/Mail01Icon-qGLuNJQs.js">
+    <link rel="modulepreload" crossorigin href="/assets/celebrate-DMCa5-8i.js">
+    <link rel="modulepreload" crossorigin href="/assets/Building03Icon-CV55Y_62.js">
+    <link rel="modulepreload" crossorigin href="/assets/Copy01Icon-DrPxamgF.js">
+    <link rel="modulepreload" crossorigin href="/assets/celebrations-CFKuw4Bv.js">
+    <link rel="modulepreload" crossorigin href="/assets/useCelebrations-fpUaJSGd.js">
+    <link rel="modulepreload" crossorigin href="/assets/useMyProfileDetails-DbqRG4I6.js">
+    <link rel="modulepreload" crossorigin href="/assets/feed-DDA_1dqU.js">
+    <link rel="modulepreload" crossorigin href="/assets/personDirectory-Bk5Ut2CX.js">
+    <link rel="modulepreload" crossorigin href="/assets/usePresence-Dni53P42.js">
+    <link rel="modulepreload" crossorigin href="/assets/PersonCard-9iTgG5Za.js">
+    <link rel="modulepreload" crossorigin href="/assets/useCalendarEvents-BUbOcphB.js">
+    <link rel="modulepreload" crossorigin href="/assets/Robot01Icon-CMNz5lZG.js">
+    <link rel="modulepreload" crossorigin href="/assets/Download04Icon-Gtr2Q1X-.js">
+    <link rel="modulepreload" crossorigin href="/assets/UserGroupIcon-Cg0kyBjM.js">
+    <link rel="modulepreload" crossorigin href="/assets/useMailMessages-D2ceTSx9.js">
+    <link rel="modulepreload" crossorigin href="/assets/Attachment01Icon-D1M3PMLy.js">
+    <link rel="modulepreload" crossorigin href="/assets/Clock01Icon-Caopc-kj.js">
+    <link rel="modulepreload" crossorigin href="/assets/Calendar03Icon-DcAo2VXN.js">
+    <link rel="modulepreload" crossorigin href="/assets/AiMagicIcon-C6OZ4wYh.js">
+    <link rel="modulepreload" crossorigin href="/assets/panelBus-Bu0bWMm5.js">
+    <link rel="modulepreload" crossorigin href="/assets/use-reduced-motion-Bs-r2SW7.js">
+    <link rel="modulepreload" crossorigin href="/assets/use-icon-animation-8vu3Ad4Z.js">
+    <link rel="modulepreload" crossorigin href="/assets/button-CnNBBpmN.js">
+    <link rel="modulepreload" crossorigin href="/assets/dialog-BB-DJ_z0.js">
+    <link rel="modulepreload" crossorigin href="/assets/useRecentPeople-Cjq5-Gel.js">
+    <link rel="modulepreload" crossorigin href="/assets/fold-BPmEi9Q6.js">
+    <link rel="modulepreload" crossorigin href="/assets/mailSend-D0fOJ7zi.js">
+    <link rel="modulepreload" crossorigin href="/assets/useMinuteNow-wsgG_6q7.js">
+    <link rel="modulepreload" crossorigin href="/assets/popover-sjhnqSBs.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-DX6iGc-D.js">
+    <link rel="modulepreload" crossorigin href="/assets/tooltip-CaCgNrH6.js">
+    <link rel="modulepreload" crossorigin href="/assets/sharedCalendars-BuJLzf-K.js">
+    <link rel="modulepreload" crossorigin href="/assets/input-BqX58wwH.js">
+    <link rel="modulepreload" crossorigin href="/assets/skeleton-BnQMJb0R.js">
+    <link rel="modulepreload" crossorigin href="/assets/ArrowUpRight01Icon-C9pA22LI.js">
+    <link rel="modulepreload" crossorigin href="/assets/botFiles-DQqbp1s-.js">
+    <link rel="modulepreload" crossorigin href="/assets/copilot-CHl_hqO1.js">
+    <link rel="modulepreload" crossorigin href="/assets/warmStartPolicy-DR6wnI6h.js">
+    <link rel="modulepreload" crossorigin href="/assets/feedSeen-BN2WsCfC.js">
+    <link rel="modulepreload" crossorigin href="/assets/ArrowDown01Icon-DDfnNeUj.js">
+    <link rel="modulepreload" crossorigin href="/assets/publicPages-DsumPe-0.js">
+    <link rel="modulepreload" crossorigin href="/assets/usePalette-B_WM0o5k.js">
+    <link rel="modulepreload" crossorigin href="/assets/Wrench01Icon-2sIpFg54.js">
+    <link rel="modulepreload" crossorigin href="/assets/textarea-CcvhMRIr.js">
+    <link rel="modulepreload" crossorigin href="/assets/File01Icon-C3NMtCle.js">
+    <link rel="modulepreload" crossorigin href="/assets/driveItem-CAlqz4OW.js">
+    <link rel="modulepreload" crossorigin href="/assets/useDriveItems-Tbm_8izK.js">
+    <link rel="modulepreload" crossorigin href="/assets/useDriveThumbnail--99Ruk9B.js">
+    <link rel="modulepreload" crossorigin href="/assets/Globe02Icon-jOAiZzRC.js">
+    <link rel="modulepreload" crossorigin href="/assets/fileMeta-msgbiy3y.js">
+    <link rel="modulepreload" crossorigin href="/assets/FileBadge-CSre2N8l.js">
+    <link rel="modulepreload" crossorigin href="/assets/Message01Icon-BHBRzfTK.js">
+    <link rel="modulepreload" crossorigin href="/assets/fileActions-T8iCik2z.js">
+    <link rel="modulepreload" crossorigin href="/assets/useDrivePreview-fY0pCok9.js">
+    <link rel="modulepreload" crossorigin href="/assets/SparklesIcon-DTZnteLJ.js">
+    <link rel="modulepreload" crossorigin href="/assets/weekStart-Bkg9doE1.js">
+    <link rel="modulepreload" crossorigin href="/assets/Mic01Icon-CynDdup2.js">
+    <link rel="modulepreload" crossorigin href="/assets/useOrbStyle-CM9pWtxB.js">
+    <link rel="modulepreload" crossorigin href="/assets/ChartUpIcon-CxQ4pygr.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-B-ym2eFU.css">
+    <meta name="tyro-build" content="89a568c79213">
+  <link rel="manifest" href="/manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

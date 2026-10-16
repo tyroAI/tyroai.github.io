@@ -1,0 +1,1 @@
+import{r as e}from"./react-DB-4Zxce.js";import{n as t,t as n}from"./useMyDrive-DxT3ffA7.js";var r=e({clearMyDriveIdCache:()=>i,useMyDriveId:()=>a});function i(){n()}function a(){return t().id}export{r as n,a as t};

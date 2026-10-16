@@ -1,0 +1,1 @@
+var e={en:0,tr:1,ru:1,ar:6};function t(t){return e[t]??1}function n(e,n){let r=new Date(e);r.setHours(0,0,0,0);let i=t(n),a=(r.getDay()-i+7)%7,o=new Date(r);return o.setDate(r.getDate()-a+13),o.setHours(23,59,59,999),o}export{n,t as r,e as t};

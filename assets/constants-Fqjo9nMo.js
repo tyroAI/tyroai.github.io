@@ -1,0 +1,1 @@
+var e=`0d3e0000-0000-4000-8000-00000000ad01`,t=[{label:`Tarık Aydın`,id:`u-tarik`,upn:`tarik.aydin@midea.com`}].flatMap(e=>[e.id,e.upn].filter(Boolean).map(e=>e.trim().toLowerCase()));export{t as n,e as t};

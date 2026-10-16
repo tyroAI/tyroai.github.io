@@ -1,0 +1,1 @@
+var e={ı:`i`,ğ:`g`,ü:`u`,ş:`s`,ö:`o`,ç:`c`,â:`a`,î:`i`,û:`u`};function t(t){return String(t??``).toLocaleLowerCase(`tr`).replace(/[ığüşöçâîû]/g,t=>e[t]).trim()}export{t};

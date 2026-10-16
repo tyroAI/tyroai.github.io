@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Önizleme — Midea</title>
+    <style>
+      :root {
+        --app: #4338ca;
+        --app-soft: #eef2ff;
+        --ink: #0f172a;
+        --muted: #64748b;
+        --line: #e2e8f0;
+        --canvas: #f1f3f6;
+        font-family: "Segoe UI", Inter, system-ui, -apple-system, Arial, sans-serif;
+        color: var(--ink);
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: var(--canvas); }
+      body { display: flex; flex-direction: column; }
+      header {
+        display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 48px;
+        background: var(--app); color: #fff; flex: none;
+      }
+      header .app { font-weight: 700; font-size: 15px; letter-spacing: 0.2px; }
+      header .sep { opacity: 0.5; }
+      header .name { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+      header .badge {
+        margin-left: auto; font-size: 11px; padding: 3px 9px; border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18); white-space: nowrap;
+      }
+      .sub {
+        display: flex; gap: 14px; align-items: center; padding: 6px 16px; font-size: 12px;
+        color: var(--muted); background: #fff; border-bottom: 1px solid var(--line); flex: none;
+      }
+      main { flex: 1; overflow: auto; }
+
+      /* ── belge ── */
+      .page {
+        width: min(816px, calc(100% - 32px)); margin: 24px auto; background: #fff; min-height: 1056px;
+        padding: 72px 80px; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12), 0 8px 24px rgba(15, 23, 42, 0.06);
+        line-height: 1.6; font-size: 14px;
+      }
+      .page.pdf { border-top: 6px solid #dc2626; }
+      .kicker { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; color: var(--app); margin-bottom: 10px; }
+      .page h1 { font-size: 26px; line-height: 1.25; margin: 0 0 18px; }
+      .page h2 { font-size: 17px; margin: 26px 0 8px; }
+      .page p { margin: 0 0 12px; color: #334155; }
+      .page ul, .page ol { margin: 0 0 14px; padding-left: 22px; color: #334155; }
+      .page li { margin: 3px 0; }
+      .meta { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 0 0 18px; font-size: 13px; }
+      .meta dt { color: var(--muted); }
+      .meta dd { margin: 0; }
+      .page table { width: 100%; border-collapse: collapse; margin: 6px 0 16px; font-size: 13px; }
+      .page th { background: var(--app-soft); text-align: left; font-weight: 600; }
+      .page th, .page td { border: 1px solid var(--line); padding: 7px 10px; }
+      .page tr:last-child td { font-weight: 600; }
+      .note { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; font-size: 13px; color: #92400e; margin: 0 0 14px; }
+      .sign { display: flex; gap: 48px; margin-top: 56px; }
+      .sign div { flex: 1; border-top: 1px solid #94a3b8; padding-top: 6px; font-size: 13px; color: #475569; }
+      .pdfbar { text-align: center; font-size: 12px; color: var(--muted); margin: -12px 0 24px; }
+
+      /* ── tablo ── */
+      .xl { display: flex; flex-direction: column; height: 100%; background: #fff; }
+      .fx { display: flex; gap: 8px; align-items: center; padding: 6px 10px; border-bottom: 1px solid var(--line); font-size: 13px; }
+      .fx .ref { width: 64px; border: 1px solid var(--line); padding: 2px 6px; color: var(--muted); }
+      .fx .val { flex: 1; border: 1px solid var(--line); padding: 2px 8px; min-height: 24px; }
+      .grid-wrap { flex: 1; overflow: auto; }
+      table.grid { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+      .grid th, .grid td { border: 1px solid #e5e7eb; padding: 4px 10px; height: 26px; white-space: nowrap; }
+      .grid thead th { background: #f3f4f6; color: #6b7280; font-weight: 400; position: sticky; top: 0; z-index: 1; }
+      .grid tbody th { background: #f3f4f6; color: #6b7280; font-weight: 400; width: 44px; text-align: center; position: sticky; left: 0; }
+      .grid tr.head td { background: #e7f3ec; font-weight: 600; color: #14532d; }
+      .grid tr.total td { font-weight: 700; background: #f8fafc; border-top: 2px solid #94a3b8; }
+      .grid td.num { text-align: right; font-variant-numeric: tabular-nums; }
+      .grid td.neg { color: #dc2626; }
+      .grid td.sel { outline: 2px solid #107c41; outline-offset: -2px; }
+      .tabs { display: flex; gap: 2px; border-top: 1px solid var(--line); background: #f3f4f6; padding: 0 8px; flex: none; }
+      .tabs button {
+        border: 0; background: transparent; padding: 7px 16px; font: inherit; font-size: 13px; color: var(--muted); cursor: pointer;
+      }
+      .tabs button.on { background: #fff; color: #107c41; font-weight: 600; border-bottom: 2px solid #107c41; }
+
+      /* ── sunu ── */
+      .deck { display: flex; height: 100%; }
+      .rail { width: 180px; flex: none; overflow: auto; padding: 12px; background: #e9ebef; border-right: 1px solid var(--line); }
+      .rail button { display: block; width: 100%; border: 2px solid transparent; padding: 0; margin: 0 0 10px; background: none; cursor: pointer; border-radius: 6px; }
+      .rail button.on { border-color: #c43e1c; }
+      .rail .mini { aspect-ratio: 16/9; border-radius: 4px; overflow: hidden; }
+      .rail .mini .slide { transform: scale(0.16); transform-origin: top left; width: 960px; }
+      .stage { flex: 1; overflow: auto; display: flex; align-items: flex-start; justify-content: center; padding: 28px; }
+      .slide {
+        width: min(960px, 100%); aspect-ratio: 16/9; background: #fff; box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+        position: relative; overflow: hidden; padding: 56px 64px; display: flex; flex-direction: column;
+      }
+      .slide.title { background: linear-gradient(135deg, #1e1b4b, #4338ca); color: #fff; justify-content: center; }
+      .slide.title .brand { position: absolute; top: 40px; left: 64px; letter-spacing: 4px; font-size: 14px; color: #a5b4fc; }
+      .slide.title h2 { font-size: 46px; margin: 0 0 14px; line-height: 1.15; }
+      .slide.title .bar { width: 90px; height: 5px; background: #22d3ee; border-radius: 3px; margin-bottom: 16px; }
+      .slide.title p { font-size: 20px; color: #c7d2fe; margin: 0; }
+      .slide h3 { font-size: 30px; margin: 0 0 24px; color: #1e1b4b; }
+      .slide ul { font-size: 21px; line-height: 1.7; color: #334155; margin: 0; padding-left: 26px; }
+      .slide .foot { position: absolute; bottom: 18px; left: 64px; right: 64px; display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; }
+      .kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+      .kpi { border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
+      .kpi .l { font-size: 15px; color: var(--muted); }
+      .kpi .v { font-size: 36px; font-weight: 800; color: #1e1b4b; }
+      .kpi .d { font-size: 14px; color: #16a34a; }
+
+      /* ── klasör ── */
+      .list { width: min(960px, calc(100% - 32px)); margin: 24px auto; background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+      .list h1 { font-size: 20px; margin: 0; padding: 18px 20px 4px; }
+      .list .loc { padding: 0 20px 14px; color: var(--muted); font-size: 13px; border-bottom: 1px solid var(--line); }
+      .row { display: grid; grid-template-columns: 28px 1fr 160px 150px 90px; gap: 12px; align-items: center; padding: 10px 20px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+      .row .ic { width: 22px; height: 22px; border-radius: 5px; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff; }
+      .row .m { color: var(--muted); font-size: 13px; }
+      .empty, .missing { text-align: center; color: var(--muted); padding: 80px 24px; }
+      .imgbox { display: grid; place-items: center; padding: 28px; }
+      .imgbox img { max-width: 100%; max-height: calc(100vh - 140px); box-shadow: 0 6px 24px rgba(15, 23, 42, 0.15); border-radius: 6px; background: #fff; }
+      pre.txt { width: min(816px, calc(100% - 32px)); margin: 24px auto; background: #fff; padding: 40px; white-space: pre-wrap; font: 14px/1.6 Consolas, monospace; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12); }
+      @media (max-width: 640px) {
+        .page { padding: 32px 24px; min-height: 0; }
+        .rail { display: none; }
+        .row { grid-template-columns: 28px 1fr 90px; }
+        .row .hide-sm { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="app" id="app">Önizleme</span>
+      <span class="sep">|</span>
+      <span class="name" id="name"></span>
+      <span class="badge">Salt okunur · Demo</span>
+    </header>
+    <div class="sub" id="sub"></div>
+    <main id="main"></main>
+    <script>
+      ;(function () {
+        var APPS = {
+          docx: ["Word", "#185abd", "#e8effb"],
+          doc: ["Word", "#185abd", "#e8effb"],
+          xlsx: ["Excel", "#107c41", "#e7f3ec"],
+          csv: ["Excel", "#107c41", "#e7f3ec"],
+          pptx: ["PowerPoint", "#c43e1c", "#fbece8"],
+          pdf: ["PDF Görüntüleyici", "#b91c1c", "#fdecec"],
+          png: ["Fotoğraflar", "#4338ca", "#eef2ff"],
+          jpg: ["Fotoğraflar", "#4338ca", "#eef2ff"],
+          txt: ["Not Defteri", "#334155", "#f1f5f9"],
+        }
+        var ICON = { docx: ["W", "#185abd"], xlsx: ["X", "#107c41"], csv: ["X", "#107c41"], pptx: ["P", "#c43e1c"], pdf: ["PDF", "#b91c1c"], png: ["IMG", "#7c3aed"], zip: ["ZIP", "#64748b"], txt: ["TXT", "#475569"] }
+        var nf = new Intl.NumberFormat("tr-TR")
+        var pf = new Intl.NumberFormat("tr-TR", { style: "percent", maximumFractionDigits: 1 })
+        var df = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })
+        var $ = function (id) { return document.getElementById(id) }
+        var esc = function (s) {
+          return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] })
+        }
+        function decode() {
+          var m = location.hash.match(/d=([^&]+)/)
+          if (!m) return null
+          try {
+            var b64 = m[1].replace(/-/g, "+").replace(/_/g, "/")
+            while (b64.length % 4) b64 += "="
+            var bin = atob(b64)
+            var bytes = new Uint8Array(bin.length)
+            for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i)
+            return JSON.parse(new TextDecoder().decode(bytes))
+          } catch (e) {
+            return null
+          }
+        }
+        function cell(v, f) {
+          if (v === "" || v == null) return ""
+          if (typeof v !== "number") return esc(v)
+          if (f === "money") return nf.format(v) + " ₺"
+          if (f === "pct") return pf.format(v)
+          return nf.format(v)
+        }
+        function col(i) {
+          var s = ""
+          i += 1
+          while (i > 0) { var r = (i - 1) % 26; s = String.fromCharCode(65 + r) + s; i = Math.floor((i - 1) / 26) }
+          return s
+        }
+        function renderDoc(c) {
+          var h = []
+          c.blocks.forEach(function (b) {
+            var k = b[0], a = b[1]
+            if (k === "kicker") h.push('<div class="kicker">' + esc(a) + "</div>")
+            else if (k === "h1") h.push("<h1>" + esc(a) + "</h1>")
+            else if (k === "h2") h.push("<h2>" + esc(a) + "</h2>")
+            else if (k === "p") h.push("<p>" + esc(a) + "</p>")
+            else if (k === "note") h.push('<div class="note">' + esc(a) + "</div>")
+            else if (k === "ul" || k === "ol") h.push("<" + k + ">" + a.map(function (x) { return "<li>" + esc(x) + "</li>" }).join("") + "</" + k + ">")
+            else if (k === "meta") h.push('<dl class="meta">' + a.map(function (kv) { return "<dt>" + esc(kv[0]) + "</dt><dd>" + esc(kv[1]) + "</dd>" }).join("") + "</dl>")
+            else if (k === "table") h.push("<table><thead><tr>" + a.map(function (x) { return "<th>" + esc(x) + "</th>" }).join("") + "</tr></thead><tbody>" + b[2].map(function (r) { return "<tr>" + r.map(function (x) { return "<td>" + esc(x) + "</td>" }).join("") + "</tr>" }).join("") + "</tbody></table>")
+            else if (k === "sign") h.push('<div class="sign">' + a.map(function (x) { return "<div>" + esc(x) + "</div>" }).join("") + "</div>")
+          })
+          var bar = c.pdf ? '<div class="pdfbar">Sayfa 1 / 1</div>' : ""
+          return '<article class="page' + (c.pdf ? " pdf" : "") + '">' + h.join("") + "</article>" + bar
+        }
+        function renderSheet(c) {
+          var wrap = document.createElement("div")
+          wrap.className = "xl"
+          var fx = '<div class="fx"><span class="ref" id="ref">A1</span><span>ƒx</span><span class="val" id="val"></span></div>'
+          wrap.innerHTML = fx + '<div class="grid-wrap" id="gw"></div><div class="tabs" id="tabs"></div>'
+          function show(si) {
+            var s = c.sheets[si]
+            var rows = [s.cols].concat(s.rows).concat(s.total ? [s.total] : [])
+            var n = s.cols.length
+            var pad = Math.max(0, 22 - rows.length)
+            var h = ["<table class='grid'><thead><tr><th></th>"]
+            for (var i = 0; i < n + 2; i++) h.push("<th>" + col(i) + "</th>")
+            h.push("</tr></thead><tbody>")
+            rows.forEach(function (r, ri) {
+              var cls = ri === 0 ? "head" : s.total && ri === rows.length - 1 ? "total" : ""
+              h.push('<tr class="' + cls + '"><th>' + (ri + 1) + "</th>")
+              for (var ci = 0; ci < n + 2; ci++) {
+                var v = r[ci]
+                var num = ri > 0 && typeof v === "number"
+                var c2 = (num ? "num" : "") + (num && v < 0 ? " neg" : "")
+                var raw = v == null ? "" : String(v)
+                h.push('<td class="' + c2 + '" data-ref="' + col(ci) + (ri + 1) + '" data-raw="' + esc(raw) + '">' + (ri === 0 ? esc(v == null ? "" : v) : cell(v, s.fmt && s.fmt[ci])) + "</td>")
+              }
+              h.push("</tr>")
+            })
+            for (var p = 0; p < pad; p++) {
+              h.push("<tr><th>" + (rows.length + p + 1) + "</th>")
+              for (var q = 0; q < n + 2; q++) h.push("<td></td>")
+              h.push("</tr>")
+            }
+            h.push("</tbody></table>")
+            $("gw").innerHTML = h.join("")
+            $("tabs").innerHTML = c.sheets.map(function (x, i) { return '<button class="' + (i === si ? "on" : "") + '" data-i="' + i + '">' + esc(x.name) + "</button>" }).join("")
+          }
+          wrap.addEventListener("click", function (e) {
+            var td = e.target.closest("td[data-ref]")
+            if (td) {
+              var prev = wrap.querySelector("td.sel")
+              if (prev) prev.classList.remove("sel")
+              td.classList.add("sel")
+              $("ref").textContent = td.getAttribute("data-ref")
+              $("val").textContent = td.getAttribute("data-raw")
+            }
+            var b = e.target.closest("#tabs button")
+            if (b) show(Number(b.getAttribute("data-i")))
+          })
+          setTimeout(function () { show(0) })
+          return wrap
+        }
+        function chartSvg(ch) {
+          var W = 760, H = 300, max = 0
+          ch.series.forEach(function (s) { s.values.forEach(function (v) { max = Math.max(max, v) }) })
+          var colors = ["#c7d2fe", "#4338ca"]
+          var gw = (W - 60) / ch.labels.length
+          var bw = (gw - 30) / ch.series.length
+          var out = ['<svg viewBox="0 0 ' + W + " " + (H + 50) + '" width="100%">']
+          ch.labels.forEach(function (l, i) {
+            ch.series.forEach(function (s, si) {
+              var v = s.values[i], h = (v / max) * H * 0.85
+              var x = 40 + i * gw + 15 + si * bw
+              out.push('<rect x="' + x + '" y="' + (H - h) + '" width="' + (bw - 6) + '" height="' + h + '" rx="5" fill="' + colors[si % 2] + '"/>')
+              out.push('<text x="' + (x + (bw - 6) / 2) + '" y="' + (H - h - 8) + '" font-size="14" text-anchor="middle" fill="#334155">' + String(v).replace(".", ",") + "</text>")
+            })
+            out.push('<text x="' + (40 + i * gw + gw / 2) + '" y="' + (H + 26) + '" font-size="15" text-anchor="middle" fill="#64748b">' + esc(l) + "</text>")
+          })
+          out.push('<line x1="30" x2="' + (W - 10) + '" y1="' + H + '" y2="' + H + '" stroke="#cbd5e1"/>')
+          ch.series.forEach(function (s, si) {
+            out.push('<rect x="' + (40 + si * 150) + '" y="' + (H + 38) + '" width="14" height="10" rx="2" fill="' + colors[si % 2] + '"/><text x="' + (60 + si * 150) + '" y="' + (H + 48) + '" font-size="14" fill="#475569">' + esc(s.name) + "</text>")
+          })
+          out.push("</svg>")
+          return out.join("")
+        }
+        function slideHtml(s, i, total) {
+          if (s.layout === "title")
+            return '<div class="slide title"><div class="brand">MIDEA</div><h2>' + esc(s.title) + '</h2><div class="bar"></div><p>' + esc(s.sub || "") + "</p></div>"
+          var body = ""
+          if (s.layout === "kpi") body = '<div class="kpis">' + s.kpis.map(function (k) { return '<div class="kpi"><div class="l">' + esc(k[0]) + '</div><div class="v">' + esc(k[1]) + '</div><div class="d">' + esc(k[2]) + "</div></div>" }).join("") + "</div>"
+          else if (s.layout === "chart") body = chartSvg(s.chart)
+          else body = "<ul>" + (s.bullets || []).map(function (b) { return "<li>" + esc(b) + "</li>" }).join("") + "</ul>"
+          return '<div class="slide"><h3>' + esc(s.title) + "</h3>" + body + '<div class="foot"><span>Midea · Gizli</span><span>' + (i + 1) + " / " + total + "</span></div></div>"
+        }
+        function renderSlides(c) {
+          var wrap = document.createElement("div")
+          wrap.className = "deck"
+          var n = c.slides.length
+          wrap.innerHTML =
+            '<nav class="rail" id="rail">' + c.slides.map(function (s, i) { return '<button data-i="' + i + '" class="' + (i === 0 ? "on" : "") + '" aria-label="Slayt ' + (i + 1) + '"><div class="mini">' + slideHtml(s, i, n) + "</div></button>" }).join("") + "</nav>" +
+            '<div class="stage" id="stage">' + slideHtml(c.slides[0], 0, n) + "</div>"
+          wrap.addEventListener("click", function (e) {
+            var b = e.target.closest("#rail button")
+            if (!b) return
+            var i = Number(b.getAttribute("data-i"))
+            wrap.querySelectorAll("#rail button").forEach(function (x) { x.classList.toggle("on", x === b) })
+            $("stage").innerHTML = slideHtml(c.slides[i], i, n)
+          })
+          return wrap
+        }
+        function renderFolder(d) {
+          var rows = d.children.length
+            ? d.children.map(function (ch) {
+                var ic = ch.folder ? ["", "#f59e0b"] : ICON[ch.ext] || ["?", "#64748b"]
+                return '<div class="row"><span class="ic" style="background:' + ic[1] + '">' + (ch.folder ? "" : ic[0]) + "</span><span>" + esc(ch.name) + '</span><span class="m hide-sm">' + esc(df.format(new Date(ch.modified))) + '</span><span class="m hide-sm">' + esc(ch.by) + '</span><span class="m">' + (ch.folder ? esc(ch.count) + " öğe" : nf.format(Math.max(1, Math.round(ch.size / 1024))) + " KB") + "</span></div>"
+              }).join("")
+            : '<div class="empty">Bu klasör boş.</div>'
+          return '<section class="list"><h1>' + esc(d.name) + '</h1><div class="loc">' + esc(d.location || "") + "</div>" + rows + "</section>"
+        }
+
+        var d = decode()
+        var main = $("main")
+        if (!d) {
+          $("name").textContent = "—"
+          main.innerHTML = '<div class="missing">Önizleme verisi bulunamadı.</div>'
+          return
+        }
+        document.title = d.name + " — Midea"
+        $("name").textContent = d.name
+        if (d.kind === "missing") {
+          $("app").textContent = "Midea SharePoint"
+          $("name").textContent = "Bulunamadı"
+          main.innerHTML = '<div class="missing">Bu demo adresinin karşılığı yok.<br><small>' + esc(d.name) + "</small></div>"
+          return
+        }
+        if (d.kind === "folder") {
+          $("app").textContent = "Midea SharePoint"
+          $("sub").textContent = d.location || ""
+          main.innerHTML = renderFolder(d)
+          return
+        }
+        var app = APPS[d.ext] || ["Önizleme", "#4338ca", "#eef2ff"]
+        $("app").textContent = app[0]
+        document.documentElement.style.setProperty("--app", app[1])
+        document.documentElement.style.setProperty("--app-soft", app[2])
+        var parts = []
+        if (d.location) parts.push(esc(d.location))
+        if (d.modified) parts.push("Son değişiklik: " + esc(df.format(new Date(d.modified))) + (d.by ? " · " + esc(d.by) : ""))
+        $("sub").innerHTML = parts.join('<span aria-hidden="true">·</span>')
+        var c = d.content
+        if (!c) main.innerHTML = '<div class="missing">Bu dosya türü için önizleme yok.</div>'
+        else if (c.type === "doc") main.innerHTML = renderDoc(c)
+        else if (c.type === "sheet") main.appendChild(renderSheet(c))
+        else if (c.type === "slides") main.appendChild(renderSlides(c))
+        else if (c.type === "image") main.innerHTML = '<div class="imgbox"><img alt="' + esc(d.name) + '" src="data:image/svg+xml;charset=utf-8,' + encodeURIComponent(c.svg) + '"></div>'
+        else if (c.type === "text") main.innerHTML = '<pre class="txt">' + esc(c.text) + "</pre>"
+        else main.innerHTML = '<div class="missing">Bu dosya türü için önizleme yok.</div>'
+      })()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+import{r as e}from"./react-DB-4Zxce.js";import{t}from"./jsx-runtime-BtH0gOTJ.js";import{n,t as r}from"./mascotPalette-DcJlxCix.js";var i=e({default:()=>o}),a=t();function o({paletteId:e,...t}){return(0,a.jsx)(n,{...t,colors:r(e)})}export{i as n,o as t};

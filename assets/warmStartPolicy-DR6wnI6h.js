@@ -1,0 +1,1 @@
+var e={enabled:!0,audience:`*`,agents:`*`,maxAgents:1,warmTurn:!0,badge:`admins`,warmPrompt:`hangi araçlara erişimin var, kısaca neler yapabilirsin?`};export{e as t};

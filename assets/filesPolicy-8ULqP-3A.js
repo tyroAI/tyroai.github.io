@@ -1,0 +1,1 @@
+var e=Object.freeze({enabled:!0,teams:!0,pageFirst:25,pageNext:50,maxResults:500,childrenTop:200,debounceMs:350,minQuery:2,folderBand:6,homeFolders:6,resultFolders:8,quickSites:4,teamsVisible:12});export{e as t};

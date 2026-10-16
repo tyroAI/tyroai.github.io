@@ -1,0 +1,7 @@
+# tyroAI demo — arama motorlarında görünmesi gerekmiyor.
+#
+# Engel sayfalardaki <meta name="robots" content="noindex, nofollow"> etiketidir.
+# Taramayı burada KAPATMAYIN: kapalıysa arama motoru etiketi hiç göremez ve başka
+# sitelerden verilen bağlantılarla adres yine dizine girebilir.
+User-agent: *
+Allow: /

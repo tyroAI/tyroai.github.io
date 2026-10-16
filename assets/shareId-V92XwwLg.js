@@ -1,0 +1,1 @@
+function e(e){return`u!${btoa(unescape(encodeURIComponent(e))).replace(/=+$/,``).replace(/\//g,`_`).replace(/\+/g,`-`)}`}export{e as t};
